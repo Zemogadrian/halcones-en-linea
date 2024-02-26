@@ -1,7 +1,7 @@
-import { Montserrat } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import './globals.css'
 
-const montserrat = Montserrat({ subsets: ['latin'] })
+const roboto = Roboto({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout ({ children }) {
   return (
     <html lang='es'>
-      <body className={montserrat.className}>{children}</body>
+      <body className={roboto.className}>{children}</body>
     </html>
   )
 }
