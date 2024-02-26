@@ -20,14 +20,18 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/utils/formatters.js", "src/utils/uuid.js", "src/app/alumn/components/sidebar/data.js", "src/app/alumn/components/sidebar/item.component.jsx", "src/app/alumn/components/sidebar/side-bar.component.jsx"  ],
   "exclude": [
     "node_modules"
   ]
