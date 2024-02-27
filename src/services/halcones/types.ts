@@ -10,9 +10,16 @@ export const UserSchema = z.object({
   phone_number: z.string(),
   created_at: z.coerce.date(),
   user_type: z.number(),
-  last_connection: z.any(),
+  last_connection: z.coerce.date().nullable(),
   status: z.number(),
   matricula: z.string()
 })
+
+export const enum UserTypes {
+  ADMIN = 1,
+  PROFESSOR = 2,
+  STUDENT = 3,
+  COORDINATOR = 4
+}
 
 export type User = z.infer<typeof UserSchema>

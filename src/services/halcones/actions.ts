@@ -23,3 +23,15 @@ export const login = async (data: FormData) => {
 
   return user
 }
+
+export const recoverAccount = async (token: string) => {
+  const res = await fetch(API + `/auth/recover?token=${token}`)
+
+  if (!res.ok) {
+    throw new Error('Error al recuperar cuenta')
+  }
+
+  const user = UserSchema.parse(await res.json())
+
+  return user
+}
