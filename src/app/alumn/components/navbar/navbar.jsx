@@ -18,27 +18,27 @@ export const NavBar = () => {
         <div className='flex flex-row w-full h-full justify-center'>
           <div className=''>
             <CalAnimation link='/maestros/actividades/crearactividades'>
-              <p className='hover:-translate-y-1.5 duration-300 border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Temas</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Temas</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='hover:-translate-y-1.5 duration-300 border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Documentación</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Documentación</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='hover:-translate-y-1.5 duration-300 border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Actividades</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Actividades</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='hover:-translate-y-1.5 duration-300 border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Examen</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Examen</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='hover:-translate-y-1.5 duration-300 px-2 text-[#27316e]'>Clases grabadas</p>
+              <p className='px-2 text-[#27316e]'>Clases grabadas</p>
             </CalAnimation>
           </div>
         </div>
