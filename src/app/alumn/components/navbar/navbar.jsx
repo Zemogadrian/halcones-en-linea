@@ -1,9 +1,9 @@
 import { Days } from './days'
 
-const CalAnimation = ({ children, isSelected }) => {
+const CalAnimation = ({ children }) => {
   return (
     <button
-      className={` h-full hover:bg-itesus-blue-default hover:text-white  ${isSelected ? 'bg-blue-600 text-white' : ''}`}
+      className=' h-full hover:bg-itesus-blue-default hover:text-white'
     >
       {children}
     </button>
