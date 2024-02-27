@@ -10,7 +10,7 @@ export const Days = () => {
 
   return (
     <div className='items-center justify-center flex gap-2'>
-      {days.map((day, index) => (
+      {days.map((day) => (
         <button
           key={v4()}
           onClick={() => setSelected(day)}
