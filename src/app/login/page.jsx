@@ -11,9 +11,14 @@ export default function Login () {
       </div>
       <section className='flex flex-col text-white justify-center text-2xl items-center py-48 '>
         <form className='p-5 flex flex-col gap-6 justify-center items-center'>
-          <input type='text' className='font-thin bg-[#417ab1] h-14 placeholder-white rounded-full p-5' name='email' placeholder='Usuario' />
-          <input type='password' className='font-thin bg-[#417ab1] h-14 placeholder-white rounded-full p-5' name='password' placeholder='Contraseña' />
-
+          <div className='flex flex-row rounded-full bg-[#417ab1] items-center px-5 gap-5'>
+            <img src='/user.svg' className='h-10' />
+            <input type='text' className='font-thin  h-14 bg-[#417ab1] placeholder-white ' name='email' placeholder='Usuario' />
+          </div>
+          <div className='flex flex-row rounded-full bg-[#417ab1] items-center px-5 gap-5'>
+            <img src='/upload.svg' className='h-10' />
+            <input type='password' className='font-thin bg-[#417ab1] h-14 placeholder-white ' name='password' placeholder='Contraseña' />
+          </div>
           <LoginButton />
         </form>
       </section>
