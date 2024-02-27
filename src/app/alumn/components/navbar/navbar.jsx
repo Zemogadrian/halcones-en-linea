@@ -3,7 +3,7 @@ import { Days } from './days'
 const CalAnimation = ({ children }) => {
   return (
     <button
-      className=' h-full hover:bg-itesus-blue-default hover:text-white'
+      className=' h-full hover:text-white'
     >
       {children}
     </button>
@@ -43,7 +43,8 @@ export const NavBar = () => {
           </div>
         </div>
       </div>
-      <div className='flex items-center'>
+      <div className='flex items-center gap-4'>
+        <img src='/user.svg' alt='user' className='h-8' />
         <button className='text-white font-semibold mr-4'>Alumno</button>
       </div>
     </div>
