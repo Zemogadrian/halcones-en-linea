@@ -61,7 +61,6 @@ export const SideBarItem = (
                 return (
                   <li
                     key={v4()}
-
                   >
                     <Link
                       href={newHref}

@@ -1,33 +1,73 @@
 export const routes = {
-  admin: {
-    title: 'Overview',
-    href: '/admin',
+  materias: {
+    title: 'Materias',
+    href: '/subjects',
     isMultiple: false,
-    multipleOptions: []
+    multipleOptions: [
+      {
+        title:'Introducción a los negocios',
+        href:'/subjects/1'
+      },
+      {
+        title:'Matemáticas para la mercadotecnia',
+        href:'/subjects/2'
+      },
+      {
+        title:'Contabilidad I',
+        href:'/subjects/3'
+      },
+      {
+        title:'Administración Global I',
+        href:'/subjects/4'
+      },
+      {
+        title:'Computación I',
+        href:'/subjects/5'
+      },
+      {
+        title:'Redacción avanzada en español',
+        href:'/subjects/6'
+      },
+      {
+        title:'Inglés I',
+        href:'/subjects/7'
+      }
+
+    ]
   },
-  plans: {
-    title: 'Planes',
-    href: '/admin/plans',
+  calendario: {
+    title: 'Calendario',
+    href: '/calendar',
+    isMultiple: true,
+    multipleOptions: [
+    ]
+  },
+  Courses: {
+    title: 'Cursos',
+    href: '/courses',
+    isMultiple: true,
+    multipleOptions: [
+    ]
+  },
+  AdminServices: {
+    title: 'Serv. Administrativos',
+    href: '/servadmin',
     isMultiple: true,
     multipleOptions: [
       {
-        title: 'Crear plan',
-        href: '/create'
-      },
-      {
-        title: 'Estadisticas',
-        href: '/stats'
+        title: 'Kárdex',
+        href: '/servadmin/kardex'
       }
     ]
   },
-  users: {
-    title: 'Usuarios',
-    href: '/admin/users',
+  Forums: {
+    title: 'Foros',
+    href: '/forums',
     isMultiple: true,
     multipleOptions: [
       {
-        title: 'Estadisticas',
-        href: '/stats'
+        title: 'Nuevo Tema',
+        href: '/forums/new-topic'
       }
     ]
   }
