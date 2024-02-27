@@ -1,5 +1,4 @@
-'use client'
-import { useState } from 'react'
+import { Days } from './days'
 
 const CalAnimation = ({ children, isSelected }) => {
   return (
@@ -12,17 +11,9 @@ const CalAnimation = ({ children, isSelected }) => {
 }
 
 export const NavBar = () => {
-  const [selected, setSelected] = useState('')
-
   return (
     <div className=' flex flex-row h-16 select-none bg-[#42434565] justify-around'>
-      <div className='items-center justify-center flex gap-2'>
-        <button onClick={() => setSelected('Lunes')} className={`${selected === 'Lunes' ? 'text-[#808080] bg-[#fff] ' : 'text-[#fff] bg-[#808080] '}] text-xl font-bold rounded-full  w-10 h-10 bg-[#808080]  `}>L</button>
-        <button onClick={() => setSelected('Martes')} className={`${selected === 'Martes' ? 'text-[#808080] bg-[#fff] ' : 'text-[#fff] bg-[#808080] '}] text-xl font-bold rounded-full  w-10 h-10 bg-[#808080]  `}>M</button>
-        <button onClick={() => setSelected('Miercoles')} className={`${selected === 'Miercoles' ? 'text-[#808080] bg-[#fff] ' : 'text-[#fff] bg-[#808080] '}] text-xl font-bold rounded-full  w-10 h-10 bg-[#808080]  `}>M</button>
-        <button onClick={() => setSelected('Jueves')} className={`${selected === 'Jueves' ? 'text-[#808080] bg-[#fff] ' : 'text-[#fff] bg-[#808080] '}] text-xl font-bold rounded-full  w-10 h-10 bg-[#808080]  `}>J</button>
-        <button onClick={() => setSelected('Viernes')} className={`${selected === 'Viernes' ? 'text-[#808080] bg-[#fff] ' : 'text-[#fff] bg-[#808080] '}] text-xl font-bold rounded-full  w-10 h-10 bg-[#808080]  `}>V</button>
-      </div>
+      <Days />
       <div className='flex text-xl text-white h-full justify-center'>
         <div className='flex flex-row w-full h-full justify-center'>
           <div className=''>
