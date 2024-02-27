@@ -1,20 +1,19 @@
 'use client'
 import { useState } from 'react'
 
-export default function StudentNavBar () {
+const CalAnimation = ({ children, isSelected }) => {
+  return (
+    <button
+      className={` h-full hover:bg-itesus-blue-default hover:text-white  ${isSelected ? 'bg-blue-600 text-white' : ''}`}
+    >
+      {children}
+    </button>
+  )
+}
+
+export const NavBar = () => {
   const [selected, setSelected] = useState('')
 
-  const CalAnimation = ({ children, isSelected }) => {
-    return (
-      <button
-        className={` h-full hover:bg-itesus-blue-default hover:text-white  ${isSelected ? 'bg-blue-600 text-white' : ''}`}
-      >
-        {children}
-      </button>
-    )
-  }
-
-  console.log(selected)
   return (
     <div className=' flex flex-row h-16 select-none bg-[#42434565] justify-around'>
       <div className='items-center justify-center flex gap-2'>

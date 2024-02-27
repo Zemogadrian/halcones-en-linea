@@ -1,11 +1,11 @@
 import { SideBar } from './components/sidebar/side-bar.component'
 import { routes } from './components/sidebar/data'
-import StudentNavBar from '@/components/students/studentsNavBar'
+import { NavBar } from '@/app/alumn/components/navbar/navbar'
 
 export default function AlumnLayout ({ children }) {
   return (
     <>
-      <StudentNavBar />
+      <NavBar />
       <div className='flex'>
         <SideBar routes={routes} />
         {children}
