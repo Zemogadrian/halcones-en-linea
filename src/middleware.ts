@@ -1,0 +1,37 @@
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { recoverAccount } from './services/halcones/actions'
+import { UserTypes } from './services/halcones/types'
+import { foundUserRedirect } from './services/halcones/utils'
+
+// This function can be marked `async` if using `await` inside
+export async function middleware (request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+
+  const token = request.cookies.get('token')
+
+  const isHasToken = token !== undefined ?? token?.value !== undefined
+
+  console.log('token', token)
+
+  // Si hay un usuario logueado y trata de acceder a la página de login, redirigirlo a su página correspondiente
+  if (pathname === '/login' && isHasToken) {
+    const user = await recoverAccount(token?.value ?? '')
+
+    const redirecUrl = foundUserRedirect(user.user_type as UserTypes)
+
+    return NextResponse.redirect(new URL(redirecUrl, request.url))
+  }
+
+  // Si no hay un usuario logueado y trata de acceder a una página que requiere autenticación, redirigirlo a la página de login
+  if (pathname !== '/login' && !isHasToken) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  return NextResponse.next()
+}
+
+// See "Matching Paths" below to learn more
+export const config = {
+  matcher: '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'
+}
