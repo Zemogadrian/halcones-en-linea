@@ -5,6 +5,7 @@ import { MateriaSchema, UserSchema, UserTypes } from './types'
 import { foundUserRedirect } from './utils'
 import { redirect } from 'next/navigation'
 
+/* AUTH FUNCTIONS */
 export const login = async (data: FormData) => {
   const res = await fetch(API + '/auth/login', {
     method: 'POST',
@@ -34,6 +35,7 @@ export const logout = async () => {
   redirect('/login')
 }
 
+/* USER FUNCTIONS */
 export const recoverAccount = async (token: string) => {
   const res = await fetch(API + `/auth/recover?token=${token}`)
 
@@ -54,7 +56,10 @@ export const getUser = async () => {
   return await recoverAccount(token.value)
 }
 
-export const getStudentMaterias = async () => {
+/* STUDENT FUNCTIONS */
+
+// subjects
+export const getStudentSubjects = async () => {
   const user = await getUser()
 
   if (user == null) return []
@@ -69,3 +74,25 @@ export const getStudentMaterias = async () => {
 
   return materias
 }
+
+// works
+export const uploadWork = async (workId: number, dataWithFile: FormData) => {
+  const user = await getUser()
+
+  if (user == null) return
+
+  const searchParams = new URLSearchParams()
+  searchParams.append('alumn_id', user.id.toString())
+  searchParams.append('work_id', workId.toString())
+
+  const res = await fetch(API + `/teachers_alumns/alumn_upload_work?${searchParams.toString()}`, {
+    method: 'POST',
+    body: dataWithFile
+  })
+
+  if (!res.ok) {
+    throw new Error('Error al subir trabajo')
+  }
+}
+
+export const getWorks = async (materiaId: number) => {}
