@@ -46,12 +46,18 @@ export const recoverAccount = async (token: string) => {
   return user
 }
 
-export const getMateriasFromStudent = async () => {
+export const getUser = async () => {
   const token = cookies().get('token')
 
-  if (token == null || token.value == null) return []
+  if (token == null || token.value == null) return null
 
-  const user = await recoverAccount(token.value)
+  return await recoverAccount(token.value)
+}
+
+export const getMateriasFromStudent = async () => {
+  const user = await getUser()
+
+  if (user == null) return []
 
   const res = await fetch(API + `/teachers_alumns/get_materias_from_alumnos/${user.id}`)
 
