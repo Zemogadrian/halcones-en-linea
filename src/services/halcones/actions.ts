@@ -1,7 +1,7 @@
 'use server'
 import { cookies } from 'next/headers'
 import { API } from './halcones-db'
-import { UserSchema, UserTypes } from './types'
+import { MateriaSchema, UserSchema, UserTypes } from './types'
 import { foundUserRedirect } from './utils'
 import { redirect } from 'next/navigation'
 
@@ -52,4 +52,8 @@ export const getMateriasFromStudent = async (id: number) => {
   if (!res.ok) {
     throw new Error('Error al recuperar materias')
   }
+
+  const materias = MateriaSchema.array().parse(await res.json())
+
+  return materias
 }

@@ -23,3 +23,11 @@ export const enum UserTypes {
 }
 
 export type User = z.infer<typeof UserSchema>
+
+export const MateriaSchema = z.object({
+  id: z.number(),
+  career_id: z.number(),
+  name: z.string()
+})
+
+export type Materia = z.infer<typeof MateriaSchema>
