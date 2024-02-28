@@ -1,3 +1,4 @@
+import { getUser } from '@/services/halcones/actions'
 import { Days } from './days'
 
 const CalAnimation = ({ children }) => {
@@ -10,7 +11,9 @@ const CalAnimation = ({ children }) => {
   )
 }
 
-export const NavBar = () => {
+export const NavBar = async () => {
+  const user = await getUser()
+
   return (
     <div className=' flex flex-row h-16 select-none bg-[#42434565] justify-around'>
       <Days />
@@ -45,7 +48,7 @@ export const NavBar = () => {
       </div>
       <div className='flex items-center gap-4'>
         <img src='/user.svg' alt='user' className='h-8' />
-        <button className='text-white font-semibold mr-4'>Alumno</button>
+        <button className='text-white font-semibold mr-4 capitalize'>{user?.first_name}</button>
       </div>
     </div>
   )
