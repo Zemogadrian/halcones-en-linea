@@ -95,4 +95,17 @@ export const uploadWork = async (workId: number, dataWithFile: FormData) => {
   }
 }
 
-export const getWorks = async (subJectId: number) => {}
+/**
+ *  @todo: solve the return
+ */
+export const getWorks = async (subJectId: number, isDone: boolean = false) => {
+  const user = await getUser()
+
+  if (user == null) return []
+
+  const res = await fetch(API + `/teachers_alumns/get_works_alumn/${user.id}/${subJectId}?entregado=${isDone ? '1' : '0'}`)
+
+  if (!res.ok) {
+    throw new Error('Error al recuperar trabajos')
+  }
+}
