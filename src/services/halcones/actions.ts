@@ -45,3 +45,11 @@ export const recoverAccount = async (token: string) => {
 
   return user
 }
+
+export const getMateriasFromStudent = async (id: number) => {
+  const res = await fetch(API + `/teachers_alumns/get_materias_from_alumnos/${id}`)
+
+  if (!res.ok) {
+    throw new Error('Error al recuperar materias')
+  }
+}
