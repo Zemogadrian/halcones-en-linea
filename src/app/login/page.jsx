@@ -1,4 +1,4 @@
-import { LoginButton } from './components/login-button'
+import { LoginForm } from './components/login-button'
 
 export default function Login () {
   return (
@@ -6,7 +6,9 @@ export default function Login () {
       <div className='w-full h-24 flex flex-row justify-between gap-2 items-center p-4 '>
         <img src='/img/logoItesus.png' className=' h-24' />
       </div>
-      <LoginButton />
+      <section className='flex flex-col text-white justify-center text-2xl items-center py-48 '>
+        <LoginForm />
+      </section>
     </main>
   )
 }
