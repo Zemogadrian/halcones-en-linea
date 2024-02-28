@@ -4,6 +4,8 @@ import { recoverAccount } from './services/halcones/actions'
 import { UserTypes } from './services/halcones/types'
 import { foundUserRedirect } from './services/halcones/utils'
 
+const LOGIN_PATHNAME = '/login'
+
 // This function can be marked `async` if using `await` inside
 export async function middleware (request: NextRequest) {
   const pathname = request.nextUrl.pathname
@@ -12,10 +14,8 @@ export async function middleware (request: NextRequest) {
 
   const isHasToken = token !== undefined ?? token?.value !== undefined
 
-  console.log('token', token)
-
   // Si hay un usuario logueado y trata de acceder a la página de login, redirigirlo a su página correspondiente
-  if (pathname === '/login' && isHasToken) {
+  if (pathname === LOGIN_PATHNAME && isHasToken) {
     const user = await recoverAccount(token?.value ?? '')
 
     const redirecUrl = foundUserRedirect(user.user_type as UserTypes)
@@ -24,8 +24,8 @@ export async function middleware (request: NextRequest) {
   }
 
   // Si no hay un usuario logueado y trata de acceder a una página que requiere autenticación, redirigirlo a la página de login
-  if (pathname !== '/login' && !isHasToken) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  if (pathname !== LOGIN_PATHNAME && !isHasToken) {
+    return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
   }
 
   return NextResponse.next()
