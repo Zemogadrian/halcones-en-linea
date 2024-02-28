@@ -46,8 +46,14 @@ export const recoverAccount = async (token: string) => {
   return user
 }
 
-export const getMateriasFromStudent = async (id: number) => {
-  const res = await fetch(API + `/teachers_alumns/get_materias_from_alumnos/${id}`)
+export const getMateriasFromStudent = async () => {
+  const token = cookies().get('token')
+
+  if (token == null || token.value == null) return []
+
+  const user = await recoverAccount(token.value)
+
+  const res = await fetch(API + `/teachers_alumns/get_materias_from_alumnos/${user.id}`)
 
   if (!res.ok) {
     throw new Error('Error al recuperar materias')
