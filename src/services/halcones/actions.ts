@@ -95,9 +95,6 @@ export const uploadWork = async (workId: number, dataWithFile: FormData) => {
   }
 }
 
-/**
- *  @todo: solve the return
- */
 export const getWorks = async (subJectId: number, isDone: boolean = false) => {
   const user = await getUser()
 
