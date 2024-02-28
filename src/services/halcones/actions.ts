@@ -1,7 +1,9 @@
 'use server'
 import { cookies } from 'next/headers'
 import { API } from './halcones-db'
-import { UserSchema } from './types'
+import { UserSchema, UserTypes } from './types'
+import { foundUserRedirect } from './utils'
+import { redirect } from 'next/navigation'
 
 export const login = async (data: FormData) => {
   const res = await fetch(API + '/auth/login', {
@@ -21,7 +23,15 @@ export const login = async (data: FormData) => {
 
   cookies().set('token', user.token)
 
+  redirect(foundUserRedirect(user.user_type as UserTypes))
+
   return user
+}
+
+export const logout = async () => {
+  cookies().delete('token')
+
+  redirect('/login')
 }
 
 export const recoverAccount = async (token: string) => {

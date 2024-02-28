@@ -1,4 +1,4 @@
-import { NavBar } from '@/app/alumn/components/navbar/navbar'
+import { NavBar } from '@/app/student/components/navbar/navbar'
 
 export default function AlumnLayout ({ children }) {
   return (
