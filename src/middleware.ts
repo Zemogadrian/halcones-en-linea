@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { recoverAccount } from './services/halcones/actions'
 import { UserTypes } from './services/halcones/types'
-import { foundUserRedirect } from './services/halcones/utils'
+import { foundUserRedirect, userHasPermissionToEnter } from './services/halcones/utils'
 
 const LOGIN_PATHNAME = '/login'
 
@@ -26,6 +26,18 @@ export async function middleware (request: NextRequest) {
   // Si no hay un usuario logueado y trata de acceder a una página que requiere autenticación, redirigirlo a la página de login
   if (pathname !== LOGIN_PATHNAME && !isHasToken) {
     return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
+  }
+
+  if (isHasToken) {
+    const user = await recoverAccount(token?.value ?? '')
+
+    const isPermitEnter = userHasPermissionToEnter(user.user_type as UserTypes, pathname)
+
+    const redirecUrl = foundUserRedirect(user.user_type as UserTypes)
+
+    const permitFunction = isPermitEnter ? NextResponse.next : () => NextResponse.redirect(new URL(redirecUrl, request.url))
+
+    return permitFunction()
   }
 
   return NextResponse.next()

@@ -18,7 +18,5 @@ export const userHasPermissionToEnter = (userType: UserTypes, pathname: string) 
 
   if (userType === UserTypes.COORDINATOR && pathname.startsWith(urls[4])) return true
 
-  if (pathname === '/not-found') return true
-
   return false
 }
