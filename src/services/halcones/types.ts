@@ -33,7 +33,7 @@ export const SubjectSchema = z.object({
 export type Subject = z.infer<typeof SubjectSchema>
 
 export const WorkInfoSchema = z.object({
-  obersvaciones: z.null(),
+  obersvaciones: z.string().nullable(),
   calificacion: z.number(),
   entregado: z.number(),
   file: z.string(),
