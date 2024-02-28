@@ -54,7 +54,7 @@ export const getUser = async () => {
   return await recoverAccount(token.value)
 }
 
-export const getMateriasFromStudent = async () => {
+export const getStudentMaterias = async () => {
   const user = await getUser()
 
   if (user == null) return []
