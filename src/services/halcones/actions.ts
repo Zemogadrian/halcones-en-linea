@@ -1,7 +1,7 @@
 'use server'
 import { cookies } from 'next/headers'
 import { API } from './halcones-db'
-import { SubjectSchema, UserSchema, UserTypes } from './types'
+import { SubjectSchema, UserSchema, UserTypes, WorkSchema } from './types'
 import { foundUserRedirect } from './utils'
 import { redirect } from 'next/navigation'
 
@@ -108,4 +108,8 @@ export const getWorks = async (subJectId: number, isDone: boolean = false) => {
   if (!res.ok) {
     throw new Error('Error al recuperar trabajos')
   }
+
+  const works = WorkSchema.array().parse(await res.json())
+
+  return works
 }
