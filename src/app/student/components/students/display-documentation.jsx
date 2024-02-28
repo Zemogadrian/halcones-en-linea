@@ -1,22 +1,30 @@
+import { getTopics } from '@/services/halcones/actions'
+
 export default function DownloadDocumentation () {
-  const temas = [
-    {
-      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
-    },
-    {
-      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
-    },
-    {
-      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
-    },
-    {
-      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }, { titulo: 'Tema 5' }]
-    }
-  ]
+  const topics = getTopics({
+    groupId: '1',
+    semesterId: '1',
+    subjectId: '1'
+  }
+  )
+  // const temas = [
+  //   {
+  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
+  //   },
+  //   {
+  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
+  //   },
+  //   {
+  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
+  //   },
+  //   {
+  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }, { titulo: 'Tema 5' }]
+  //   }
+  // ]
 
   return (
     <div className='grid grid-rows-2 gap-10 grid-flow-col p-24 '>
-      {temas.map((tema, index) => {
+      {topics?.map((tema, index) => {
         return (
           <div key={index} className='bg-[#cdcbcc] rounded-xl p-4 flex flex-col '>
             <h1 className='text-[#848584] mb-5'>Archivos descargables (tema)</h1>
