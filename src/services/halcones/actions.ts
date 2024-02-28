@@ -1,7 +1,7 @@
 'use server'
 import { cookies } from 'next/headers'
 import { API } from './halcones-db'
-import { MateriaSchema, UserSchema, UserTypes } from './types'
+import { SubjectSchema, UserSchema, UserTypes } from './types'
 import { foundUserRedirect } from './utils'
 import { redirect } from 'next/navigation'
 
@@ -70,7 +70,7 @@ export const getStudentSubjects = async () => {
     throw new Error('Error al recuperar materias')
   }
 
-  const materias = MateriaSchema.array().parse(await res.json())
+  const materias = SubjectSchema.array().parse(await res.json())
 
   return materias
 }
@@ -95,4 +95,4 @@ export const uploadWork = async (workId: number, dataWithFile: FormData) => {
   }
 }
 
-export const getWorks = async (materiaId: number) => {}
+export const getWorks = async (subJectId: number) => {}
