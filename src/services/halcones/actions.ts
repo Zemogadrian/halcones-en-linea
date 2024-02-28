@@ -107,3 +107,25 @@ export const getWorks = async ({ isDone = false, subJectId }: { subJectId: numbe
 
   return works
 }
+
+export const getTopics = async ({
+  subjectId,
+  groupId,
+  semesterId
+}: {
+  subjectId: number
+  groupId: number
+  semesterId: number
+}) => {
+  const searchParams = new URLSearchParams()
+
+  searchParams.append('materia_id', subjectId.toString())
+  searchParams.append('group_id', groupId.toString())
+  searchParams.append('semestre_id', semesterId.toString())
+
+  const res = await fetch(API + `/topics?${searchParams.toString()}`)
+
+  if (!res.ok) return []
+
+  return await res.json()
+}
