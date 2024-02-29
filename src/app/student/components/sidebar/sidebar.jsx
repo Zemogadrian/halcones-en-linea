@@ -45,7 +45,7 @@ export default function SideBar () {
                 initial='collapsed'
                 animate='open'
                 exit='collapsed'
-                className='flex flex-col gap-1 bg-[#808080]'
+                className='flex flex-col gap-1 bg-[#808080] overflow-hidden'
               >
                 {/* {
                   materias.map(m => (
@@ -107,7 +107,7 @@ export default function SideBar () {
                 initial='collapsed'
                 animate='open'
                 exit='collapsed'
-                className='flex flex-col gap-2 py-1 items-start justify-start w-full text-[#808080]'
+                className='flex flex-col gap-2 py-1 items-start justify-start w-full text-[#808080] overflow-hidden'
               >
                 <motion.button className='bg-[#e7e5e6]  px-20 flex w-full  items-center gap-2'>
                   <img src='/square.svg' alt='' className='h-4 w-4 ' />

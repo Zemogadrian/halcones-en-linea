@@ -129,3 +129,5 @@ export const getTopics = async ({
 
   return await res.json()
 }
+
+export const getGroups = async (subjectId: number) => {}
