@@ -23,12 +23,9 @@ export async function middleware (request: NextRequest) {
 
   const { data: userData } = await supabase.from('user_data').select('roles(*)').eq('owner', data.session?.user.id ?? 0).single()
 
-  console.log('User data:', userData)
-
   const redirectUrl = foundUserRedirect(userData?.roles?.id ?? 0)
 
   if (pathname === LOGIN_PATHNAME && isLogged) {
-    console.log('Redirecting to:', redirectUrl, 'with user:', userData?.roles?.id ?? 0)
     return NextResponse.redirect(new URL(redirectUrl, request.url))
   }
 
