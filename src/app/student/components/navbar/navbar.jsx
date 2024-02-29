@@ -1,5 +1,6 @@
 import { getUser } from '@/services/supabase/actions'
 import { Days } from './days'
+import Logout from './logout'
 
 const CalAnimation = ({ children }) => {
   return (
@@ -47,8 +48,9 @@ export const NavBar = async () => {
         </div>
       </div>
       <div className='flex items-center gap-4'>
-        <img src='/user.svg' alt='user' className='h-8' />
-        <button className='text-white font-semibold mr-4 capitalize'>{user?.first_name}</button>
+        {/* <img src='/user.svg' alt='user' className='h-8' /> */}
+        <Logout />
+        {/* <button className='text-white font-semibold mr-4 capitalize'>{user?.first_name}</button> */}
       </div>
     </div>
   )
