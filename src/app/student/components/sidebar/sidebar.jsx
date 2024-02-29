@@ -7,7 +7,7 @@ export default function SideBar () {
   const handleSetOption = option => () => setOption(prev => prev === option ? 0 : option)
 
   return (
-    <div className='w-full flex flex-col  text-white gap-4 h-full overflow-y-auto overflow-x-visible'>
+    <div className='w-full flex flex-col text-white gap-4 h-full overflow-y-auto overflow-x-visible'>
       {/* {carreras.length > 1 && (
         <select className='text-black rounded-md' onChange={handleChangeCareer}>
           {carreras?.map(c => (
@@ -17,7 +17,7 @@ export default function SideBar () {
           ))}
         </select>
       )} */}
-      <div className='flex flex-col gap-2 h-full w-3/5 overflow-x-visible bg-[#cdcbcc]'>
+      <div className='flex flex-col gap-2 h-full overflow-x-visible bg-[#cdcbcc]'>
         <div className='flex flex-col gap-1'>
           <div className='flex gap-2 relative overflow-x-visible bg-gradient-to-r from-[#1563a7] to-[#131a2d] '>
             <button onClick={handleSetOption(1)}>
@@ -110,19 +110,19 @@ export default function SideBar () {
                 className='flex flex-col gap-2 py-1 items-start justify-start w-full text-[#808080] overflow-hidden'
               >
                 <motion.button className='bg-[#e7e5e6]  px-20 flex w-full  items-center gap-2'>
-                  <img src='/square.svg' alt='' className='h-4 w-4 ' />
+                  <img src='/square.svg' alt='' className='h-2 w-2 ' />
                   Kárdex
                 </motion.button>
                 <motion.button className='bg-[#e7e5e6]  px-20 flex w-full  items-center gap-2'>
-                  <img src='/square.svg' alt='' className='h-4 w-4 ' />
+                  <img src='/square.svg' alt='' className='h-2 w-2 ' />
                   Becas
                 </motion.button>
                 <motion.button className='bg-[#e7e5e6]  px-20 flex w-full  items-center gap-2'>
-                  <img src='/square.svg' alt='' className='h-4 w-4 ' />
+                  <img src='/square.svg' alt='' className='h-2 w-2 ' />
                   Metodos de pago
                 </motion.button>
                 <motion.button className='bg-[#e7e5e6]  px-20 flex w-full  items-center gap-2'>
-                  <img src='/square.svg' alt='' className='h-4 w-4 ' />
+                  <img src='/square.svg' alt='' className='h-2 w-2 ' />
                   Constancias
                 </motion.button>
 
