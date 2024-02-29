@@ -7,8 +7,7 @@ export default async function DownloadDocumentation () {
     subjectId: 80,
     groupId: subjectId[0].id,
     semesterId: 44
-  }
-  )
+  })
 
   // const temas = [
   //   {
@@ -27,7 +26,7 @@ export default async function DownloadDocumentation () {
 
   return (
     <div className='grid grid-rows-2 gap-10 grid-flow-col p-24 '>
-      {topics?.map((topic, index) => {
+      {temas?.map((topic, index) => {
         return (
           <div key={topic.key} className='bg-[#cdcbcc] rounded-xl p-4 flex flex-col '>
             <h1 className='text-[#848584] mb-5'>Archivos descargables (tema)</h1>

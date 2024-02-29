@@ -1,3 +1,5 @@
+
+import { motion } from 'framer-motion'
 export default function DisplayActivities () {
   const tema = 'Tema 1'
   const actividad = 'Actividad 1'
@@ -11,11 +13,12 @@ export default function DisplayActivities () {
       <section className='h-14 w-3/4  bg-[#cdcbcc] '>
         <div className='h-full flex flex-row items-center'>
           <h1 className='w-full text-2xl px-5'>ACTIVIDAD</h1>
-          <button className='bg-[#808080] w-20 h-full items-center justify-center flex'>
-            <img src='/upload.svg' className='h-8' />
-          </button>
+          <input type='file' id='file' className=' w-20 h-full items-center justify-center  hidden' />
+          <label for='file' className='bg-[#808080] h-full flex justify-center items-center'>
+            <img src='/upload.svg' className='h-8 w-20' alt='' />
+          </label>
           <p className='bg-[#2e9d36] w-20 h-full items-center justify-center flex'>
-            <img src='/accept.svg' className='h-8' />
+            <img src='/accept.svg' className='h-8' alt='' />
           </p>
         </div>
         <div className='flex flex-col text-[#cdcbcc] border-b-2 border-b-white py-10 text-xl'>
