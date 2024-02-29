@@ -50,7 +50,7 @@ export const NavBar = async () => {
       <div className='flex items-center gap-4'>
         {/* <img src='/user.svg' alt='user' className='h-8' /> */}
         <Logout />
-        {/* <button className='text-white font-semibold mr-4 capitalize'>{user?.first_name}</button> */}
+        <button className='text-white font-semibold mr-4 capitalize'>{user?.first_name}</button>
       </div>
     </div>
   )
