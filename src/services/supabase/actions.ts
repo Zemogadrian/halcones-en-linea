@@ -6,7 +6,6 @@ import { cookies } from 'next/headers'
 
 import { foundUserRedirect } from '@/services/supabase/functions/utils'
 import { redirect } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -44,9 +43,9 @@ export const logout = async () => {
     throw new Error('Error logging out')
   }
 
-  revalidatePath('/login')
-
-  redirect('/login')
+  setTimeout(() => {
+    redirect('/login')
+  }, 1000)
 }
 
 export const getUser = async () => {
