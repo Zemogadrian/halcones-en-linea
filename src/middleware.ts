@@ -10,12 +10,17 @@ export async function middleware (request: NextRequest) {
   const response = NextResponse.next()
   const pathname = new URL(request.url).pathname
   const supabase = await createClient(request, response)
-  const { data, error } = await supabase.auth.getSession()
+  const { data } = await supabase.auth.getSession()
 
   const isLogged = data?.session != null
 
-  if (error != null) {
+  // Si no hay un usuario no logueado y trata de acceder a una página que requiere autenticación, redirigirlo a la página de login
+  if (pathname !== LOGIN_PATHNAME && !isLogged) {
     return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
+  }
+
+  if (pathname === LOGIN_PATHNAME && !isLogged) {
+    return response
   }
 
   const { data: userData } = await supabase.from('user_data').select('roles(*)').eq('owner', data.session?.user.id ?? 0).single()
@@ -24,11 +29,6 @@ export async function middleware (request: NextRequest) {
   // Si el usuario está logueado y trata de acceder a la página de login, redirigirlo a la página correspondiente
   if (pathname === LOGIN_PATHNAME && isLogged) {
     return NextResponse.redirect(new URL(redirectUrl, request.url))
-  }
-
-  // Si no hay un usuario no logueado y trata de acceder a una página que requiere autenticación, redirigirlo a la página de login
-  if (pathname !== LOGIN_PATHNAME && !isLogged) {
-    return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
   }
 
   // Si el usuario está logueado y trata de acceder a una pagina de la cual no tiene autorización, redirigirlo a la página correspondiente
