@@ -86,7 +86,7 @@ export default function SideBar () {
               <div className='flex flex-row gap-2 justify-center items-center px-5 '>
                 <img src='/arrow.svg' alt='' className={`h-4 w-4 ${option === 4 ? 'rotate-[-90deg]' : ''}`} />
                 <p className='text-white text-2xl  ml-3 rounded-2xl'>
-                  Servicios Administrativos
+                  Serv. Administrativos
                 </p>
               </div>
             </button>

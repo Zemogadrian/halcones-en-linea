@@ -5,7 +5,7 @@ export default async function DownloadDocumentation () {
 
   const topics = await getTopics({
     subjectId: 80,
-    groupId: subjectId[0].id,
+    groupId: 17,
     semesterId: 44
   })
 
