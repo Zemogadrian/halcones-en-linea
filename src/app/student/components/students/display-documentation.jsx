@@ -11,24 +11,24 @@ export default async function DownloadDocumentation () {
   )
 
   console.log(JSON.stringify(topics))
-  // const temas = [
-  //   {
-  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
-  //   },
-  //   {
-  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
-  //   },
-  //   {
-  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
-  //   },
-  //   {
-  //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }, { titulo: 'Tema 5' }]
-  //   }
-  // ]
+  const temas = [
+    {
+      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
+    },
+    {
+      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
+    },
+    {
+      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
+    },
+    {
+      nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }, { titulo: 'Tema 5' }]
+    }
+  ]
 
   return (
     <div className='grid grid-rows-2 gap-10 grid-flow-col p-24 '>
-      {topics?.map((topic, index) => {
+      {temas?.map((topic, index) => {
         return (
           <div key={topic.key} className='bg-[#cdcbcc] rounded-xl p-4 flex flex-col '>
             <h1 className='text-[#848584] mb-5'>Archivos descargables (tema)</h1>
