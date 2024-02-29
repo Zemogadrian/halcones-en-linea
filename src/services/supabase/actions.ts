@@ -32,3 +32,26 @@ export const login = async (email: string, password: string) => {
 
   redirect(redirectUrl)
 }
+
+export const getUser = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error != null || data?.session == null) {
+    console.error('Error getting user:', error)
+    throw new Error('Error getting user')
+  }
+
+  const { data: userData } = await supabase.from('user_data').select('*, roles(*)').eq('owner', data.session.user.id).single()
+
+  return userData
+}
+
+export const getSubjects = async () => {
+  return []
+}
+
+export const getTopics = async () => {
+  return []
+}

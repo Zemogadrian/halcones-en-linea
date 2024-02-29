@@ -2,9 +2,6 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { createClient } from './services/supabase/middleware'
 import { foundUserRedirect, userHasPermissionToEnter } from './services/supabase/functions/utils'
-// import { recoverAccount } from './services/halcones/actions'
-// import { UserTypes } from './services/halcones/types'
-// import { foundUserRedirect, userHasPermissionToEnter } from './services/halcones/utils'
 
 const LOGIN_PATHNAME = '/login'
 

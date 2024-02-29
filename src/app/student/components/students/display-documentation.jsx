@@ -1,7 +1,7 @@
-import { getStudentSubjects, getTopics } from '@/services/halcones/actions'
+import { getSubjects, getTopics } from '@/services/supabase/actions'
 
 export default async function DownloadDocumentation () {
-  const subjectId = await getStudentSubjects()
+  const subjectId = await getSubjects()
 
   const topics = await getTopics({
     subjectId: 80,
@@ -10,7 +10,6 @@ export default async function DownloadDocumentation () {
   }
   )
 
-  console.log(JSON.stringify(topics))
   // const temas = [
   //   {
   //     nombre: [{ titulo: 'Tema 1' }, { titulo: 'Tema 2' }, { titulo: 'Tema 3' }, { titulo: 'Tema 4' }]
