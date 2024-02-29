@@ -32,10 +32,14 @@ export async function middleware (request: NextRequest) {
   }
 
   // Si el usuario está logueado y trata de acceder a una pagina de la cual no tiene autorización, redirigirlo a la página correspondiente
-  const isPermitEnter = userHasPermissionToEnter(userData?.roles?.id ?? 0, pathname)
-  const permitFunction = (isPermitEnter && pathname !== '/') ? () => response : () => NextResponse.redirect(new URL(redirectUrl, request.url))
+  const authorizeOrRedirect = (
+    userHasPermissionToEnter(userData?.roles?.id ?? 0, pathname) &&
+    pathname !== '/'
+  )
+    ? () => response
+    : () => NextResponse.redirect(new URL(redirectUrl, request.url))
 
-  return permitFunction()
+  return authorizeOrRedirect()
 }
 
 // See "Matching Paths" below to learn more
