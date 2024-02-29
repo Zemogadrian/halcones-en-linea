@@ -4,7 +4,7 @@ import { Days } from './days'
 const CalAnimation = ({ children }) => {
   return (
     <button
-      className=' h-full hover:text-white'
+      className=' h-full '
     >
       {children}
     </button>
@@ -17,31 +17,31 @@ export const NavBar = async () => {
   return (
     <div className=' flex flex-row h-16 select-none bg-[#42434565] justify-around'>
       <Days />
-      <div className='flex text-xl text-white h-full justify-center'>
+      <div className='flex text-xl  h-full justify-center'>
         <div className='flex flex-row w-full h-full justify-center'>
-          <div className=''>
+          <div>
             <CalAnimation link='/maestros/actividades/crearactividades'>
-              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Temas</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Temas</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Documentación</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Documentación</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Actividades</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Actividades</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e]'>Examen</p>
+              <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Examen</p>
             </CalAnimation>
           </div>
           <div className=''>
             <CalAnimation>
-              <p className='px-2 text-[#27316e]'>Clases grabadas</p>
+              <p className='px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Clases grabadas</p>
             </CalAnimation>
           </div>
         </div>
