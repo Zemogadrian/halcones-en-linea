@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { login } from '../../../services/halcones/actions'
+import { login } from '@/services/supabase/actions'
 
 export const LoginForm = () => {
   const [err, setErr] = useState<null | string>(null)
@@ -10,7 +10,10 @@ export const LoginForm = () => {
     e.preventDefault()
     const form = new FormData(e.target)
 
-    login(form)
+    login(
+      form.get('email') as string,
+      form.get('password') as string
+    )
       .catch((err: Error) => {
         setErr(err.message)
       })

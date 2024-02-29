@@ -1,8 +1,8 @@
 'use server'
 import { cookies } from 'next/headers'
 import { API } from './halcones-db'
-import { SubjectSchema, UserSchema, UserTypes, WorkSchema } from './types'
-import { foundUserRedirect } from './utils'
+import { SubjectSchema, UserSchema, UserTypes, WorkSchema } from '../supabase/functions/types'
+import { foundUserRedirect } from '../supabase/functions/utils'
 import { redirect } from 'next/navigation'
 
 /* AUTH FUNCTIONS */
