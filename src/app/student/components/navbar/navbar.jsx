@@ -1,4 +1,4 @@
-import { getUser } from '@/services/halcones/actions'
+import { getUser } from '@/services/supabase/actions'
 import { Days } from './days'
 
 const CalAnimation = ({ children }) => {
