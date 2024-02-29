@@ -1,46 +1,55 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { createClient } from './services/supabase/middleware'
+import { foundUserRedirect, userHasPermissionToEnter } from './services/supabase/functions/utils'
 // import { recoverAccount } from './services/halcones/actions'
 // import { UserTypes } from './services/halcones/types'
 // import { foundUserRedirect, userHasPermissionToEnter } from './services/halcones/utils'
 
-// const LOGIN_PATHNAME = '/login'
+const LOGIN_PATHNAME = '/login'
 
 // This function can be marked `async` if using `await` inside
 export async function middleware (request: NextRequest) {
-  // const pathname = request.nextUrl.pathname
+  const response = NextResponse.next()
 
-  // const token = request.cookies.get('token')
+  const pathname = new URL(request.url).pathname
 
-  // const isHasToken = token !== undefined ?? token?.value !== undefined
+  const supabase = await createClient(request, response)
 
-  // // Si hay un usuario logueado y trata de acceder a la página de login, redirigirlo a su página correspondiente
-  // if (pathname === LOGIN_PATHNAME && isHasToken) {
-  //   const user = await recoverAccount(token?.value ?? '')
+  const { data, error } = await supabase.auth.getSession()
 
-  //   const redirecUrl = foundUserRedirect(user.user_type as UserTypes)
+  if (error != null) {
+    return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
+  }
 
-  //   return NextResponse.redirect(new URL(redirecUrl, request.url))
-  // }
+  const isLogged = data?.session != null
 
-  // // Si no hay un usuario logueado y trata de acceder a una página que requiere autenticación, redirigirlo a la página de login
-  // if (pathname !== LOGIN_PATHNAME && !isHasToken) {
-  //   return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
-  // }
+  const { data: userData } = await supabase.from('user_data').select('roles(*)').eq('owner', data.session?.user.id ?? 0).single()
 
-  // if (isHasToken) {
-  //   const user = await recoverAccount(token?.value ?? '')
+  console.log('User data:', userData)
 
-  //   const isPermitEnter = userHasPermissionToEnter(user.user_type as UserTypes, pathname)
+  const redirectUrl = foundUserRedirect(userData?.roles?.id ?? 0)
 
-  //   const redirecUrl = foundUserRedirect(user.user_type as UserTypes)
+  if (pathname === LOGIN_PATHNAME && isLogged) {
+    console.log('Redirecting to:', redirectUrl, 'with user:', userData?.roles?.id ?? 0)
+    return NextResponse.redirect(new URL(redirectUrl, request.url))
+  }
 
-  //   const permitFunction = isPermitEnter ? NextResponse.next : () => NextResponse.redirect(new URL(redirecUrl, request.url))
+  // Si no hay un usuario no logueado y trata de acceder a una página que requiere autenticación, redirigirlo a la página de login
+  if (pathname !== LOGIN_PATHNAME && !isLogged) {
+    return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
+  }
 
-  //   return permitFunction()
-  // }
+  // Si el usuario está logueado y trata de acceder a una pagina de la cual no tiene autorización, redirigirlo a la página correspondiente
+  if (isLogged) {
+    const isPermitEnter = userHasPermissionToEnter(userData?.roles?.id ?? 0, pathname)
 
-  return NextResponse.next()
+    const permitFunction = isPermitEnter ? () => response : () => NextResponse.redirect(new URL(redirectUrl, request.url))
+
+    return permitFunction()
+  }
+
+  return response
 }
 
 // See "Matching Paths" below to learn more
