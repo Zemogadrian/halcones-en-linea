@@ -43,9 +43,7 @@ export const logout = async () => {
     throw new Error('Error logging out')
   }
 
-  setTimeout(() => {
-    redirect('/login')
-  }, 1000)
+  redirect('/login')
 }
 
 export const getUser = async () => {
