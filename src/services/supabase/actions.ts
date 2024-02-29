@@ -33,6 +33,19 @@ export const login = async (email: string, password: string) => {
   redirect(redirectUrl)
 }
 
+export const logout = async () => {
+  const supabase = await createClient()
+
+  const { error } = await supabase.auth.signOut()
+
+  if (error != null) {
+    console.error('Error logging out:', error)
+    throw new Error('Error logging out')
+  }
+
+  redirect('/login')
+}
+
 export const getUser = async () => {
   const supabase = await createClient()
 
