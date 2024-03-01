@@ -4,11 +4,10 @@ import { ArrowIcon, SquareIcon } from '@/assets/icons'
 import { v4 } from '@/utils/uuid'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
+import { useState } from 'react'
 
 interface Props {
-  isOpen: boolean
-  value: number
-  onClick: (value: number) => void
+  onClick?: () => void
   children: React.ReactNode
   subItems?: Array<{
     title: string
@@ -17,12 +16,12 @@ interface Props {
 }
 
 export const SideBarMultiItem = ({
-  isOpen,
-  onClick,
-  value,
   children,
-  subItems = []
+  subItems = [],
+  onClick
 }: Props) => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <li
       className='cursor-pointer'
@@ -30,7 +29,8 @@ export const SideBarMultiItem = ({
       <button
         className='px-7 py-2 w-full flex items-center bg-gradient-to-r from-itesus-primary to-itesus-secondary gap-3'
         onClick={() => {
-          onClick(value)
+          onClick?.()
+          setIsOpen(prev => !prev)
         }}
       >
         <ArrowIcon width={12} fill='#fff' />
