@@ -33,7 +33,7 @@ export const SideBarMultiItem = ({
           setIsOpen(prev => !prev)
         }}
       >
-        <ArrowIcon width={12} fill='#fff' />
+        <ArrowIcon width={12} fill='#fff' className={`${isOpen ? '' : '-rotate-90'} transition-transform`} />
         <span
           className='text-left text-xl font-bold text-white'
         >
