@@ -1,0 +1,22 @@
+import { SideBarV2 } from '@/components/sidebar/sidebar'
+import { SideBarOptions } from '@/components/sidebar/types'
+
+interface Props {
+  children: React.ReactNode
+  navbar: React.JSX.Element
+  options: SideBarOptions
+}
+
+export const DistroNavASide = ({ children, navbar, options }: Props) => {
+  return (
+    <div className='h-dvh flex flex-col'>
+      {navbar}
+      <div className='flex flex-1'>
+        <SideBarV2 options={options} />
+        <div className='flex-1 h-full'>
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}

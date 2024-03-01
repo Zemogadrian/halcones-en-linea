@@ -1,4 +1,4 @@
-import { SideBarOptions } from './types'
+import { SideBarOptions } from '../../../../components/sidebar/types'
 
 export const options: SideBarOptions = [
   {

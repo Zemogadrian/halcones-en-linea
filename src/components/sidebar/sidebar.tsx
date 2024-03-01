@@ -1,9 +1,10 @@
 'use client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { SideBarMultiItem } from './sidebar-item'
 import { v4 } from '@/utils/uuid'
 import { SideBarOptions } from './types'
+import { ArrowIcon, SquareIcon } from '@/assets/icons'
+import Link from 'next/link'
 
 interface Props {
   options: SideBarOptions
@@ -25,15 +26,56 @@ export const SideBarV2 = ({ options }: Props) => {
 
         {
           options.map((o, i) => (
-            <SideBarMultiItem
-              isOpen={option === i}
-              onClick={handleOption}
-              value={i}
-              subItems={o.sub}
+            <li
               key={v4()}
+              className='cursor-pointer'
             >
-              {o.title}
-            </SideBarMultiItem>
+              <button
+                className='px-7 py-2 w-full flex items-center bg-gradient-to-r from-itesus-primary to-itesus-secondary gap-3'
+                onClick={() => {
+                  handleOption(i + 1)
+                }}
+              >
+                <ArrowIcon width={12} fill='#fff' />
+                <span
+                  className='text-left text-xl font-bold text-white'
+                >
+                  {o.title}
+                </span>
+              </button>
+              <AnimatePresence>
+                {option === i + 1 && (
+                  <motion.div
+                    variants={{
+                      collapsed: { opacity: 0, height: 0 },
+                      open: {
+                        opacity: 1,
+                        height: 'auto'
+                      }
+                    }}
+                    initial='collapsed'
+                    animate='open'
+                    exit='collapsed'
+                  >
+                    <ul>
+                      {o?.sub?.map((item) => (
+                        <Link key={v4()} href={item.href}>
+                          <li
+                            className='bg-[#e7e6e6] flex px-7 gap-4 border-b border-b-gray-400'
+                          >
+                            <SquareIcon width={6} />
+                            <span
+                              className='text-left text-lg font-medium text-gray-500'
+                            >{item.title}
+                            </span>
+                          </li>
+                        </Link>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
           ))
         }
 
