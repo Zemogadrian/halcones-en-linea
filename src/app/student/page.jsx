@@ -1,17 +1,17 @@
-import DisplayActivities from './components/students/display-activities'
+import { ActivityDisplay } from './components/students/display-activities'
 
-export default async function Alumn () {
+export default async function StudentPage () {
   return (
-    <main className='bg-gradient-to-tr from-[#1f5186] to-[#131a2d] h-full w-full overflow-y-hidden flex flex-row'>
-
-      <section className='p-28 w-full'>
-        <DisplayActivities />
-      </section>
-      <section className='p-14'>
+    <main className='flex flex-col gap-2'>
+      <section className='flex justify-end'>
         <select>
           <option>Entregadas</option>
           <option>No entregadas</option>
         </select>
+      </section>
+
+      <section className=''>
+        <ActivityDisplay />
       </section>
     </main>
   )
