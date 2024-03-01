@@ -12,7 +12,7 @@ export const SideBarV2 = ({ options }: Props) => {
       className='bg-[#cdcccb] h-full w-80'
     >
 
-      <ul>
+      <ul className='flex flex-col gap-1'>
 
         {
           options.map((o) => (
