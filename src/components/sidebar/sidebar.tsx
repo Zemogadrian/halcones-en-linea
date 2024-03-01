@@ -15,7 +15,7 @@ export const SideBarV2 = ({ options }: Props) => {
       <ul>
 
         {
-          options.map((o, i) => (
+          options.map((o) => (
             <SideBarMultiItem
               subItems={o.sub}
               key={v4()}
