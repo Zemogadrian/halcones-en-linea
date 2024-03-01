@@ -2,8 +2,14 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { SideBarMultiItem } from './sidebar-item'
+import { v4 } from '@/utils/uuid'
+import { SideBarOptions } from './types'
 
-export const SideBarV2 = () => {
+interface Props {
+  options: SideBarOptions
+}
+
+export const SideBarV2 = ({ options }: Props) => {
   const [option, setOption] = useState(0)
 
   const handleOption = (value: number) => {
@@ -17,74 +23,19 @@ export const SideBarV2 = () => {
 
       <ul>
 
-        <SideBarMultiItem
-          isOpen={option === 1}
-          onClick={handleOption}
-          value={1}
-          subItems={[
-            {
-              title: 'Matemáticas para la mercadotecnia',
-              href: '/student/materias/matematicas'
-            },
-            {
-              title: 'Contabilidad I',
-              href: '/student/materias/matematicas'
-            },
-            {
-              title: 'Administración Global I',
-              href: '/student/materias/matematicas'
-            },
-            {
-              title: 'Computacion I',
-              href: '/student/materias/matematicas'
-            },
-            {
-              title: 'Redaccion avanzada en español',
-              href: '/student/materias/matematicas'
-            },
-            {
-              title: 'Ingles I',
-              href: '/student/materias/matematicas'
-            }
-          ]}
-        >
-          Materias
-        </SideBarMultiItem>
-        <SideBarMultiItem
-          isOpen={option === 2}
-          onClick={handleOption}
-          value={2}
-        >
-          Calendario
-        </SideBarMultiItem>
-        <SideBarMultiItem
-          isOpen={option === 3}
-          onClick={handleOption}
-          value={3}
-        >
-          Cursos
-        </SideBarMultiItem>
-        <SideBarMultiItem
-          isOpen={option === 4}
-          onClick={handleOption}
-          value={4}
-        >
-          Cursos
-        </SideBarMultiItem>
-        <SideBarMultiItem
-          isOpen={option === 5}
-          onClick={handleOption}
-          value={5}
-        >
-          Serv. Administrativos
-        </SideBarMultiItem>
-        <SideBarMultiItem
-          isOpen={option === 6}
-          onClick={handleOption}
-          value={6}
-        >
-          Foros
-        </SideBarMultiItem>
+        {
+          options.map((o, i) => (
+            <SideBarMultiItem
+              isOpen={option === i}
+              onClick={handleOption}
+              value={i}
+              subItems={o.sub}
+              key={v4()}
+            >
+              {o.title}
+            </SideBarMultiItem>
+          ))
+        }
 
       </ul>
 

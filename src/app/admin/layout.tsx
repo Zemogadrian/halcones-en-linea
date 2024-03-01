@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export default function AdminPage () {
+export default function AdminPage ({ children }) {
   return (
     <div>
       <nav
@@ -8,6 +8,13 @@ export default function AdminPage () {
       >
         <Image src='/img/logoItesus.png' alt='Logo de itesus' width={120} height={40} />
       </nav>
+
+      <div className='flex'>
+
+        <div className='flex-1'>
+          {children}
+        </div>
+      </div>
     </div>
   )
 }
