@@ -15,6 +15,10 @@ module.exports = {
       colors: {
         nav: {
           bg: '#42434565'
+        },
+        itesus: {
+          primary: '#1a63a5',
+          secondary: '#131a2e'
         }
       }
     }

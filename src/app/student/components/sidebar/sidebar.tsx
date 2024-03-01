@@ -1,8 +1,102 @@
 'use client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
+import { SideBarMultiItem } from './sidebar-item'
 
-export default function SideBar () {
+export const SideBarV2 = () => {
+  const [option, setOption] = useState(0)
+
+  const handleOption = (value: number) => {
+    setOption(prev => prev === value ? 0 : value)
+  }
+
+  return (
+    <aside
+      className='bg-[#cdcccb] h-full w-80'
+    >
+
+      <ul>
+
+        <SideBarMultiItem
+          isOpen={option === 1}
+          onClick={handleOption}
+          value={1}
+          subItems={[
+            {
+              title: 'Matemáticas para la mercadotecnia',
+              href: '/student/materias/matematicas'
+            },
+            {
+              title: 'Contabilidad I',
+              href: '/student/materias/matematicas'
+            },
+            {
+              title: 'Administración Global I',
+              href: '/student/materias/matematicas'
+            },
+            {
+              title: 'Computacion I',
+              href: '/student/materias/matematicas'
+            },
+            {
+              title: 'Redaccion avanzada en español',
+              href: '/student/materias/matematicas'
+            },
+            {
+              title: 'Ingles I',
+              href: '/student/materias/matematicas'
+            }
+          ]}
+        >
+          Materias
+        </SideBarMultiItem>
+        <SideBarMultiItem
+          isOpen={option === 2}
+          onClick={handleOption}
+          value={2}
+        >
+          Calendario
+        </SideBarMultiItem>
+        <SideBarMultiItem
+          isOpen={option === 3}
+          onClick={handleOption}
+          value={3}
+        >
+          Cursos
+        </SideBarMultiItem>
+        <SideBarMultiItem
+          isOpen={option === 4}
+          onClick={handleOption}
+          value={4}
+        >
+          Cursos
+        </SideBarMultiItem>
+        <SideBarMultiItem
+          isOpen={option === 5}
+          onClick={handleOption}
+          value={5}
+        >
+          Serv. Administrativos
+        </SideBarMultiItem>
+        <SideBarMultiItem
+          isOpen={option === 6}
+          onClick={handleOption}
+          value={6}
+        >
+          Foros
+        </SideBarMultiItem>
+
+      </ul>
+
+    </aside>
+  )
+}
+
+/**
+ *
+ * @deprecated
+ */
+export const SideBar = () => {
   const [option, setOption] = useState(0)
   const handleSetOption = option => () => setOption(prev => prev === option ? 0 : option)
 

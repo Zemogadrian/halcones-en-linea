@@ -2,7 +2,7 @@ import DisplayActivities from './components/students/display-activities'
 
 export default async function Alumn () {
   return (
-    <main className='bg-gradient-to-tr from-[#1f5186] to-[#131a2d] w-full overflow-y-hidden flex flex-row'>
+    <main className='bg-gradient-to-tr from-[#1f5186] to-[#131a2d] h-full w-full overflow-y-hidden flex flex-row'>
 
       <section className='p-28 w-full'>
         <DisplayActivities />
