@@ -2,6 +2,7 @@
 
 import { register } from '@/services/supabase/client'
 import { USER_TYPES } from '@/services/supabase/functions/types'
+import { toast } from 'sonner'
 
 interface Props {
   role: USER_TYPES
@@ -20,6 +21,15 @@ export const RegisterForm = ({ role }: Props) => {
       phone: e.currentTarget.phone.value,
       role
     })
+      .then(() => {
+        e.currentTarget.reset()
+        toast.success('Usuario registrado')
+      })
+      .catch((err) => {
+        console.error(err)
+
+        toast.error('Error al registrar usuario')
+      })
   }
 
   return (
