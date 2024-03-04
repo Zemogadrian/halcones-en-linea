@@ -84,8 +84,8 @@ const SubEl = ({ title, href }: {
       >
         {
           isActive
-            ? <ArrowIcon width={8} className='-rotate-90' />
-            : <SquareIcon width={6} />
+            ? <ArrowIcon width={8} className='-rotate-90 animate-fade-in' />
+            : <SquareIcon width={6} className='animate-fade-in' />
         }
         <span
           className='text-left text-lg font-medium text-gray-500'
