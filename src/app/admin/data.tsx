@@ -48,11 +48,11 @@ export const routes: SideBarOptions = [
     title: 'Profesores',
     sub: [
       {
-        href: '/admin/prefessor',
+        href: '/admin/professor',
         title: 'Lista de profesores'
       },
       {
-        href: '/admin/prefessor/new',
+        href: '/admin/professor/new',
         title: 'Nuevo profesor'
       }
     ]
