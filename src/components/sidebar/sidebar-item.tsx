@@ -4,6 +4,7 @@ import { ArrowIcon, SquareIcon } from '@/assets/icons'
 import { v4 } from '@/utils/uuid'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 interface Props {
@@ -55,23 +56,42 @@ export const SideBarMultiItem = ({
             exit='collapsed'
           >
             <ul>
-              {subItems.map((item) => (
-                <Link key={v4()} href={item.href}>
-                  <li
-                    className='bg-[#e7e6e6] flex px-7 gap-4 border-b border-b-gray-400'
-                  >
-                    <SquareIcon width={6} />
-                    <span
-                      className='text-left text-lg font-medium text-gray-500'
-                    >{item.title}
-                    </span>
-                  </li>
-                </Link>
-              ))}
+              {subItems.map((item) => (<SubEl
+                href={item.href}
+                title={item.title}
+                key={v4()}
+                                       />))}
             </ul>
           </motion.div>
         )}
       </AnimatePresence>
     </li>
+  )
+}
+
+const SubEl = ({ title, href }: {
+  title: string
+  href: string
+}) => {
+  const pathname = usePathname()
+
+  const isActive = pathname === href
+
+  return (
+    <Link key={v4()} href={href}>
+      <li
+        className='bg-[#e7e6e6] flex px-7 gap-4 border-b border-b-gray-400'
+      >
+        {
+          isActive
+            ? <ArrowIcon width={8} className='-rotate-90' />
+            : <SquareIcon width={6} />
+        }
+        <span
+          className='text-left text-lg font-medium text-gray-500'
+        >{title}
+        </span>
+      </li>
+    </Link>
   )
 }
