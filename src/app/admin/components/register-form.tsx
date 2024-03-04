@@ -1,8 +1,13 @@
 'use client'
 
 import { register } from '@/services/supabase/client'
+import { USER_TYPES } from '@/services/supabase/functions/types'
 
-export const RegisterForm = () => {
+interface Props {
+  role: USER_TYPES
+}
+
+export const RegisterForm = ({ role }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -13,35 +18,89 @@ export const RegisterForm = () => {
       lastName: e.currentTarget.last_name.value,
       password: e.currentTarget.password.value,
       phone: e.currentTarget.phone.value,
-      role: 1
+      role
     })
   }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col'>
-      <input type='text' placeholder='Nombres' name='first_name' />
-      <input
-        type='text' placeholder='Apellidos'
-        name='last_name'
-      />
-      <input
-        name='email'
-        type='email' placeholder='Correo'
-      />
-      <input
-        type='password' placeholder='Contraseña'
-        name='password'
-      />
-      <input
-        type='tel' placeholder='Telefono'
-        name='phone'
-      />
-      <input
-        type='date' placeholder='Fecha de nacimiento'
-        name='birthdate'
+    <form onSubmit={handleSubmit} className='w-full'>
+      <LabeledInput
+        label='Nombres'
+        name='first_name'
+        placeholder='Jose'
       />
 
-      <button type='submit'>Registrar</button>
+      <LabeledInput
+        label='Apellidos'
+        name='last_name'
+        placeholder='Perez Leon'
+      />
+
+      <LabeledInput
+        label='Correo'
+        name='email'
+        type='email'
+        placeholder='example@example.com'
+      />
+
+      <LabeledInput
+        label='Contraseña'
+        name='password'
+        type='password'
+        placeholder='********'
+      />
+
+      <LabeledInput
+        label='Telefono'
+        name='phone'
+        type='tel'
+        placeholder='1234567890'
+      />
+
+      <LabeledInput
+        label='Fecha de nacimiento'
+        name='birthdate'
+        type='date'
+      />
+
+      <button
+        className='bg-primary rounded-md text-white px-1 mt-4 shadow-lg bg-itesus-primary w-full'
+        type='submit'
+      >
+        Registrar
+      </button>
     </form>
   )
 }
+
+export const LabeledInput = (
+  {
+    label,
+    name,
+    type = 'text',
+    placeholder
+  }:
+  {
+    label: string
+    name: string
+    type?: React.HTMLInputTypeAttribute
+    placeholder?: string
+  }
+) => (
+  <label
+    className='flex flex-col gap-1'
+  >
+    <span
+      className='text-white font-medium'
+    >
+      {label}
+    </span>
+
+    <input
+      type={type}
+      placeholder={placeholder}
+      name={name}
+      className='rounded-md px-2'
+    />
+  </label>
+)
