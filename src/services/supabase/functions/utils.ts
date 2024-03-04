@@ -1,22 +1,22 @@
-import { UserTypes } from './types'
+import { USER_TYPES } from './types'
 
 const urls = {
-  [UserTypes.ADMIN]: '/admin',
-  [UserTypes.PROFESSOR]: '/professor',
-  [UserTypes.STUDENT]: '/student',
-  [UserTypes.COORDINATOR]: '/coordinator'
+  [USER_TYPES.ADMIN]: '/admin',
+  [USER_TYPES.PROFESSOR]: '/professor',
+  [USER_TYPES.STUDENT]: '/student',
+  [USER_TYPES.COORDINATOR]: '/coordinator'
 }
 
-export const foundUserRedirect = (userType: UserTypes) => urls[userType] ?? '/not-found'
+export const foundUserRedirect = (userType: USER_TYPES) => urls[userType] ?? '/not-found'
 
-export const userHasPermissionToEnter = (userType: UserTypes, pathname: string) => {
-  if (userType === UserTypes.ADMIN) return true
+export const userHasPermissionToEnter = (userType: USER_TYPES, pathname: string) => {
+  if (userType === USER_TYPES.ADMIN) return true
 
-  if (userType === UserTypes.PROFESSOR && pathname.startsWith(urls[2])) return true
+  if (userType === USER_TYPES.PROFESSOR && pathname.startsWith(urls[2])) return true
 
-  if (userType === UserTypes.STUDENT && pathname.startsWith(urls[3])) return true
+  if (userType === USER_TYPES.STUDENT && pathname.startsWith(urls[3])) return true
 
-  if (userType === UserTypes.COORDINATOR && pathname.startsWith(urls[4])) return true
+  if (userType === USER_TYPES.COORDINATOR && pathname.startsWith(urls[4])) return true
 
   return false
 }
