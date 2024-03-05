@@ -2,19 +2,11 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & React.TextareaHT
 
 interface LabeledInputProps extends InputProps {
   label: string
-  name: string
-  type?: React.HTMLInputTypeAttribute
-  placeholder?: string
-  required?: boolean
   multiline?: boolean
 }
 
 export const LabeledInput = ({
   label,
-  name,
-  type = 'text',
-  placeholder,
-  required = false,
   multiline = false,
   ...props
 }: LabeledInputProps) =>
@@ -30,11 +22,7 @@ export const LabeledInput = ({
         </span>
 
         <input
-          type={type}
-          placeholder={placeholder}
-          name={name}
           className='rounded-md px-2'
-          required={required}
           {...props}
         />
       </label>
@@ -50,10 +38,7 @@ export const LabeledInput = ({
         </span>
 
         <textarea
-          placeholder={placeholder}
-          name={name}
           className='rounded-md px-2'
-          required={required}
           {...props}
         />
       </label>
