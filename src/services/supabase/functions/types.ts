@@ -15,7 +15,7 @@ export const UserSchema = z.object({
   matricula: z.string()
 })
 
-export const enum UserTypes {
+export const enum USER_TYPES {
   ADMIN = 1,
   PROFESSOR = 2,
   STUDENT = 3,

@@ -10,8 +10,8 @@ interface RegisterProps {
   birthdate: Date
 }
 
-export const register = ({ email, password, phone, birthdate, firstName, lastName, role }: RegisterProps) => {
-  supabase.auth.signUp({
+export const register = async ({ email, password, phone, birthdate, firstName, lastName, role }: RegisterProps) => {
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     phone,
@@ -25,5 +25,12 @@ export const register = ({ email, password, phone, birthdate, firstName, lastNam
       }
     }
   })
-    .catch(error => console.error('Error registering:', error))
+
+  console.log(data, error)
+
+  if (error != null) {
+    throw new Error(error.message)
+  }
+
+  return data
 }

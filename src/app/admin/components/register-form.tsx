@@ -1,8 +1,15 @@
 'use client'
 
+import { LabeledInput, SubmitButton } from '@/components/utils'
 import { register } from '@/services/supabase/client'
+import { USER_TYPES } from '@/services/supabase/functions/types'
+import { toast } from 'sonner'
 
-export const RegisterForm = () => {
+interface Props {
+  role: USER_TYPES
+}
+
+export const RegisterForm = ({ role }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -13,35 +20,64 @@ export const RegisterForm = () => {
       lastName: e.currentTarget.last_name.value,
       password: e.currentTarget.password.value,
       phone: e.currentTarget.phone.value,
-      role: 1
+      role
     })
+      .then(() => {
+        toast.success('Usuario registrado')
+      })
+      .catch((err) => {
+        console.error(err)
+
+        toast.error('Error al registrar usuario')
+      })
+
+    e.currentTarget.reset()
   }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col'>
-      <input type='text' placeholder='Nombres' name='first_name' />
-      <input
-        type='text' placeholder='Apellidos'
-        name='last_name'
-      />
-      <input
-        name='email'
-        type='email' placeholder='Correo'
-      />
-      <input
-        type='password' placeholder='Contraseña'
-        name='password'
-      />
-      <input
-        type='tel' placeholder='Telefono'
-        name='phone'
-      />
-      <input
-        type='date' placeholder='Fecha de nacimiento'
-        name='birthdate'
+    <form onSubmit={handleSubmit} className='w-full'>
+      <LabeledInput
+        label='Nombres'
+        name='first_name'
+        placeholder='Jose'
       />
 
-      <button type='submit'>Registrar</button>
+      <LabeledInput
+        label='Apellidos'
+        name='last_name'
+        placeholder='Perez Leon'
+      />
+
+      <LabeledInput
+        label='Correo'
+        name='email'
+        type='email'
+        placeholder='example@example.com'
+      />
+
+      <LabeledInput
+        label='Contraseña'
+        name='password'
+        type='password'
+        placeholder='********'
+      />
+
+      <LabeledInput
+        label='Telefono'
+        name='phone'
+        type='tel'
+        placeholder='1234567890'
+      />
+
+      <LabeledInput
+        label='Fecha de nacimiento'
+        name='birthdate'
+        type='date'
+      />
+
+      <SubmitButton>
+        Registrar
+      </SubmitButton>
     </form>
   )
 }
