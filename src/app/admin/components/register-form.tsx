@@ -22,7 +22,6 @@ export const RegisterForm = ({ role }: Props) => {
       role
     })
       .then(() => {
-        e.currentTarget.reset()
         toast.success('Usuario registrado')
       })
       .catch((err) => {
@@ -30,6 +29,8 @@ export const RegisterForm = ({ role }: Props) => {
 
         toast.error('Error al registrar usuario')
       })
+
+    e.currentTarget.reset()
   }
 
   return (

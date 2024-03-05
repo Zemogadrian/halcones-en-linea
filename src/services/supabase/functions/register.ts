@@ -26,8 +26,10 @@ export const register = async ({ email, password, phone, birthdate, firstName, l
     }
   })
 
+  console.log(data, error)
+
   if (error != null) {
-    throw error
+    throw new Error(error.message)
   }
 
   return data
