@@ -1,6 +1,6 @@
 'use client'
 
-import { LabeledInput, SubmitButton } from '@/components/utils'
+import { Form, LabeledInput, SubmitButton } from '@/components/utils'
 import { register } from '@/services/supabase/client'
 import { USER_TYPES } from '@/services/supabase/functions/types'
 import { toast } from 'sonner'
@@ -35,7 +35,7 @@ export const RegisterForm = ({ role }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='w-full'>
+    <Form onSubmit={handleSubmit}>
       <LabeledInput
         label='Nombres'
         name='first_name'
@@ -78,6 +78,6 @@ export const RegisterForm = ({ role }: Props) => {
       <SubmitButton>
         Registrar
       </SubmitButton>
-    </form>
+    </Form>
   )
 }
