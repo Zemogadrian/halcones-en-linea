@@ -7,6 +7,7 @@ import { cookies } from 'next/headers'
 import { foundUserRedirect } from '@/services/supabase/functions/utils'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { revalidatePath } from 'next/cache'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -114,6 +115,10 @@ export const insertSubject = async (name: string) => {
     console.error('Error inserting subject:', error)
     throw new Error('Error inserting subject')
   }
+
+  revalidatePath('/admin/subjects')
+
+  redirect('/admin/subjects')
 }
 
 export const insertSubjectUsingForm = async (data: FormData) => {
