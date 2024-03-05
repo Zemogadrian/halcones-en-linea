@@ -1,4 +1,5 @@
 import { Form, FormSection, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
+import { insertSubjectUsingForm } from '@/services/supabase/actions'
 
 export default function NewSubjectPage () {
   return (
@@ -6,7 +7,9 @@ export default function NewSubjectPage () {
       <H1>Crear materia</H1>
 
       <FormSection>
-        <Form>
+        <Form
+          action={insertSubjectUsingForm}
+        >
           <LabeledInput
             label='Nombre'
             name='name'
