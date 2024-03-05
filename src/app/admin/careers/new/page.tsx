@@ -7,6 +7,7 @@ export default function NewCareerPage () {
 
       <FormSection>
         a
+
       </FormSection>
     </Main>
   )
