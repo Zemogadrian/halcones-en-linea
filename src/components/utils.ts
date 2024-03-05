@@ -1,3 +1,5 @@
 export * from './utils/h1'
 export * from './utils/main'
-export * from './utils/form-section'
+export * from './utils/sections'
+export * from './utils/inputs'
+export * from './utils/buttons'

@@ -1,7 +1,13 @@
+import { FormSection, H1, Main } from '@/components/utils'
+
 export default function NewCareerPage () {
   return (
-    <main>
-      <h1>NewCareerPage</h1>
-    </main>
+    <Main>
+      <H1>Crear carrera</H1>
+
+      <FormSection>
+        a
+      </FormSection>
+    </Main>
   )
 }

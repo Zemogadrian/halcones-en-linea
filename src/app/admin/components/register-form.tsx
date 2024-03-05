@@ -1,5 +1,6 @@
 'use client'
 
+import { LabeledInput, SubmitButton } from '@/components/utils'
 import { register } from '@/services/supabase/client'
 import { USER_TYPES } from '@/services/supabase/functions/types'
 import { toast } from 'sonner'
@@ -74,44 +75,9 @@ export const RegisterForm = ({ role }: Props) => {
         type='date'
       />
 
-      <button
-        className='bg-primary rounded-md text-white px-1 mt-4 shadow-lg bg-itesus-primary w-full'
-        type='submit'
-      >
+      <SubmitButton>
         Registrar
-      </button>
+      </SubmitButton>
     </form>
   )
 }
-
-export const LabeledInput = (
-  {
-    label,
-    name,
-    type = 'text',
-    placeholder
-  }:
-  {
-    label: string
-    name: string
-    type?: React.HTMLInputTypeAttribute
-    placeholder?: string
-  }
-) => (
-  <label
-    className='flex flex-col gap-1'
-  >
-    <span
-      className='text-white font-medium'
-    >
-      {label}
-    </span>
-
-    <input
-      type={type}
-      placeholder={placeholder}
-      name={name}
-      className='rounded-md px-2'
-    />
-  </label>
-)
