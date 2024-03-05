@@ -81,3 +81,16 @@ export const getCampuses = async () => {
 
   return data
 }
+
+export const getEducationPlans = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('*')
+
+  if (error != null) {
+    console.error('Error getting education plans:', error)
+    throw new Error('Error getting education plans')
+  }
+
+  return data
+}
