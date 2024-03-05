@@ -53,3 +53,11 @@ export const LabeledInput = (
       />
     </label>
     )
+
+export const Select = ({ children }) => (
+  <select
+    className='w-full px-2 border py-1 mt-5 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-itesus-primary focus:border-transparent'
+  >
+    {children}
+  </select>
+)
