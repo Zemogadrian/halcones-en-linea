@@ -63,7 +63,16 @@ export const getUser = async () => {
 }
 
 export const getSubjects = async () => {
-  return []
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('subjects').select('*')
+
+  if (error != null) {
+    console.error('Error getting subjects:', error)
+    throw new Error('Error getting subjects')
+  }
+
+  return data
 }
 
 export const getTopics = async () => {
