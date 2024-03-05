@@ -5,8 +5,6 @@ import { v4 } from '@/utils/uuid'
 export default async function NewCareerPage () {
   const campus = await getCampuses()
 
-  console.log(campus)
-
   return (
     <Main>
       <H1>Crear carrera</H1>
