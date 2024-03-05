@@ -37,7 +37,26 @@ export const options: SideBarOptions = [
     title: 'Cursos'
   },
   {
-    title: 'Serv. Administrativos'
+    title: 'Serv. Administrativos',
+    sub: [
+      {
+        title: 'Becas',
+        href: '/student/servadmin/becas'
+      },
+      {
+        title: 'Kárdex',
+        href: '/student/servadmin/kardex'
+      },
+      {
+        title: 'Constancia de estudios',
+        href: '/student/servadmin/constancia'
+      },
+      {
+        title: 'Métodos de pago',
+        href: '/student/servadmin/metodospago'
+      }
+
+    ]
   },
   {
     title: 'Foros'
