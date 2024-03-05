@@ -15,7 +15,7 @@ export default async function SubjectsPage () {
         {subjects.map((subject, i) => (
           <li
             key={v4()}
-            className='text-lg font-medium text-white'
+            className='text-lg font-medium text-white capitalize'
           >
             {i + 1}- {subject.name}
           </li>
