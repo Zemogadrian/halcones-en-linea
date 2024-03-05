@@ -54,10 +54,22 @@ export const LabeledInput = (
     </label>
     )
 
-export const Select = ({ children }) => (
-  <select
-    className='w-full px-2 border py-1 mt-5 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-itesus-primary focus:border-transparent'
+export const Select = ({ children, label }: {
+  children: React.ReactNode
+  label: string
+}) => (
+  <label
+    className='flex flex-col gap-1 mt-1'
   >
-    {children}
-  </select>
+    <span
+      className='text-white font-medium'
+    >
+      {label}
+    </span>
+    <select
+      className='w-full px-2 border py-1 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-itesus-primary focus:border-transparent'
+    >
+      {children}
+    </select>
+  </label>
 )
