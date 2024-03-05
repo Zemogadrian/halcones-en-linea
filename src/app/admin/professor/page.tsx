@@ -4,7 +4,6 @@ export default function ProfessorPage () {
   return (
     <Main>
       profesor page
-
     </Main>
   )
 }
