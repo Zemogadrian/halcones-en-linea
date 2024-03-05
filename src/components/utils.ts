@@ -1,4 +1,4 @@
-export * from './utils/h1'
+export * from './utils/titles'
 export * from './utils/main'
 export * from './utils/sections'
 export * from './utils/inputs'
