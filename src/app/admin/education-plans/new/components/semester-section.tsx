@@ -38,12 +38,28 @@ export const SemesterSection = ({ subjects }: Props) => {
       />
 
       <section className='grid grid-cols-3 gap-3 mt-3'>
+        <article key={v4()} className='border px-3 py-1 rounded-md min-h-40'>
+          <H2
+            className='border-b py-1'
+          >
+            Materias
+          </H2>
+
+          <MultiDragAndDropWithId
+            options={subjects.map((subject) => subject.name)}
+          />
+        </article>
+
         {Array.from({ length: semesters }).map((_, index) => (
-          <article key={v4()}>
-            <H2>Semestre {index + 1}</H2>
+          <article key={v4()} className='border px-3 py-1 rounded-md min-h-40'>
+            <H2
+              className='border-b py-1'
+            >
+              Semestre {index + 1}
+            </H2>
 
             <MultiDragAndDropWithId
-              options={subjects.map((subject) => subject.name)}
+              options={[]}
             />
           </article>
         ))}

@@ -90,11 +90,11 @@ export function MultiDragAndDropWithId ({ options = [] }: Props) {
 
   return (
     <div
-      className='flex'
+      className='flex h-full'
     >
       <ul
         ref={parent}
-        className='border flex-1'
+        className='flex-1 h-full'
       >
         {files
           .map((file) => (
