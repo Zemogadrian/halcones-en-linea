@@ -6,6 +6,7 @@ import { cookies } from 'next/headers'
 
 import { foundUserRedirect } from '@/services/supabase/functions/utils'
 import { redirect } from 'next/navigation'
+import { z } from 'zod'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -93,4 +94,22 @@ export const getEducationPlans = async () => {
   }
 
   return data
+}
+
+export const insertSubject = async (name: string) => {
+  const supabase = await createClient()
+
+  const { error } = await supabase.from('subjects').insert({ name })
+
+  if (error != null) {
+    console.error('Error inserting subject:', error)
+    throw new Error('Error inserting subject')
+  }
+}
+
+export const insertSubjectUsingForm = async (data: FormData) => {
+  const name = data.get('name')
+  const safeName = z.string().parse(name)
+
+  await insertSubject(safeName)
 }
