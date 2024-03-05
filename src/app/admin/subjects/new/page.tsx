@@ -1,4 +1,4 @@
-import { FormSection, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
+import { Form, FormSection, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
 
 export default function NewSubjectPage () {
   return (
@@ -6,17 +6,19 @@ export default function NewSubjectPage () {
       <H1>Crear materia</H1>
 
       <FormSection>
-        <LabeledInput
-          label='Nombre'
-          name='name'
-          type='text'
-          required
-          placeholder='Matemáticas'
-        />
+        <Form>
+          <LabeledInput
+            label='Nombre'
+            name='name'
+            type='text'
+            required
+            placeholder='Matemáticas'
+          />
 
-        <SubmitButton>
-          Crear materia
-        </SubmitButton>
+          <SubmitButton>
+            Crear materia
+          </SubmitButton>
+        </Form>
       </FormSection>
 
     </Main>

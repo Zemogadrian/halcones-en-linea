@@ -1,8 +1,6 @@
 
-interface Props {
+interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void
-  action?: (data: FormData) => Promise<void>
 }
 
 export const Form = ({ children, onSubmit, action }: Props) => (
