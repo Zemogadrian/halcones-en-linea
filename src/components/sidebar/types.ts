@@ -5,3 +5,11 @@ export type SideBarOptions = Array<{
     href: string
   }>
 }>
+
+export type NavBarOptions = Array<{
+  title: string
+  sub?: Array<{
+    title: string
+    href: string
+  }>
+}>

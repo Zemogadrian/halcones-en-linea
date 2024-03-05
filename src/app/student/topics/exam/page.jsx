@@ -1,4 +1,4 @@
-export default async function DisplayExamn () {
+export default async function DisplayExam () {
   return (
     <main className=' overflow-y-hidden flex justify-center'>
       <div className=' h-12 flex flex-row items-center justify-center '>
