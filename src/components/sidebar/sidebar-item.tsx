@@ -80,15 +80,15 @@ const SubEl = ({ title, href }: {
   return (
     <Link key={v4()} href={href}>
       <li
-        className='bg-[#e7e6e6] flex px-7 gap-4 border-b border-b-gray-400'
+        className={`flex px-7 gap-4 border-b border-b-gray-400 ${isActive ? 'bg-[#808080]' : 'bg-[#e7e6e6]'}`}
       >
         {
           isActive
-            ? <ArrowIcon width={8} className='-rotate-90 animate-fade-in animate-duration-150' />
+            ? <ArrowIcon fill='#fff' width={8} className='-rotate-90 animate-fade-in animate-duration-150' />
             : <SquareIcon width={6} className='animate-fade-in animate-duration-150' />
         }
         <span
-          className='text-left text-lg font-medium text-gray-500'
+          className={`text-left text-lg font-medium ${isActive ? 'text-white' : 'text-gray-500'}`}
         >{title}
         </span>
       </li>
