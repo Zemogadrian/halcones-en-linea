@@ -1,4 +1,4 @@
-import DownloadDocumentation from '../components/students/display-documentation'
+import DownloadDocumentation from '../../components/students/display-documentation'
 
 export default async function DisplayDocumentation () {
   return (

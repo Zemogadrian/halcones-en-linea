@@ -31,7 +31,30 @@ export const options: SideBarOptions = [
     ]
   },
   {
-    title: 'Calendario'
+    title: 'Calendario',
+    sub: [
+      {
+        title: 'Clases',
+        href: '/student/calendar'
+      },
+      {
+        title: 'Dias inhabiles',
+        href: '/student/calendar'
+      },
+      {
+        title: 'Evaluaciones',
+        href: '/student/calendar'
+      },
+      {
+        title: 'Vacaciones',
+        href: '/student/calendar'
+      },
+      {
+        title: 'Eventos',
+        href: '/student/calendar'
+      }
+
+    ]
   },
   {
     title: 'Cursos'
