@@ -37,8 +37,9 @@ export const SemesterSection = ({ subjects }: Props) => {
         }}
       />
 
-      <section className='grid grid-cols-3 gap-3 mt-3'>
-        <article key={v4()} className=' px-3 py-1 rounded-md min-h-40 bg-itesus-secondary'>
+      <div className='flex flex-1 w-full py-3'>
+
+        <section key={v4()} className='px-3 flex flex-col py-1 rounded-md bg-itesus-secondary h-full w-96'>
           <H2
             className='border-b py-1 mb-3'
           >
@@ -48,23 +49,27 @@ export const SemesterSection = ({ subjects }: Props) => {
           <MultiDragAndDrop
             options={subjects.map((subject) => subject.name)}
           />
-        </article>
+        </section>
 
-        {Array.from({ length: semesters }).map((_, index) => (
-          <article key={v4()} className='border px-3 py-1 rounded-md min-h-40'>
-            <H2
-              className='border-b py-1 mb-3'
-            >
-              Semestre {index + 1}
-            </H2>
+        <section className='grid grid-cols-2 gap-3 w-full h-[27rem] overflow-y-auto px-2'>
 
-            <MultiDragAndDrop
-              options={[]}
-            />
-          </article>
-        ))}
+          {Array.from({ length: semesters }).map((_, index) => (
+            <article key={v4()} className='border px-3 py-1 rounded-md min-h-72 w-full'>
+              <H2
+                className='border-b py-1 mb-3'
+              >
+                Semestre {index + 1}
+              </H2>
 
-      </section>
+              <MultiDragAndDrop
+                options={[]}
+              />
+            </article>
+          ))}
+
+        </section>
+
+      </div>
     </>
   )
 }

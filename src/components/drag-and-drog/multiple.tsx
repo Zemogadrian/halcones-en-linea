@@ -29,18 +29,22 @@ export function MultiDragAndDrop ({ options = [], group = 'A' }: Props) {
   })
 
   return (
-    <ul
-      ref={parent}
-      className='flex-1 min-h-7 flex w-full justify-start items-start flex-wrap'
+    <div
+      className='flex-1 w-full'
     >
-      {files.map((file) => (
-        <li
-          key={v4()}
-          className=' px-3 h-min mr-2 mb-2 rounded-md bg-blue-500 text-white cursor-pointer'
-        >
-          {file}
-        </li>
-      ))}
-    </ul>
+      <ul
+        ref={parent}
+        className='flex min-h-16 w-full justify-start items-start flex-wrap'
+      >
+        {files.map((file) => (
+          <li
+            key={v4()}
+            className='px-3 h-min mr-2 mb-2 rounded-md bg-blue-500 text-white cursor-pointer'
+          >
+            {file}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
