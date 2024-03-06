@@ -2,6 +2,7 @@
 
 import { MultiDragAndDrop } from '@/components/drag-and-drog/multiple'
 import { H2, LabeledInput } from '@/components/utils'
+import { SearchInput } from '@/components/utils/client/inputs'
 import { v4 } from '@/utils/uuid'
 import { Tables } from 'database.types'
 import { useState } from 'react'
@@ -40,11 +41,17 @@ export const SemesterSection = ({ subjects }: Props) => {
       <div className='flex flex-1 w-full py-3'>
 
         <section key={v4()} className='px-3 flex flex-col py-1 rounded-md bg-itesus-secondary h-full w-96'>
-          <H2
-            className='border-b py-1 mb-3'
+          <div
+            className='flex border-b mb-3 py-1 justify-between'
           >
-            Materias
-          </H2>
+            <H2>
+              Materias
+            </H2>
+
+            <div className='h-full flex justify-center items-center'>
+              <SearchInput placeholder='Matematicas' />
+            </div>
+          </div>
 
           <MultiDragAndDrop
             options={subjects.map((subject) => subject.name)}
