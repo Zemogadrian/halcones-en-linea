@@ -17,10 +17,10 @@ export const NavBar = async () => {
   const user = await getUser()
 
   return (
-    <div className=' flex flex-row h-16 select-none bg-[#42434565] justify-around'>
+    <div className=' flex flex-row h-16 select-none bg-[#42434565] justify-around items-center'>
       <Days />
-      <div className='flex text-xl  h-full justify-center'>
-        <div className='flex flex-row w-full h-full justify-center'>
+      <div className='flex flex-row text-xl h-full justify-center '>
+        <div className='flex flex-row w-full h-full justify-center items-center'>
           <div>
             <CalAnimation href='/student/topics/subjects'>
               <p className='border-r-2 border-r-[#27316e] px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Temas</p>

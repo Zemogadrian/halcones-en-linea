@@ -1,6 +1,6 @@
 import DisplayClass from '../../components/students/display-days'
 
-export default function Exams () {
+export default function DisplayExams () {
   return (
     <main className='gap-10 flex flex-col justify-center items-center'>
       <div className='flex flex-row gap-5 justify-center items-center'>
