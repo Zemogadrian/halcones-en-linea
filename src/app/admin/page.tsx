@@ -1,6 +1,9 @@
+import { Main } from '@/components/utils'
 
 export default function AdminPage () {
   return (
-    <main />
+    <Main>
+      a
+    </Main>
   )
 }
