@@ -9,6 +9,8 @@ export default async function NewEducationPlan () {
   const action = async (data: FormData) => {
     'use server'
 
+    const subjects = await getSubjects()
+
     const entries = Object.fromEntries(data.entries())
 
     const [,...semesters] = Object.entries(entries).map(([key, value]) => {
@@ -17,7 +19,7 @@ export default async function NewEducationPlan () {
 
         return {
           semester: key.split('-')[1],
-          subjects: newValue.split(',')
+          subjects: newValue.split(',').map((subjectName) => subjects.find((subject) => subject.name === subjectName))
         }
       }
 
