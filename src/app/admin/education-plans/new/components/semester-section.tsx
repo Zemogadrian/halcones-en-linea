@@ -40,7 +40,7 @@ export const SemesterSection = ({ subjects }: Props) => {
 
       <div className='flex flex-1 w-full py-3'>
 
-        <section key={v4()} className='px-3 flex flex-col py-1 rounded-md bg-itesus-secondary h-full w-96'>
+        <section className='px-3 flex flex-col py-1 rounded-md bg-itesus-secondary h-full w-96'>
           <div
             className='flex border-b mb-3 py-1 justify-between'
           >
