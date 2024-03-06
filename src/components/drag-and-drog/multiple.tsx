@@ -10,73 +10,13 @@ import { v4 } from '@/utils/uuid'
 const className = 'bg-blue-500 text-white'
 
 interface Props {
+  group?: string
   options: string[]
 }
 
-export function MultiDragAndDrop ({ options = [] }: Props) {
-  const [parent1, files1] = useDragAndDrop<HTMLUListElement, string>(options, {
-    group: 'A',
-    plugins: [
-      multiDrag({
-        plugins: [
-          selections({
-            selectedClass: className
-          })
-        ]
-      })
-    ]
-  })
-
-  const [parent2, files2] = useDragAndDrop<HTMLUListElement, string>([], {
-    group: 'A',
-    plugins: [
-      multiDrag({
-        plugins: [
-          selections({
-            selectedClass: className
-          })
-        ]
-      })
-    ]
-  })
-
-  return (
-    <div
-      className='flex'
-    >
-      <ul
-        ref={parent1}
-        className='border flex-1'
-      >
-        {files1
-          .map((file) => (
-            <li
-              key={file}
-              className='file'
-            >{file}
-            </li>
-          ))}
-      </ul>
-      <ul
-        ref={parent2}
-        className='border flex-1'
-      >
-        {files2.map((file) => (
-          <li
-            key={file}
-            className='file'
-          >
-            {file}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-export function MultiDragAndDropWithId ({ options = [] }: Props) {
+export function MultiDragAndDrop ({ options = [], group = 'A' }: Props) {
   const [parent, files] = useDragAndDrop<HTMLUListElement, string>(options, {
-    group: 'A',
+    group,
     plugins: [
       multiDrag({
         plugins: [
@@ -89,23 +29,18 @@ export function MultiDragAndDropWithId ({ options = [] }: Props) {
   })
 
   return (
-    <div
-      className='flex h-full'
+    <ul
+      ref={parent}
+      className='flex-1 min-h-7 flex w-full justify-start items-start flex-wrap'
     >
-      <ul
-        ref={parent}
-        className='flex-1 h-full'
-      >
-        {files
-          .map((file) => (
-            <li
-              key={v4()}
-              className='text-gray-100 px-3'
-            >
-              {file}
-            </li>
-          ))}
-      </ul>
-    </div>
+      {files.map((file) => (
+        <li
+          key={v4()}
+          className=' px-3 h-min mr-2 mb-2 rounded-md bg-blue-500 text-white cursor-pointer'
+        >
+          {file}
+        </li>
+      ))}
+    </ul>
   )
 }
