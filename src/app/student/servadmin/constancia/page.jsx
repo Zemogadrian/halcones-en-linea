@@ -1,4 +1,10 @@
-export default async function Constancia () {
+'use client'
+import { useState } from 'react'
+import Modal from '../../components/students/modal'
+
+export default function Constancia () {
+  const [showModal, setShowModal] = useState(false)
+  const [showModal2, setShowModal2] = useState(false)
   return (
     <main className='flex flex-col  h-full overflow-hidden gap-5'>
       <div className='flex flex-row justify-between px-10 items-center'>
@@ -6,7 +12,7 @@ export default async function Constancia () {
           <p className='underline text-xl'>Pedro Ortíz Júarez</p>
           <p className=''>Lic. En Mercadotecnia Internacional</p>
         </div>
-        <button className=' rounded-2xl px-10 p-1 bg-[#32374d]'>
+        <button className=' rounded-2xl px-10 p-1 bg-[#32374d]' onClick={() => setShowModal(true)}>
           <p className='text-white italic'>SOLICITAR CONSTANCIA</p>
         </button>
       </div>
@@ -20,6 +26,12 @@ export default async function Constancia () {
           <span className='font-black'>4.-<span className='font-normal'>En un lapso de 72 horas tendrás tu constancia de estudios en tu correo electrónico</span></span>
         </p>
       </div>
+      <Modal showModal={showModal} setShowModal={setShowModal} showModal2={showModal2} setShowModal2={setShowModal2}>
+        <p>¿Seguro que deseas solicitar tu constancia de estudios?</p>
+      </Modal>
+      <Modal showModal2={showModal2} setShowModal2={setShowModal2} setShowModal={setShowModal}>
+        <p>Solicitud enviada con éxito. Revisa tu correo electrónico.</p>
+      </Modal>
       <div className='bg-white h-[0.05rem] px-20 flex flex-col rounded-xl' />
 
     </main>

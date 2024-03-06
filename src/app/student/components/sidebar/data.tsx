@@ -57,7 +57,13 @@ export const options: SideBarOptions = [
     ]
   },
   {
-    title: 'Cursos'
+    title: 'Cursos / Diplomados / Seminarios',
+    sub: [
+      {
+        title: 'Cursos',
+        href: '/student/courses/cursos'
+      }
+    ]
   },
   {
     title: 'Serv. Administrativos',
