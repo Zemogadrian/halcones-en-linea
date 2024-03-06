@@ -6,6 +6,8 @@ import { cookies } from 'next/headers'
 
 import { foundUserRedirect } from '@/services/supabase/functions/utils'
 import { redirect } from 'next/navigation'
+import { z } from 'zod'
+import { revalidatePath } from 'next/cache'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -62,7 +64,16 @@ export const getUser = async () => {
 }
 
 export const getSubjects = async () => {
-  return []
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('subjects').select('*')
+
+  if (error != null) {
+    console.error('Error getting subjects:', error)
+    throw new Error('Error getting subjects')
+  }
+
+  return data
 }
 
 export const getTopics = async () => {
@@ -80,4 +91,39 @@ export const getCampuses = async () => {
   }
 
   return data
+}
+
+export const getEducationPlans = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('*')
+
+  if (error != null) {
+    console.error('Error getting education plans:', error)
+    throw new Error('Error getting education plans')
+  }
+
+  return data
+}
+
+export const insertSubject = async (name: string) => {
+  const supabase = await createClient()
+
+  const { error } = await supabase.from('subjects').insert({ name })
+
+  if (error != null) {
+    console.error('Error inserting subject:', error)
+    throw new Error('Error inserting subject')
+  }
+
+  revalidatePath('/admin/subjects')
+
+  redirect('/admin/subjects')
+}
+
+export const insertSubjectUsingForm = async (data: FormData) => {
+  const name = data.get('name')
+  const safeName = z.string().parse(name)
+
+  await insertSubject(safeName)
 }

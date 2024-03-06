@@ -1,0 +1,70 @@
+'use client'
+
+import { MultiDragAndDrop } from '@/components/drag-and-drog/multiple'
+import { H2, LabeledInput } from '@/components/utils'
+import { v4 } from '@/utils/uuid'
+import { Tables } from 'database.types'
+import { useState } from 'react'
+import { z } from 'zod'
+
+interface Props {
+  subjects: Array<Tables<'subjects'>>
+}
+
+export const SemesterSection = ({ subjects }: Props) => {
+  const [semesters, setSemesters] = useState(1)
+
+  return (
+    <>
+      <LabeledInput
+        label='Cantidad de semestres'
+        name='semesters'
+        type='number'
+        required
+        defaultValue={1}
+        onChange={(event) => {
+          const { success, data } = z.number().safeParse(Number(event.target.value)) as { success: boolean, data: number }
+
+          if (!success) return
+
+          if (data > 15) {
+            event.target.value = '15'
+            setSemesters(15)
+            return
+          }
+
+          setSemesters(data)
+        }}
+      />
+
+      <section className='grid grid-cols-3 gap-3 mt-3'>
+        <article key={v4()} className=' px-3 py-1 rounded-md min-h-40 bg-itesus-secondary'>
+          <H2
+            className='border-b py-1 mb-3'
+          >
+            Materias
+          </H2>
+
+          <MultiDragAndDrop
+            options={subjects.map((subject) => subject.name)}
+          />
+        </article>
+
+        {Array.from({ length: semesters }).map((_, index) => (
+          <article key={v4()} className='border px-3 py-1 rounded-md min-h-40'>
+            <H2
+              className='border-b py-1 mb-3'
+            >
+              Semestre {index + 1}
+            </H2>
+
+            <MultiDragAndDrop
+              options={[]}
+            />
+          </article>
+        ))}
+
+      </section>
+    </>
+  )
+}

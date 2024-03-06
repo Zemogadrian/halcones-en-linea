@@ -1,9 +1,10 @@
-import { Form, FormSection, H1, LabeledInput, Main } from '@/components/utils'
-import { getCampuses } from '@/services/supabase/actions'
+import { Form, FormSection, H1, LabeledInput, Main, Select, SubmitButton } from '@/components/utils'
+import { getCampuses, getEducationPlans } from '@/services/supabase/actions'
 import { v4 } from '@/utils/uuid'
 
 export default async function NewCareerPage () {
   const campus = await getCampuses()
+  const plans = await getEducationPlans()
 
   return (
     <Main>
@@ -28,11 +29,31 @@ export default async function NewCareerPage () {
             placeholder='RVOE-123456'
           />
 
-          <select>
+          <Select label='Campus'>
             {campus.map((campus) => (
-              <option key={v4()} value={campus.id}>{campus.name}</option>
+              <option
+                key={v4()}
+                value={campus.id}
+              >
+                {campus.name}
+              </option>
             ))}
-          </select>
+          </Select>
+
+          <Select label='Plan de estudios'>
+            {plans.map((plan) => (
+              <option
+                key={v4()}
+                value={plan.id}
+              >
+                {plan.created_at}
+              </option>
+            ))}
+          </Select>
+
+          <SubmitButton>
+            Crear carrera
+          </SubmitButton>
 
         </Form>
 

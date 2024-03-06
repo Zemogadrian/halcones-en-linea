@@ -1,6 +1,6 @@
 import { SideBarOptions } from '@/components/sidebar/types'
 
-export const routes: SideBarOptions = [
+export const staticRoutes: SideBarOptions = [
   {
     title: 'Alumnos',
     sub: [
@@ -54,6 +54,19 @@ export const routes: SideBarOptions = [
       {
         href: '/admin/professor/new',
         title: 'Nuevo profesor'
+      }
+    ]
+  },
+  {
+    title: 'Planes de estudio',
+    sub: [
+      {
+        href: '/admin/education-plans',
+        title: 'Lista de planes de estudio'
+      },
+      {
+        href: '/admin/education-plans/new',
+        title: 'Nuevo plan de estudio'
       }
     ]
   }
