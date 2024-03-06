@@ -12,9 +12,10 @@ const className = 'bg-blue-500 text-white'
 interface Props {
   group?: string
   options: string[]
+  id?: string
 }
 
-export function MultiDragAndDrop ({ options = [], group = 'A' }: Props) {
+export function MultiDragAndDrop ({ options = [], group = 'A', id = '' }: Props) {
   const [parent, files] = useDragAndDrop<HTMLUListElement, string>(options, {
     group,
     plugins: [
@@ -29,22 +30,30 @@ export function MultiDragAndDrop ({ options = [], group = 'A' }: Props) {
   })
 
   return (
-    <div
-      className='flex-1 w-full'
-    >
-      <ul
-        ref={parent}
-        className='flex min-h-16 w-full justify-start items-start flex-wrap'
+    <>
+      <input
+        name={`${group}-${id}-${v4()}`}
+        className='hidden'
+        value={files.join(',')}
+        readOnly
+      />
+      <div
+        className='flex-1 w-full'
       >
-        {files.map((file) => (
-          <li
-            key={v4()}
-            className='px-3 h-min mr-2 mb-2 rounded-md bg-blue-500 text-white cursor-pointer'
-          >
-            {file}
-          </li>
-        ))}
-      </ul>
-    </div>
+        <ul
+          ref={parent}
+          className='flex min-h-16 w-full justify-start items-start flex-wrap'
+        >
+          {files.map((file) => (
+            <li
+              key={v4()}
+              className='px-3 h-min mr-2 mb-2 rounded-md bg-blue-500 text-white cursor-pointer'
+            >
+              {file}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   )
 }
