@@ -1,5 +1,6 @@
 'use client'
 
+import { BooksIcon } from '@/assets/icons'
 import { MultiDragAndDrop } from '@/components/drag-and-drog/multiple'
 import { H2, LabeledInput } from '@/components/utils'
 import { SearchInput } from '@/components/utils/client/inputs'
@@ -42,14 +43,14 @@ export const SemesterSection = ({ subjects }: Props) => {
 
         <section className='px-3 flex flex-col py-1 rounded-md bg-itesus-secondary h-full w-96'>
           <div
-            className='flex border-b mb-3 py-1 justify-between'
+            className='flex border-b mb-3 py-1 justify-between gap-10'
           >
-            <H2>
-              Materias
+            <H2 className='flex gap-1 items-center'>
+              <BooksIcon /> Materias
             </H2>
 
             <div className='h-full flex justify-center items-center'>
-              <SearchInput placeholder='Matematicas' />
+              <SearchInput placeholder='Buscar...' />
             </div>
           </div>
 

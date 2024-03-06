@@ -7,14 +7,14 @@ interface LabeledInputProps extends InputProps {
 
 export const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
   <input
-    className='rounded-md px-2'
+    className='rounded-md px-2 outline-none'
     {...props}
   />
 )
 
 export const TextArea = (props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => (
   <textarea
-    className='rounded-md px-2'
+    className='rounded-md px-2 outline-none'
     {...props}
   />
 )
