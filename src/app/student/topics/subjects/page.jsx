@@ -1,4 +1,4 @@
-import DisplayTopics from '../components/students/display-topics'
+import DisplayTopics from '../../components/students/display-topics'
 
 export default function Subjects () {
   return (
