@@ -127,3 +127,51 @@ export const insertSubjectUsingForm = async (data: FormData) => {
 
   await insertSubject(safeName)
 }
+
+export const createEducationPlan = async (data: FormData) => {
+  const supabase = await createClient()
+
+  const subjects = await getSubjects()
+
+  const entries = Object.fromEntries(data.entries())
+
+  const [,...semesters] = Object.entries(entries).map(([key, value]) => {
+    if (key.startsWith('subjects-')) {
+      const newValue = z.coerce.string().parse(value)
+
+      return {
+        semester: key.split('-')[1],
+        subjects: newValue.split(',').map((subjectName) => subjects.find((subject) => subject.name === subjectName))
+      }
+    }
+
+    return null
+  }).filter((value) => value != null)
+
+  const { data: eduPlan } = await supabase.from('education_plans').insert({
+    name: z.coerce.string().parse(entries.name),
+    semester_quantity: z.coerce.number().parse(entries.semesters)
+  }).select('id').single()
+
+  for (const semester of semesters) {
+    if (
+      semester == null ||
+      eduPlan == null ||
+      semester.subjects.length === 0
+    ) continue
+
+    const { data: se } = await supabase.from('semesters').insert({
+      education_plan: eduPlan.id,
+      number: z.coerce.number().parse(semester.semester)
+    }).select('id').single()
+
+    for (const subject of semester.subjects) {
+      if (se == null || subject == null) continue
+
+      await supabase.from('semester_subjects').insert({
+        semester: se.id,
+        subject: subject.id
+      })
+    }
+  }
+}
