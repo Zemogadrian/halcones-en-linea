@@ -1,5 +1,5 @@
 import { Form, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
-import { getSubjects } from '@/services/supabase/actions'
+import { createEducationPlan, getSubjects } from '@/services/supabase/actions'
 import { SemesterSection } from './components/semester-section'
 
 export default async function NewEducationPlan () {
@@ -11,6 +11,7 @@ export default async function NewEducationPlan () {
 
       <section className='flex-1'>
         <Form
+          action={createEducationPlan}
           className='h-full flex flex-col'
         >
           <LabeledInput

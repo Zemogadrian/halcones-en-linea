@@ -61,6 +61,7 @@ export type Database = {
           id: number
           is_active: boolean
           name: string
+          plan_edu: number
           rvoe: string
         }
         Insert: {
@@ -69,6 +70,7 @@ export type Database = {
           id?: number
           is_active?: boolean
           name: string
+          plan_edu: number
           rvoe: string
         }
         Update: {
@@ -77,9 +79,17 @@ export type Database = {
           id?: number
           is_active?: boolean
           name?: string
+          plan_edu?: number
           rvoe?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "public_careers_plan_edu_fkey"
+            columns: ["plan_edu"]
+            isOneToOne: false
+            referencedRelation: "education_plans"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "public_carreras_campues_fkey"
             columns: ["campus"]
@@ -93,16 +103,19 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          name: string
           semester_quantity: number
         }
         Insert: {
           created_at?: string
           id?: number
+          name: string
           semester_quantity: number
         }
         Update: {
           created_at?: string
           id?: number
+          name?: string
           semester_quantity?: number
         }
         Relationships: []
@@ -143,23 +156,70 @@ export type Database = {
         }
         Relationships: []
       }
+      semester_subjects: {
+        Row: {
+          created_at: string
+          id: number
+          semester: number
+          subject: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          semester: number
+          subject: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          semester?: number
+          subject?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_semester_subjects_semester_fkey"
+            columns: ["semester"]
+            isOneToOne: false
+            referencedRelation: "semesters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_semester_subjects_subject_fkey"
+            columns: ["subject"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       semesters: {
         Row: {
           created_at: string
+          education_plan: number
           id: number
           number: number
         }
         Insert: {
           created_at?: string
+          education_plan: number
           id?: number
           number: number
         }
         Update: {
           created_at?: string
+          education_plan?: number
           id?: number
           number?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_semesters_education_plan_fkey"
+            columns: ["education_plan"]
+            isOneToOne: false
+            referencedRelation: "education_plans"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       student_config: {
         Row: {

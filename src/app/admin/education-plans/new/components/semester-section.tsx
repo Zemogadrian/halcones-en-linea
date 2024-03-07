@@ -55,6 +55,7 @@ export const SemesterSection = ({ subjects }: Props) => {
           </div>
 
           <MultiDragAndDrop
+            group='subjects'
             options={subjects.map((subject) => subject.name)}
           />
         </section>
@@ -70,7 +71,9 @@ export const SemesterSection = ({ subjects }: Props) => {
               </H2>
 
               <MultiDragAndDrop
+                group='subjects'
                 options={[]}
+                id={`${index + 1}`}
               />
             </article>
           ))}
