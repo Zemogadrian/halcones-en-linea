@@ -2,7 +2,7 @@
 
 import { BooksIcon } from '@/assets/icons'
 import { MultiDragAndDrop } from '@/components/drag-and-drog/multiple'
-import { H2, LabeledInput } from '@/components/utils'
+import { H2, LabeledInput, ShyScrollbar } from '@/components/utils'
 import { SearchInput } from '@/components/utils/client/inputs'
 import { EducationPlan } from '@/services/supabase/types'
 import { v4 } from '@/utils/uuid'
@@ -65,7 +65,10 @@ export const SemesterSection = ({ subjects, defaultValue }: Props) => {
           />
         </section>
 
-        <section className='grid grid-cols-2 gap-3 w-full overflow-y-auto px-2'>
+        <section
+          className='grid grid-cols-2 gap-3 w-full overflow-y-auto px-2'
+          style={ShyScrollbar}
+        >
 
           {Array.from({ length: semesters }).map((_, index) => (
             <article key={v4()} className='border px-3 py-1 rounded-md min-h-72 w-full'>
