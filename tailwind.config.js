@@ -20,7 +20,8 @@ module.exports = {
         },
         itesus: {
           primary: 'var(--itesus-primary)',
-          secondary: 'var(--itesus-secondary)'
+          secondary: 'var(--itesus-secondary)',
+          tertiary: 'var(--itesus-tertiary)'
         }
       }
     }

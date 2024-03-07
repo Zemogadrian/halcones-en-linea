@@ -1,9 +1,9 @@
 import { H1, Main, RedirectPlus, ShyScrollbar } from '@/components/utils'
-import { getSubjects } from '@/services/supabase/actions'
+import { getEducationPlans } from '@/services/supabase/actions'
 import { v4 } from '@/utils/uuid'
 
-export default async function SubjectsPage () {
-  const subjects = await getSubjects()
+export default async function EducationPlansPage () {
+  const plans = await getEducationPlans()
 
   return (
     <Main>
@@ -13,22 +13,22 @@ export default async function SubjectsPage () {
         <H1
           className='mb-0'
         >
-          Materias
+          Planes de educación
         </H1>
 
-        <RedirectPlus href='/admin/subjects/new' />
+        <RedirectPlus href='/admin/education-plans/new' />
       </div>
 
       <ul
         className='flex-1 overflow-y-auto'
         style={ShyScrollbar}
       >
-        {subjects.map((subject, i) => (
+        {plans.map((plan) => (
           <li
-            key={v4()}
             className='text-lg font-medium text-white capitalize'
+            key={v4()}
           >
-            {i + 1}- {subject.name}
+            {plan.name}
           </li>
         ))}
       </ul>
