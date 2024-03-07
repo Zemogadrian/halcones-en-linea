@@ -2,8 +2,17 @@ import { Form, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
 import { createEducationPlan, getSubjects } from '@/services/supabase/actions'
 import { SemesterSection } from './components/semester-section'
 
-export default async function NewEducationPlan () {
+interface Props {
+  params: {
+    id?: string
+  }
+  isEditMode?: boolean
+}
+
+export default async function NewEducationPlan ({ params, isEditMode = false }: Props) {
   const subjects = await getSubjects()
+
+  console.log(isEditMode)
 
   return (
     <Main>

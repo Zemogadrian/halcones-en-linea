@@ -3,6 +3,7 @@ import { getEducationPlans } from '@/services/supabase/actions'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'
+import Link from 'next/link'
 
 export default async function EducationPlansPage () {
   const plans = await getEducationPlans()
@@ -69,13 +70,16 @@ export default async function EducationPlansPage () {
                 <Td
                   className='py-1'
                 >
-                  <button
-                    className='p-1 bg-itesus-primary rounded-md cursor-pointer hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
-                  >
-                    <IconEdit
-                      size={20}
-                    />
-                  </button>
+                  <div className='flex justify-center items-center'>
+                    <Link
+                      href={`/admin/education-plans/edit/${plan.id}`}
+                      className='p-1 bg-itesus-primary rounded-md cursor-pointer hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
+                    >
+                      <IconEdit
+                        size={20}
+                      />
+                    </Link>
+                  </div>
                 </Td>
               </tr>
             ))}
