@@ -24,6 +24,7 @@ export const SemesterSection = ({ subjects }: Props) => {
         type='number'
         required
         defaultValue={1}
+        className='mb-2'
         onChange={(event) => {
           const { success, data } = z.number().safeParse(Number(event.target.value)) as { success: boolean, data: number }
 
@@ -39,7 +40,7 @@ export const SemesterSection = ({ subjects }: Props) => {
         }}
       />
 
-      <div className='flex flex-1 w-full py-3'>
+      <div className='flex w-full h-96 overflow-hidden'>
 
         <section className='px-3 flex flex-col py-1 rounded-md bg-itesus-secondary h-full w-96'>
           <div
@@ -60,7 +61,7 @@ export const SemesterSection = ({ subjects }: Props) => {
           />
         </section>
 
-        <section className='grid grid-cols-2 gap-3 w-full h-[27rem] overflow-y-auto px-2'>
+        <section className='grid grid-cols-2 gap-3 w-full overflow-y-auto px-2'>
 
           {Array.from({ length: semesters }).map((_, index) => (
             <article key={v4()} className='border px-3 py-1 rounded-md min-h-72 w-full'>

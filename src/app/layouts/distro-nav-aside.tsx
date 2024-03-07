@@ -9,9 +9,9 @@ interface Props {
 
 export const DistroNavASide = ({ children, navbar, options }: Props) => {
   return (
-    <div className='h-dvh flex flex-col '>
+    <div className='h-screen flex flex-col '>
       {navbar}
-      <div className='flex flex-1'>
+      <div className='flex flex-1 overflow-hidden'>
         <SideBarV2 options={options} />
         <div className='flex-1 h-full bg-gradient-to-tr from-[#1f5186] to-[#131a2d] overflow-y-auto px-11 py-8'>
           {children}

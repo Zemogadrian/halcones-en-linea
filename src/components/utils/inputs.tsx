@@ -5,16 +5,16 @@ interface LabeledInputProps extends InputProps {
   multiline?: boolean
 }
 
-export const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
+export const Input = ({ className, ...props }: React.InputHTMLAttributes<HTMLInputElement>) => (
   <input
-    className='rounded-md px-2 outline-none'
+    className={`rounded-md px-2 outline-none ${className ?? ''}`}
     {...props}
   />
 )
 
-export const TextArea = (props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+export const TextArea = ({ className, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => (
   <textarea
-    className='rounded-md px-2 outline-none'
+    className={`rounded-md px-2 outline-none ${className ?? ''}`}
     {...props}
   />
 )
