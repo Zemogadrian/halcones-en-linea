@@ -4,6 +4,7 @@ import { BooksIcon } from '@/assets/icons'
 import { MultiDragAndDrop } from '@/components/drag-and-drog/multiple'
 import { H2, LabeledInput } from '@/components/utils'
 import { SearchInput } from '@/components/utils/client/inputs'
+import { EducationPlan } from '@/services/supabase/types'
 import { v4 } from '@/utils/uuid'
 import { Tables } from 'database.types'
 import { useState } from 'react'
@@ -11,10 +12,13 @@ import { z } from 'zod'
 
 interface Props {
   subjects: Array<Tables<'subjects'>>
+  defaultValue?: EducationPlan
 }
 
-export const SemesterSection = ({ subjects }: Props) => {
-  const [semesters, setSemesters] = useState(1)
+export const SemesterSection = ({ subjects, defaultValue }: Props) => {
+  const [semesters, setSemesters] = useState(defaultValue?.semester_quantity ?? 1)
+
+  console.log(defaultValue)
 
   return (
     <>
@@ -23,7 +27,7 @@ export const SemesterSection = ({ subjects }: Props) => {
         name='semesters'
         type='number'
         required
-        defaultValue={1}
+        defaultValue={defaultValue?.semester_quantity ?? 1}
         className='mb-2'
         onChange={(event) => {
           const { success, data } = z.number().safeParse(Number(event.target.value)) as { success: boolean, data: number }

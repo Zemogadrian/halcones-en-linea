@@ -1,10 +1,10 @@
 import { Form, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
-import { createEducationPlan, getSubjects } from '@/services/supabase/actions'
+import { createEducationPlan, getEducationPlan, getSubjects } from '@/services/supabase/actions'
 import { SemesterSection } from './components/semester-section'
 
 interface Props {
   params: {
-    id?: string
+    id: string
   }
   isEditMode?: boolean
 }
@@ -12,7 +12,7 @@ interface Props {
 export default async function NewEducationPlan ({ params, isEditMode = false }: Props) {
   const subjects = await getSubjects()
 
-  console.log(isEditMode)
+  const planEdu = isEditMode ? await getEducationPlan(params.id) : null
 
   return (
     <Main>
@@ -29,9 +29,13 @@ export default async function NewEducationPlan ({ params, isEditMode = false }: 
             type='text'
             placeholder='Plan edu 2024'
             required
+            defaultValue={planEdu?.name}
           />
 
-          <SemesterSection subjects={subjects} />
+          <SemesterSection
+            defaultValue={planEdu ?? undefined}
+            subjects={subjects}
+          />
 
           <SubmitButton>
             Crear plan educativo
