@@ -18,7 +18,7 @@ interface Props {
 export const SemesterSection = ({ subjects, defaultValue }: Props) => {
   const [semesters, setSemesters] = useState(defaultValue?.semester_quantity ?? 1)
 
-  console.log(defaultValue)
+  const semesterItem = defaultValue?.semesters ?? []
 
   return (
     <>
@@ -77,7 +77,8 @@ export const SemesterSection = ({ subjects, defaultValue }: Props) => {
 
               <MultiDragAndDrop
                 group='subjects'
-                options={[]}
+                // @ts-expect-error
+                options={semesterItem.find(s => s.number === index + 1)?.semester_subjects.map((ss) => ss.subject?.name) ?? []}
                 id={`${index + 1}`}
               />
             </article>
