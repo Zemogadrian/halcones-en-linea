@@ -176,4 +176,7 @@ export const createEducationPlan = async (data: FormData) => {
       })
     }
   }
+
+  revalidatePath('/admin/education-plans')
+  redirect('/admin/education-plans')
 }
