@@ -10,7 +10,11 @@ export default async function SubjectsPage () {
       <H1>Materias</H1>
 
       <ul
-        className='space-y-2'
+        className='flex-1 overflow-y-auto'
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent'
+        }}
       >
         {subjects.map((subject, i) => (
           <li
