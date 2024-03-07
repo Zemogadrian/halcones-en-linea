@@ -1,5 +1,6 @@
 import { H1, Main, RedirectPlus, Td, Th } from '@/components/utils'
 import { getEducationPlans } from '@/services/supabase/actions'
+import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'
 
@@ -54,22 +55,26 @@ export default async function EducationPlansPage () {
             {plans.map((plan, i) => (
               <tr
                 key={v4()}
-                className='py-1 border-b border-b-itesus-tertiary'
+                className='border-b border-b-itesus-tertiary'
               >
-                <Td className='text-white px-3'>
+                <Td>
                   {plan.name}
                 </Td>
-                <Td className='text-center'>
+                <Td>
                   {plan.semester_quantity}
                 </Td>
                 <Td>
-                  {plan.created_at}
+                  {dateFormatter(new Date(plan.created_at), 'es-MX')}
                 </Td>
-                <Td>
+                <Td
+                  className='py-1'
+                >
                   <button
-                    className=''
+                    className='p-1 bg-itesus-primary rounded-md cursor-pointer hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
                   >
-                    <IconEdit />
+                    <IconEdit
+                      size={20}
+                    />
                   </button>
                 </Td>
               </tr>
