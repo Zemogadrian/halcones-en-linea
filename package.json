@@ -15,6 +15,7 @@
     "@midudev/tailwind-animations": "0.0.7",
     "@supabase/auth-helpers-nextjs": "^0.9.0",
     "@supabase/supabase-js": "^2.39.7",
+    "@tabler/icons-react": "^2.47.0",
     "framer-motion": "^11.0.6",
     "just-debounce-it": "^3.2.0",
     "next": "14.1.0",
