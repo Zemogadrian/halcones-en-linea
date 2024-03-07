@@ -1,11 +1,7 @@
-'use client'
-import { useState } from 'react'
 import Modal from '../../components/students/modal'
+import { ModalButton } from '../../courses/cursos/open-modal-button'
 
 export default function Becas () {
-  const [showModal, setShowModal] = useState(false)
-  const [showModal2, setShowModal2] = useState(false)
-
   return (
     <main className='flex flex-col  h-full overflow-hidden gap-5'>
       <div className='flex flex-row justify-between px-10 items-center'>
@@ -13,9 +9,9 @@ export default function Becas () {
           <p className='underline text-xl'>Nombre de la beca</p>
           <p className='px-5'>Fecha de vencimiento</p>
         </div>
-        <button className=' rounded-2xl px-10 p-1 bg-[#32374d]' onClick={() => setShowModal(true)}>
-          <p className='text-white italic'>SOLICITAR BECA</p>
-        </button>
+        <ModalButton className=' rounded-2xl px-10 p-1 bg-[#32374d]' modalNumber={1}>
+          SOLICITAR BECA
+        </ModalButton>
       </div>
       <div className='bg-white h-[0.05rem] px-20 flex flex-col rounded-xl' />
       <div className='gap-5 flex flex-col p-10'>
@@ -31,11 +27,27 @@ export default function Becas () {
           <span className='font-black'>4.-<span className='font-normal'>Si es aprobada, se te enviarán nuevos pasos a seguir</span></span>
         </p>
       </div>
-      <Modal showModal={showModal} setShowModal={setShowModal} showModal2={showModal2} setShowModal2={setShowModal2}>
-        <p>¿Seguro que deseas solicitar tu beca?</p>
+      <Modal modalNumber={1}>
+        <div className='bg-white rounded-lg py-5 gap-10 w-1/3'>
+          <h2 className='flex flex-col w-full bg-gradient-to-tr from-[#1f5186] to-[#131a2d] text-white text-center'><p>¿Seguro que deseas solicitar tu beca?</p></h2>
+          <div className='flex flex-row justify-around gap-5 py-3'>
+            <ModalButton modalNumber={2} className='bg-gradient-to-tr from-[#1f5186] to-[#131a2d] text-white font-black px-14 rounded-lg'>SI</ModalButton>
+            <ModalButton actionType='close' className='bg-gradient-to-tr from-[#1f5186] to-[#131a2d] text-white font-black px-14 rounded-lg'>NO</ModalButton>
+          </div>
+        </div>
+        <p />
       </Modal>
-      <Modal showModal2={showModal2} setShowModal2={setShowModal2} setShowModal={setShowModal}>
-        <p>Solicitud enviada con éxito. Revisa tu correo electrónico.</p>
+      <Modal modalNumber={2}>
+        <div className='bg-white rounded-lg py-5 gap-10 w-1/3'>
+          <h2 className='flex flex-col w-full bg-gradient-to-tr from-[#1f5186] to-[#131a2d] text-white text-center'> <p>Solicitud enviada con éxito. Revisa tu correo electrónico.</p></h2>
+          <div className='flex flex-row justify-around gap-5 py-3'>
+            <ModalButton
+              actionType='close'
+              className='bg-gradient-to-tr from-[#1f5186] to-[#131a2d] text-white font-black px-14 rounded-lg'
+            >Aceptar
+            </ModalButton>
+          </div>
+        </div>
       </Modal>
       <div className='bg-white h-[0.05rem] px-20 flex flex-col rounded-xl' />
     </main>

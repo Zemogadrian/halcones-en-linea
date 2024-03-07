@@ -8,10 +8,10 @@ export default function ShowClassesRecorded () {
       </div>
       <div className='flex flex-col gap-4'>
         <span className=' flex flex-col font-black  rounded-xl h-14 p-2 items-center justify-center text-center bg-[#cecccd] text-[#212852] text-xl underline'>Marketing de negocios</span>
-        <div className='flex flex-row items-center justify-center gap-2'>
+        <button className='flex flex-row items-center justify-center gap-2'>
           <img src='/upload.svg' alt='' className='w-5 h-5' />
           <span className='text-white'>Precursores del Marketing</span>
-        </div>
+        </button>
       </div>
     </main>
   )
