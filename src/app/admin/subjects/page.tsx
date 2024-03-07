@@ -14,7 +14,8 @@ export default async function SubjectsPage () {
       >
         <H1
           className='mb-0'
-        >Materias
+        >
+          Materias
         </H1>
 
         <Link
