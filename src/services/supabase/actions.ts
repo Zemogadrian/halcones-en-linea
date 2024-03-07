@@ -96,7 +96,7 @@ export const getCampuses = async () => {
 export const getEducationPlans = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('education_plans').select('*')
+  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))')
 
   if (error != null) {
     console.error('Error getting education plans:', error)
@@ -148,10 +148,12 @@ export const createEducationPlan = async (data: FormData) => {
     return null
   }).filter((value) => value != null)
 
-  const { data: eduPlan } = await supabase.from('education_plans').insert({
+  const { data: eduPlan, error } = await supabase.from('education_plans').insert({
     name: z.coerce.string().parse(entries.name),
     semester_quantity: z.coerce.number().parse(entries.semesters)
   }).select('id').single()
+
+  console.log('Error:', error)
 
   for (const semester of semesters) {
     if (
