@@ -106,6 +106,19 @@ export const getEducationPlans = async () => {
   return data
 }
 
+export const getEducationPlan = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))').eq('id', id).single()
+
+  if (error != null) {
+    console.error('Error getting education plan:', error)
+    throw new Error('Error getting education plan')
+  }
+
+  return data
+}
+
 export const insertSubject = async (name: string) => {
   const supabase = await createClient()
 
