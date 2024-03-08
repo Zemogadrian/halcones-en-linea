@@ -42,3 +42,12 @@ export const THeadSticky = ({ children, className, ...props }: React.HTMLAttribu
     {children}
   </thead>
 )
+
+export const Tr = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
+  <tr
+    className={`border-b border-b-itesus-tertiary ${className ?? ''}`}
+    {...props}
+  >
+    {children}
+  </tr>
+)

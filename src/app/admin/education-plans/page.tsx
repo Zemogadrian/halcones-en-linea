@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th } from '@/components/utils'
+import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
 import { getEducationPlans } from '@/services/supabase/actions'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -34,10 +34,7 @@ export default async function EducationPlansPage () {
           </THeadSticky>
           <tbody>
             {plans.map((plan, i) => (
-              <tr
-                key={v4()}
-                className='border-b border-b-itesus-tertiary'
-              >
+              <Tr key={v4()}>
                 <Td
                   className='capitalize'
                 >
@@ -63,7 +60,7 @@ export default async function EducationPlansPage () {
                     </Link>
                   </div>
                 </Td>
-              </tr>
+              </Tr>
             ))}
           </tbody>
         </Table>
