@@ -18,6 +18,25 @@ export const getTopics = async () => {
   return []
 }
 
+/* Careers */
+export const createCareer = async (data: FormData) => {
+  'use server'
+
+  const supabase = await createClient()
+
+  const entries = Object.fromEntries(data.entries())
+
+  await supabase.from('careers').insert({
+    name: z.coerce.string().parse(entries.name),
+    rvoe: z.coerce.string().parse(entries.rvoe),
+    campus: z.coerce.number().parse(entries.campus),
+    plan_edu: z.coerce.number().parse(entries.plan)
+  })
+
+  revalidatePath('/admin/careers')
+  redirect('/admin/careers')
+}
+
 /* Campus */
 export const getCampuses = async () => {
   const supabase = await createClient()
