@@ -16,11 +16,12 @@ module.exports = {
       },
       colors: {
         nav: {
-          bg: 'var(--nav-bg)'
+          bg: '#42434565'
         },
         itesus: {
-          primary: 'var(--itesus-primary)',
-          secondary: 'var(--itesus-secondary)'
+          primary: '#1a63a5',
+          secondary: '#131a2e',
+          tertiary: '#cdcccb'
         }
       }
     }

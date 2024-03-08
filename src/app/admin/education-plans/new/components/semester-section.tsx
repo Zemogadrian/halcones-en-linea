@@ -2,8 +2,9 @@
 
 import { BooksIcon } from '@/assets/icons'
 import { MultiDragAndDrop } from '@/components/drag-and-drog/multiple'
-import { H2, LabeledInput } from '@/components/utils'
+import { H2, LabeledInput, ShyScrollbar } from '@/components/utils'
 import { SearchInput } from '@/components/utils/client/inputs'
+import { EducationPlan } from '@/services/supabase/types'
 import { v4 } from '@/utils/uuid'
 import { Tables } from 'database.types'
 import { useState } from 'react'
@@ -11,10 +12,13 @@ import { z } from 'zod'
 
 interface Props {
   subjects: Array<Tables<'subjects'>>
+  defaultValue?: EducationPlan
 }
 
-export const SemesterSection = ({ subjects }: Props) => {
-  const [semesters, setSemesters] = useState(1)
+export const SemesterSection = ({ subjects, defaultValue }: Props) => {
+  const [semesters, setSemesters] = useState(defaultValue?.semesters.length ?? 1)
+
+  const semesterItem = defaultValue?.semesters ?? []
 
   return (
     <>
@@ -23,7 +27,7 @@ export const SemesterSection = ({ subjects }: Props) => {
         name='semesters'
         type='number'
         required
-        defaultValue={1}
+        defaultValue={defaultValue?.semesters.length ?? 1}
         className='mb-2'
         onChange={(event) => {
           const { success, data } = z.number().safeParse(Number(event.target.value)) as { success: boolean, data: number }
@@ -61,7 +65,10 @@ export const SemesterSection = ({ subjects }: Props) => {
           />
         </section>
 
-        <section className='grid grid-cols-2 gap-3 w-full overflow-y-auto px-2'>
+        <section
+          className='grid grid-cols-2 gap-3 w-full overflow-y-auto px-2'
+          style={ShyScrollbar}
+        >
 
           {Array.from({ length: semesters }).map((_, index) => (
             <article key={v4()} className='border px-3 py-1 rounded-md min-h-72 w-full'>
@@ -73,7 +80,8 @@ export const SemesterSection = ({ subjects }: Props) => {
 
               <MultiDragAndDrop
                 group='subjects'
-                options={[]}
+                // @ts-expect-error
+                options={semesterItem.find(s => s.number === index + 1)?.semester_subjects.map((ss) => ss.subject?.name) ?? []}
                 id={`${index + 1}`}
               />
             </article>

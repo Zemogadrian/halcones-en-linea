@@ -1,4 +1,4 @@
-import { H1, Main } from '@/components/utils'
+import { H1, Main, RedirectPlus, ShyScrollbar } from '@/components/utils'
 import { getSubjects } from '@/services/supabase/actions'
 import { v4 } from '@/utils/uuid'
 
@@ -7,14 +7,21 @@ export default async function SubjectsPage () {
 
   return (
     <Main>
-      <H1>Materias</H1>
+      <div
+        className='flex items-center justify-between mb-4'
+      >
+        <H1
+          className='mb-0'
+        >
+          Materias
+        </H1>
+
+        <RedirectPlus href='/admin/subjects/new' />
+      </div>
 
       <ul
         className='flex-1 overflow-y-auto'
-        style={{
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent'
-        }}
+        style={ShyScrollbar}
       >
         {subjects.map((subject, i) => (
           <li

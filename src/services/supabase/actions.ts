@@ -8,6 +8,7 @@ import { foundUserRedirect } from '@/services/supabase/functions/utils'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
+import { EducationPlan } from './types'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -29,8 +30,6 @@ export const login = async (email: string, password: string) => {
   const { data: userData } = await supabase.from('user_data').select('roles(*)').eq('owner', data.user.id).single()
 
   const redirectUrl = foundUserRedirect(userData?.roles?.id ?? 0)
-
-  console.log('Redirecting to:', redirectUrl, 'with user:', userData?.roles?.id ?? 0)
 
   redirect(redirectUrl)
 }
@@ -106,6 +105,19 @@ export const getEducationPlans = async () => {
   return data
 }
 
+export const getEducationPlan = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))').eq('id', id).single()
+
+  if (error != null) {
+    console.error('Error getting education plan:', error)
+    throw new Error('Error getting education plan')
+  }
+
+  return data
+}
+
 export const insertSubject = async (name: string) => {
   const supabase = await createClient()
 
@@ -148,12 +160,9 @@ export const createEducationPlan = async (data: FormData) => {
     return null
   }).filter((value) => value != null)
 
-  const { data: eduPlan, error } = await supabase.from('education_plans').insert({
-    name: z.coerce.string().parse(entries.name),
-    semester_quantity: z.coerce.number().parse(entries.semesters)
+  const { data: eduPlan } = await supabase.from('education_plans').insert({
+    name: z.coerce.string().parse(entries.name)
   }).select('id').single()
-
-  console.log('Error:', error)
 
   for (const semester of semesters) {
     if (
@@ -176,4 +185,104 @@ export const createEducationPlan = async (data: FormData) => {
       })
     }
   }
+
+  revalidatePath('/admin/education-plans')
+  redirect('/admin/education-plans')
+}
+
+export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData) => {
+  const supabase = await createClient()
+
+  const subjects = await getSubjects()
+
+  const entries = Object.fromEntries(data.entries())
+
+  const [,...semesters] = Object.entries(entries).map(([key, value]) => {
+    if (key.startsWith('subjects-')) {
+      const newValue = z.coerce.string().parse(value)
+
+      return {
+        semester: key.split('-')[1],
+        subjects: newValue.split(',').map((subjectName) => subjects.find((subject) => subject.name === subjectName))
+      }
+    }
+
+    return null
+  }).filter((value) => value != null)
+
+  await supabase.from('education_plans').update({
+    name: z.coerce.string().parse(entries.name)
+  }).eq('id', oldPlan.id)
+
+  console.log(z.coerce.string().parse(entries.name))
+
+  const semestersToDelete = oldPlan.semesters.filter((semester) => {
+    return !semesters.some((newSemester) => newSemester?.semester === semester.number.toString())
+  })
+
+  for (const semester of semestersToDelete) {
+    if (semester == null) continue
+
+    await supabase.from('semesters').delete().eq('id', semester.id)
+  }
+
+  const semestersToUpdate = semesters.filter((semester) => {
+    return oldPlan.semesters.some((oldSemester) => oldSemester.number.toString() === semester?.semester)
+  })
+
+  for (const semester of semestersToUpdate) {
+    if (semester == null) continue
+
+    const subjectsToDelete = oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester)?.semester_subjects.filter((ss) => {
+      // @ts-expect-error
+      return !semester.subjects.some((subject) => subject?.name === ss.subject?.name)
+    })
+
+    for (const subject of subjectsToDelete ?? []) {
+      if (subject == null) continue
+
+      await supabase.from('semester_subjects').delete().eq('id', subject.id)
+    }
+
+    const subjectsToAdd = semester.subjects.filter((subject) => {
+      // @ts-expect-error
+      return !oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester).semester_subjects.some((ss) => ss.subject?.name === subject?.name)
+    })
+
+    const { data: se } = await supabase.from('semesters').select('id').eq('education_plan', oldPlan.id).eq('number', semester.semester).single()
+
+    for (const subject of subjectsToAdd) {
+      if (subject == null) continue
+
+      await supabase.from('semester_subjects').insert({
+        semester: se?.id ?? 0,
+        subject: subject.id
+      })
+    }
+  }
+
+  const semestersToAdd = semesters.filter((semester) => {
+    return !oldPlan.semesters.some((oldSemester) => oldSemester.number.toString() === semester?.semester)
+  })
+
+  for (const semester of semestersToAdd) {
+    if (semester == null) continue
+
+    const { data: se } = await supabase.from('semesters').insert({
+      education_plan: oldPlan.id,
+      number: z.coerce.number().parse(semester.semester)
+    }).select('id').single()
+
+    for (const subject of semester.subjects) {
+      if (se == null || subject == null) continue
+
+      await supabase.from('semester_subjects').insert({
+        semester: se.id,
+        subject: subject.id
+      })
+    }
+  }
+
+  revalidatePath('/admin/education-plans')
+  redirect('/admin/education-plans')
 }

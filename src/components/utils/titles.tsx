@@ -1,16 +1,12 @@
-export const H1 = ({ children }: { children: React.ReactNode }) => (
+export const H1 = ({ children, className }: React.HTMLAttributes<HTMLHeadingElement>) => (
   <h1
-    className='text-3xl font-semibold mb-4 text-white'
+    className={`text-3xl font-semibold mb-4 text-white ${className ?? ''}`}
   >
     {children}
   </h1>
 )
 
-interface H2Props extends React.HTMLAttributes<HTMLHeadingElement> {
-  children: React.ReactNode
-}
-
-export const H2 = ({ children, className, ...props }: H2Props) => (
+export const H2 = ({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
   <h2
     className={`text-2xl font-semibold mb-1 text-white ${className ?? ''}`}
     {...props}

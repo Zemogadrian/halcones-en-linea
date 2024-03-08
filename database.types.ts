@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      audit_log: {
+        Row: {
+          after_value: string | null
+          before_value: string | null
+          created_at: string
+          id: number
+          operation: string | null
+          table_name: string | null
+        }
+        Insert: {
+          after_value?: string | null
+          before_value?: string | null
+          created_at?: string
+          id?: number
+          operation?: string | null
+          table_name?: string | null
+        }
+        Update: {
+          after_value?: string | null
+          before_value?: string | null
+          created_at?: string
+          id?: number
+          operation?: string | null
+          table_name?: string | null
+        }
+        Relationships: []
+      }
       campus: {
         Row: {
           campus_key: string
@@ -104,19 +131,16 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          semester_quantity: number
         }
         Insert: {
           created_at?: string
           id?: number
           name: string
-          semester_quantity: number
         }
         Update: {
           created_at?: string
           id?: number
           name?: string
-          semester_quantity?: number
         }
         Relationships: []
       }
@@ -427,6 +451,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      education_plan_update: {
+        Args: {
+          old_plan_id: number
+          new_plan_name: string
+          new_plan_semester_quantity: number
+          semesters_to_delete: number[]
+          semesters_to_update: number[]
+          semesters_to_add: number[]
+        }
+        Returns: undefined
+      }
       get_role: {
         Args: {
           user_id: string
