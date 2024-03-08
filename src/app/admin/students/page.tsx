@@ -36,7 +36,11 @@ export default async function StudentsPage () {
               <Tr
                 key={v4()}
               >
-                <Td>{student.first_name} {student.last_name}</Td>
+                <Td
+                  className='capitalize'
+                >
+                  {student.first_name} {student.last_name}
+                </Td>
                 <Td>{student.email}</Td>
                 <Td>{student.phone}</Td>
                 <Td>
