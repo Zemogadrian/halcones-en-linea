@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, HeaderBetween, ShyScrollbar } from '@/components/utils'
+import { H1, Main, RedirectPlus, HeaderBetween, TableContainer, Table, THeadSticky, Th } from '@/components/utils'
 import { getStudents } from '@/services/supabase/actions'
 
 export default async function StudentsPage () {
@@ -17,16 +17,18 @@ export default async function StudentsPage () {
         <RedirectPlus href='/admin/students/new' />
       </HeaderBetween>
 
-      <ul
-        className='flex-1 overflow-y-auto'
-        style={ShyScrollbar}
-      >
-        {students.map(student => (
-          <li key={student.id}>
-            {student.first_name}
-          </li>
-        ))}
-      </ul>
+      <TableContainer>
+        <Table>
+          <THeadSticky>
+            <tr>
+              <Th>Nombre</Th>
+              <Th>Correo</Th>
+              <Th>Telefono</Th>
+              <Th>Acciones</Th>
+            </tr>
+          </THeadSticky>
+        </Table>
+      </TableContainer>
 
     </Main>
   )
