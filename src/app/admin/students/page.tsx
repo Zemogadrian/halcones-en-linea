@@ -44,7 +44,7 @@ export default async function StudentsPage () {
                 <Td>{student.email}</Td>
                 <Td>{student.phone}</Td>
                 <Td>
-                  <div className='flex justify-center items-center'>
+                  <div className='flex justify-center items-center py-1'>
                     <Link
                       href={`/admin/students/edit/${student.id}`}
                       className='p-1 bg-itesus-primary rounded-md cursor-pointer hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
