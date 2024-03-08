@@ -1,5 +1,5 @@
 import { Form, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
-import { createEducationPlan, getEducationPlan, getSubjects } from '@/services/supabase/actions'
+import { createEducationPlan, getEducationPlan, getSubjects, updateEducationPlan } from '@/services/supabase/actions'
 import { SemesterSection } from './components/semester-section'
 import { Tables } from 'database.types'
 
@@ -24,13 +24,23 @@ export default async function NewEducationPlan ({ params, isEditMode = false }: 
       })
     : await getSubjects()
 
+  const action = async (data: FormData) => {
+    'use server'
+
+    const func = isEditMode && planEdu != null
+      ? async () => await updateEducationPlan(planEdu, data)
+      : async () => await createEducationPlan(data)
+
+    await func()
+  }
+
   return (
     <Main>
       <H1>Nuevo plan educativo</H1>
 
       <section className='flex-1'>
         <Form
-          action={createEducationPlan}
+          action={action}
           className='h-full flex flex-col'
         >
           <LabeledInput
