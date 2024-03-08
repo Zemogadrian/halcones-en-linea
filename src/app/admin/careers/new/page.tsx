@@ -46,7 +46,7 @@ export default async function NewCareerPage () {
                 key={v4()}
                 value={plan.id}
               >
-                {plan.created_at}
+                {plan.name}
               </option>
             ))}
           </Select>
