@@ -26,9 +26,7 @@ export default async function EducationPlansPage () {
         <Table>
           <THeadSticky>
             <tr>
-              <Th>
-                Nombre
-              </Th>
+              <Th>Nombre</Th>
               <Th>Semestres</Th>
               <Th>Fecha de creacion</Th>
               <Th>Acciones</Th>
