@@ -86,7 +86,6 @@ export type Database = {
           campus: number
           created_at: string
           id: number
-          is_active: boolean
           name: string
           plan_edu: number
           rvoe: string
@@ -95,7 +94,6 @@ export type Database = {
           campus: number
           created_at?: string
           id?: number
-          is_active?: boolean
           name: string
           plan_edu: number
           rvoe: string
@@ -104,7 +102,6 @@ export type Database = {
           campus?: number
           created_at?: string
           id?: number
-          is_active?: boolean
           name?: string
           plan_edu?: number
           rvoe?: string
