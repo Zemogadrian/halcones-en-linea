@@ -161,8 +161,7 @@ export const createEducationPlan = async (data: FormData) => {
   }).filter((value) => value != null)
 
   const { data: eduPlan } = await supabase.from('education_plans').insert({
-    name: z.coerce.string().parse(entries.name),
-    semester_quantity: z.coerce.number().parse(entries.semesters)
+    name: z.coerce.string().parse(entries.name)
   }).select('id').single()
 
   for (const semester of semesters) {
@@ -211,12 +210,11 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
     return null
   }).filter((value) => value != null)
 
-  const newPlan = {
-    name: z.coerce.string().parse(entries.name),
-    semester_quantity: z.coerce.number().parse(entries.semesters)
-  }
+  await supabase.from('education_plans').update({
+    name: z.coerce.string().parse(entries.name)
+  }).eq('id', oldPlan.id)
 
-  await supabase.from('education_plans').update(newPlan).eq('id', oldPlan.id)
+  console.log(z.coerce.string().parse(entries.name))
 
   const semestersToDelete = oldPlan.semesters.filter((semester) => {
     return !semesters.some((newSemester) => newSemester?.semester === semester.number.toString())

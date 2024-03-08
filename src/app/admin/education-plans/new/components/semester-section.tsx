@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const SemesterSection = ({ subjects, defaultValue }: Props) => {
-  const [semesters, setSemesters] = useState(defaultValue?.semester_quantity ?? 1)
+  const [semesters, setSemesters] = useState(defaultValue?.semesters.length ?? 1)
 
   const semesterItem = defaultValue?.semesters ?? []
 
@@ -27,7 +27,7 @@ export const SemesterSection = ({ subjects, defaultValue }: Props) => {
         name='semesters'
         type='number'
         required
-        defaultValue={defaultValue?.semester_quantity ?? 1}
+        defaultValue={defaultValue?.semesters.length ?? 1}
         className='mb-2'
         onChange={(event) => {
           const { success, data } = z.number().safeParse(Number(event.target.value)) as { success: boolean, data: number }

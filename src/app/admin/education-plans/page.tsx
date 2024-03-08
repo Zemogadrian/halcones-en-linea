@@ -62,7 +62,7 @@ export default async function EducationPlansPage () {
                   {plan.name}
                 </Td>
                 <Td>
-                  {plan.semester_quantity}
+                  {plan.semesters.length}
                 </Td>
                 <Td>
                   {dateFormatter(new Date(plan.created_at), 'es-MX')}

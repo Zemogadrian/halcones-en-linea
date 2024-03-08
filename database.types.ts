@@ -131,19 +131,16 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          semester_quantity: number
         }
         Insert: {
           created_at?: string
           id?: number
           name: string
-          semester_quantity: number
         }
         Update: {
           created_at?: string
           id?: number
           name?: string
-          semester_quantity?: number
         }
         Relationships: []
       }
