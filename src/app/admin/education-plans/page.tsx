@@ -58,7 +58,9 @@ export default async function EducationPlansPage () {
                 key={v4()}
                 className='border-b border-b-itesus-tertiary'
               >
-                <Td>
+                <Td
+                  className='capitalize'
+                >
                   {plan.name}
                 </Td>
                 <Td>
