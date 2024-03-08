@@ -18,11 +18,20 @@ export default function Cursos () {
       <div className='bg-white h-[0.05rem] px-20 flex flex-col rounded-xl' />
       <div className='gap-5 flex flex-col p-10 h-full'>
         <div className='text-white'>
-          <p className='underline text-xl'>Diplomado en Marketing de Contenidos: Impulsa tu Estrategia Digital</p>
-          <p className=''>Párrafo descriptivo</p>
+          <p className='underline text-2xl'>Diplomado en Marketing de Contenidos: Impulsa tu Estrategia Digital</p>
+          <p className='text-xl'>Párrafo descriptivo</p>
         </div>
       </div>
+      <div className='flex justify-end items-end flex-col'>
+        <p className='text-white underline'>Modalidad</p>
+        <span className='text-white italic font-bold'>En linea</span>
+      </div>
       <div className='bg-white h-[0.05rem] px-20 flex flex-col rounded-xl' />
+      <div className='flex justify-end items-end'>
+        <p className='text-white italic'>
+          Duración: <span className='text-white font-bold '>3 semanas</span>
+        </p>
+      </div>
 
       <Modal modalNumber={1}>
         <div className='bg-white rounded-lg py-5 gap-10 w-1/3'>
@@ -34,7 +43,6 @@ export default function Cursos () {
         </div>
       </Modal>
       <Modal modalNumber={2}>
-
         <div className='bg-white rounded-lg py-5 gap-10 w-1/3'>
           <h2 className='flex flex-col w-full bg-gradient-to-tr from-[#1f5186] to-[#131a2d] text-white text-center'> <p>Gracias por inscribirte, sigue los pasos que se te enviaron por correo.</p></h2>
           <div className='flex flex-row justify-around gap-5 py-3'>
