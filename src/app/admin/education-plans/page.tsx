@@ -22,20 +22,6 @@ export default async function EducationPlansPage () {
         <RedirectPlus href='/admin/education-plans/new' />
       </div>
 
-      {/* <ul
-        className='flex-1 overflow-y-auto'
-        style={ShyScrollbar}
-      >
-        {plans.map((plan, i) => (
-          <li
-            className='text-lg font-medium text-white capitalize'
-            key={v4()}
-          >
-            {i + 1}- {plan.name}
-          </li>
-        ))}
-      </ul> */}
-
       <TableContainer>
         <Table>
           <THeadSticky>
