@@ -454,6 +454,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      education_plan_update: {
+        Args: {
+          old_plan_id: number
+          new_plan_name: string
+          new_plan_semester_quantity: number
+          semesters_to_delete: number[]
+          semesters_to_update: number[]
+          semesters_to_add: number[]
+        }
+        Returns: undefined
+      }
       get_role: {
         Args: {
           user_id: string
