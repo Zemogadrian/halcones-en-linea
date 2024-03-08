@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { EducationPlan } from './types'
+import { USER_TYPES } from './functions/types'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -16,6 +17,37 @@ export const createClient = async () => createServerActionClient<Database>({
 
 export const getTopics = async () => {
   return []
+}
+
+/* Students */
+export const getStudents = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('user_data').select('*').eq('role', USER_TYPES.STUDENT)
+
+  if (error != null) {
+    console.error('Error getting students:', error)
+    throw new Error('Error getting students')
+  }
+
+  console.log(data)
+
+  return data
+}
+
+export const getStudentSubjects = async (id: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('student_config').select('semesters(number, semester_subjects(subject(*)))')
+
+  if (error != null) {
+    console.error('Error getting student subjects:', error)
+    throw new Error('Error getting student subjects')
+  }
+
+  console.log(data)
+
+  return data
 }
 
 /* Careers */

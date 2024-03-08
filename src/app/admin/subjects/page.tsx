@@ -7,7 +7,7 @@ export default async function SubjectsPage () {
 
   return (
     <Main>
-      <div
+      <header
         className='flex items-center justify-between mb-4'
       >
         <H1
@@ -17,7 +17,7 @@ export default async function SubjectsPage () {
         </H1>
 
         <RedirectPlus href='/admin/subjects/new' />
-      </div>
+      </header>
 
       <ul
         className='flex-1 overflow-y-auto'

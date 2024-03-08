@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, Td, Th } from '@/components/utils'
+import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th } from '@/components/utils'
 import { getEducationPlans } from '@/services/supabase/actions'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -36,13 +36,9 @@ export default async function EducationPlansPage () {
         ))}
       </ul> */}
 
-      <div
-        className='relative overflow-y-auto flex-1'
-      >
-        <table className='w-full'>
-          <thead
-            className='sticky top-0 bg-itesus-primary/50 backdrop-blur-sm text-white'
-          >
+      <TableContainer>
+        <Table>
+          <THeadSticky>
             <tr>
               <Th>
                 Nombre
@@ -51,7 +47,7 @@ export default async function EducationPlansPage () {
               <Th>Fecha de creacion</Th>
               <Th>Acciones</Th>
             </tr>
-          </thead>
+          </THeadSticky>
           <tbody>
             {plans.map((plan, i) => (
               <tr
@@ -86,8 +82,8 @@ export default async function EducationPlansPage () {
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+        </Table>
+      </TableContainer>
     </Main>
   )
 }
