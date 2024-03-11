@@ -27,6 +27,17 @@ export default async function NewEducationPlan ({ params, isEditMode = false }: 
   const action = async (data: FormData) => {
     'use server'
 
+    // const type = '1' // 1, 2, 3, 4
+
+    // const actions = {
+    //   1: async () => {},
+    //   2: async () => {},
+    //   3: async () => {},
+    //   4: async () => {}
+    // }
+
+    // actions[type]()
+
     const func = isEditMode && planEdu != null
       ? async () => await updateEducationPlan(planEdu, data)
       : async () => await createEducationPlan(data)

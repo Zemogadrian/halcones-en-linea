@@ -22,9 +22,9 @@ export default function Becas () {
         <h1 className='underline text-white font-black text-xl'>Pasos a seguir para la solicitud de tu kárdex</h1>
         <p className='text-white flex flex-col gap-3 italic'>
           <span className='font-black'>1.-<span className='font-normal'>Da click en el botón "solicitar beca"</span></span>
-          <span className='font-black'>2.-<span className='font-normal'>Te llegará un correo de confirmación de solicitud de beca.</span></span>
-          <span className='font-black'>3.-<span className='font-normal'>Revisa tu correo con regularidad para saber el status de tu beca</span></span>
-          <span className='font-black'>4.-<span className='font-normal'>Si es aprobada, se te enviarán nuevos pasos a seguir</span></span>
+          <span className='font-black'>2.-<span className='font-normal'>Te llegará un correo de confirmación de solicitud de beca y los pasos a seguir para continuar con el trámite.</span></span>
+          <span className='font-black'>3.-<span className='font-normal'>Si es aprobada, se te enviará un correo de confirmación. Revisa tu correo con regularidad para saber el status de tu beca</span></span>
+
         </p>
       </div>
       <Modal modalNumber={1}>

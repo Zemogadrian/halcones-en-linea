@@ -38,12 +38,12 @@ export default function DisplayTopics () {
       {temas.map((tema, index) => {
         return (
           <div key={index} className='bg-[#cdcbcc] rounded-xl p-4 flex flex-col '>
-            <h1 className='text-[#848584] mb-5'>TEMA: {tema.titulo}</h1>
+            <h1 className='text-[#898989] mb-5 font-black'>TEMA: {tema.titulo}</h1>
             {tema.nombre.map((titulo, i) => {
               return (
                 <div key={i} className='flex flex-row gap-2 px-2 items-center'>
-                  <img src='/arrow.svg' alt='download' className='h-2 fill-[#848584] -rotate-90' />
-                  <span className='text-[#27316c]'>{titulo.titulo}</span>
+                  <img src='/arrow.svg' alt='download' className='h-2 fill-[#244381] -rotate-90' />
+                  <span className='text-[#244381]'>{titulo.titulo}</span>
                 </div>
               )
             })}
