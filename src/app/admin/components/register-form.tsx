@@ -7,9 +7,10 @@ import { toast } from 'sonner'
 
 interface Props {
   role: USER_TYPES
+  redirect?: string
 }
 
-export const RegisterForm = ({ role }: Props) => {
+export const RegisterForm = ({ role, redirect }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -21,7 +22,7 @@ export const RegisterForm = ({ role }: Props) => {
       password: e.currentTarget.password.value,
       phone: e.currentTarget.phone.value,
       role
-    })
+    }, redirect)
       .then(() => {
         toast.success('Usuario registrado')
       })

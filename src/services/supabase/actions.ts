@@ -9,11 +9,81 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { EducationPlan } from './types'
+import { USER_TYPES } from './functions/types'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
 })
 
+export const getTopics = async () => {
+  return []
+}
+
+/* Students */
+export const getStudents = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('user_data').select('*').eq('role', USER_TYPES.STUDENT)
+
+  if (error != null) {
+    console.error('Error getting students:', error)
+    throw new Error('Error getting students')
+  }
+
+  console.log(data)
+
+  return data
+}
+
+export const getStudentSubjects = async (id: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('student_config').select('semesters(number, semester_subjects(subject(*)))')
+
+  if (error != null) {
+    console.error('Error getting student subjects:', error)
+    throw new Error('Error getting student subjects')
+  }
+
+  console.log(data)
+
+  return data
+}
+
+/* Careers */
+export const createCareer = async (data: FormData) => {
+  'use server'
+
+  const supabase = await createClient()
+
+  const entries = Object.fromEntries(data.entries())
+
+  await supabase.from('careers').insert({
+    name: z.coerce.string().parse(entries.name),
+    rvoe: z.coerce.string().parse(entries.rvoe),
+    campus: z.coerce.number().parse(entries.campus),
+    plan_edu: z.coerce.number().parse(entries.plan)
+  })
+
+  revalidatePath('/admin/careers')
+  redirect('/admin/careers')
+}
+
+/* Campus */
+export const getCampuses = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('campus').select('*')
+
+  if (error != null) {
+    console.error('Error getting campuses:', error)
+    throw new Error('Error getting campuses')
+  }
+
+  return data
+}
+
+/* Auth */
 export const login = async (email: string, password: string) => {
   const supabase = await createClient()
 
@@ -62,6 +132,7 @@ export const getUser = async () => {
   return userData
 }
 
+/* Subjects */
 export const getSubjects = async () => {
   const supabase = await createClient()
 
@@ -70,49 +141,6 @@ export const getSubjects = async () => {
   if (error != null) {
     console.error('Error getting subjects:', error)
     throw new Error('Error getting subjects')
-  }
-
-  return data
-}
-
-export const getTopics = async () => {
-  return []
-}
-
-export const getCampuses = async () => {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.from('campus').select('*')
-
-  if (error != null) {
-    console.error('Error getting campuses:', error)
-    throw new Error('Error getting campuses')
-  }
-
-  return data
-}
-
-export const getEducationPlans = async () => {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))')
-
-  if (error != null) {
-    console.error('Error getting education plans:', error)
-    throw new Error('Error getting education plans')
-  }
-
-  return data
-}
-
-export const getEducationPlan = async (id: string) => {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))').eq('id', id).single()
-
-  if (error != null) {
-    console.error('Error getting education plan:', error)
-    throw new Error('Error getting education plan')
   }
 
   return data
@@ -140,6 +168,7 @@ export const insertSubjectUsingForm = async (data: FormData) => {
   await insertSubject(safeName)
 }
 
+/* Education plans */
 export const createEducationPlan = async (data: FormData) => {
   const supabase = await createClient()
 
@@ -285,4 +314,30 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
 
   revalidatePath('/admin/education-plans')
   redirect('/admin/education-plans')
+}
+
+export const getEducationPlans = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))')
+
+  if (error != null) {
+    console.error('Error getting education plans:', error)
+    throw new Error('Error getting education plans')
+  }
+
+  return data
+}
+
+export const getEducationPlan = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))').eq('id', id).single()
+
+  if (error != null) {
+    console.error('Error getting education plan:', error)
+    throw new Error('Error getting education plan')
+  }
+
+  return data
 }
