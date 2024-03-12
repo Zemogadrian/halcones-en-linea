@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 
 export const AddClassForm = () => {
   const [plans, setPlans] = useState<EducationPlan[]>([])
+  const [selectedPlan, setSelectedPlan] = useState<EducationPlan | null>(null)
 
   useEffect(() => {
     getEducationPlans()
@@ -18,11 +19,17 @@ export const AddClassForm = () => {
 
   return (
     <form>
-      <H1 className='text-black/80'>
+      <H1 className='text-black'>
         Agregar clase
       </H1>
 
-      <select>
+      <select
+        onChange={(e) => setSelectedPlan(() => {
+          const planId = e.target.value
+          return plans.find(plan => plan.id.toString() === planId) ?? null
+        })}
+        value={selectedPlan?.id}
+      >
         {plans.map((plan) => (
           <option
             key={v4()}

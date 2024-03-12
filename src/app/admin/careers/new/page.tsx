@@ -8,7 +8,7 @@ export default async function NewCareerPage () {
 
   return (
     <Main>
-      <H1>Crear carrera</H1>
+      <H1 className='text-white'>Crear carrera</H1>
 
       <FormSection>
         <Form action={createCareer}>
