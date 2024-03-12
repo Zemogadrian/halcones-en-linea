@@ -1,19 +1,10 @@
+
 import { getUser } from '@/services/supabase/actions'
 import { Days } from './days'
 import Logout from './logout'
-import Link from 'next/link'
+import { CalAnimation } from './calAnimation'
 
-const CalAnimation = ({ children, href }) => {
-  return (
-    <Link href={href}>
-      <button>
-        {children}
-      </button>
-    </Link>
-  )
-}
-
-export const NavBar = async () => {
+export const NavBar = async ({ handleClick }) => {
   const user = await getUser()
 
   return (
@@ -22,27 +13,27 @@ export const NavBar = async () => {
       <div className='flex flex-row text-xl h-full justify-center '>
         <div className='flex flex-row w-full h-full justify-center items-center'>
           <div className='flex  border-r-2 border-r-[#27316e] px-2'>
-            <CalAnimation href='/student/topics/subjects'>
+            <CalAnimation href='/student/topics/subjects' onClick={handleClick}>
               <p className=' px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Temas</p>
             </CalAnimation>
           </div>
           <div className='flex  border-r-2 border-r-[#27316e] px-2'>
-            <CalAnimation href='/student/topics/documents'>
+            <CalAnimation href='/student/topics/documents' onClick={handleClick}>
               <p className=' px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Documentación</p>
             </CalAnimation>
           </div>
           <div className='flex  border-r-2 border-r-[#27316e] px-2'>
-            <CalAnimation href='/student/topics/activities'>
+            <CalAnimation href='/student/topics/activities' onClick={handleClick}>
               <p className=' px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Actividades</p>
             </CalAnimation>
           </div>
           <div className='flex  border-r-2 border-r-[#27316e] px-2'>
-            <CalAnimation href='/student/topics/exam'>
+            <CalAnimation href='/student/topics/exam' onClick={handleClick}>
               <p className=' px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Examen</p>
             </CalAnimation>
           </div>
           <div className='flex  border-r-2 border-r-[#27316e] px-2'>
-            <CalAnimation href='/student/topics/recordedclasses'>
+            <CalAnimation href='/student/topics/recordedclasses' onClick={handleClick}>
               <p className='px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Clases grabadas</p>
             </CalAnimation>
           </div>
