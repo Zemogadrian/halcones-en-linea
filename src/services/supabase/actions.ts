@@ -51,6 +51,19 @@ export const getStudentSubjects = async (id: number) => {
 }
 
 /* Professors */
+export const getProfessor = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('user_data').select('*').eq('owner', id).single()
+
+  if (error != null) {
+    console.error('Error getting professor:', error)
+    throw new Error('Error getting professor')
+  }
+
+  return data
+}
+
 export const getProfessors = async () => {
   const supabase = await createClient()
 
@@ -346,7 +359,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
 export const getEducationPlans = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))')
+  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(subjects(*)))')
 
   if (error != null) {
     console.error('Error getting education plans:', error)
@@ -359,7 +372,7 @@ export const getEducationPlans = async () => {
 export const getEducationPlan = async (id: string) => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(*, subject(*)))').eq('id', id).single()
+  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(subjects(*)))').eq('id', id).single()
 
   if (error != null) {
     console.error('Error getting education plan:', error)
