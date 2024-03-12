@@ -13,14 +13,15 @@ interface Props {
 export default async function NewEducationPlan ({ params, isEditMode = false }: Props) {
   const planEdu = isEditMode ? await getEducationPlan(params.id) : null
 
-  const materiasInPlan = planEdu?.semesters.reduce((acc, semester) => {
-    // @ts-expect-error
-    return acc.concat(semester.semester_subjects.map((ss) => ss.subject))
-  }, []) as Array<Tables<'subjects'>>
+  const subjectsInPlan = (planEdu?.semesters ?? []).reduce<Array<Tables<'subjects'>>>((acc, semester) => {
+    const subjects = (semester.semester_subjects ?? []).map((ss) => ss?.subjects).filter((s) => s != null) as Array<Tables<'subjects'>>
+
+    return acc.concat(subjects)
+  }, [])
 
   const subjects = isEditMode
     ? (await getSubjects()).filter((subject) => {
-        return !materiasInPlan.some((materia) => materia.id === subject.id)
+        return !(subjectsInPlan ?? []).some((materia) => materia.id === subject.id)
       })
     : await getSubjects()
 
