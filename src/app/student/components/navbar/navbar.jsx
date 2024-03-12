@@ -11,7 +11,7 @@ export const NavBar = async ({ handleClick }) => {
     <div className=' flex flex-row h-16 select-none bg-[#cdcbcc] justify-around items-center'>
       <Days />
       <div className='flex flex-row text-xl h-full justify-center '>
-        <div className='flex flex-row w-full h-full justify-center items-center'>
+        {/* <div className='flex flex-row w-full h-full justify-center items-center'>
           <div className='flex  border-r-2 border-r-[#27316e] px-2'>
             <CalAnimation href='/student/topics/subjects' onClick={handleClick}>
               <p className=' px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Temas</p>
@@ -37,7 +37,8 @@ export const NavBar = async ({ handleClick }) => {
               <p className='px-2 text-[#27316e] hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg'>Clases grabadas</p>
             </CalAnimation>
           </div>
-        </div>
+        </div> */}
+        <CalAnimation />
       </div>
       <div className='flex items-center gap-2 bg-[#b0b0b0] rounded-lg px-3 py-1'>
         {/* <img src='/user.svg' alt='user' className='h-8' /> */}
