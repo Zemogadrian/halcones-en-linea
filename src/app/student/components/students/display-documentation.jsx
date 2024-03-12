@@ -1,13 +1,13 @@
-import { getSubjects, getTopics } from '@/services/supabase/actions'
+// import { getSubjects, getTopics } from '@/services/supabase/actions'
 
 export default async function DownloadDocumentation () {
-  const subjectId = await getSubjects()
+  // const subjectId = await getSubjects()
 
-  const topics = await getTopics({
-    subjectId: 80,
-    groupId: 17,
-    semesterId: 44
-  })
+  // const topics = await getTopics({
+  //   subjectId: 80,
+  //   groupId: 17,
+  //   semesterId: 44
+  // })
 
   const temas = [
     {
@@ -34,7 +34,7 @@ export default async function DownloadDocumentation () {
               return (
                 <button key={i} className='flex flex-row gap-2 px-2'>
                   <img src='/upload.svg' alt='download' className='h-5 fill-[#848584]' />
-                  <span className='text-[#27316c]'>{title.title}</span>
+                  <span className='text-[#27316c]'>{title.titulo}</span>
                 </button>
               )
             })}

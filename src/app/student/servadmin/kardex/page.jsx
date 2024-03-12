@@ -23,6 +23,7 @@ export default function Kardex () {
           <span className='font-black'>4.-<span className='font-normal'>En un lapso de 72 horas tendrás tu kárdex en tu correo electrónico</span></span>
         </p>
       </div>
+      <div className='bg-white h-[0.05rem] px-20 flex flex-col rounded-xl' />
       <Modal modalNumber={1}>
         <div className='bg-white rounded-lg py-5 gap-10 w-1/3'>
           <h2 className='flex flex-col w-full bg-gradient-to-tr from-[#1f5186] to-[#131a2d] text-white text-center'><p>¿Seguro que deseas solicitar tu kárdex?</p></h2>
@@ -43,8 +44,9 @@ export default function Kardex () {
             </ModalButton>
           </div>
         </div>
-        <p>Solicitud enviada con éxito. Revisa tu correo electrónico.</p>
+
       </Modal>
+
     </main>
   )
 }

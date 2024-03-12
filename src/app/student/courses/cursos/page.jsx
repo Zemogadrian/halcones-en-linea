@@ -17,9 +17,10 @@ export default function Cursos () {
       </div>
       <div className='bg-white h-[0.05rem] px-20 flex flex-col rounded-xl' />
       <div className='gap-5 flex flex-col p-10 h-full'>
-        <div className='text-white'>
+        <div className='text-white gap-5 flex flex-col'>
           <p className='underline text-2xl'>Diplomado en Marketing de Contenidos: Impulsa tu Estrategia Digital</p>
-          <p className='text-xl'>Párrafo descriptivo</p>
+          <p className='text-xl'>El mundo digital ha revolucionado la forma en que las marcas interactúan con su audiencia. En este contexto, el Marketing de Contenidos se ha erigido como una herramienta fundamental para la creación de conexiones significativas y duraderas con los consumidores. Con el objetivo de capacitar a los profesionales en esta disciplina en constante evolución, presentamos nuestro diplomado en Marketing de Contenidos.</p>
+          <p className='text-xl'>Este diplomado está diseñado para ofrecer un enfoque integral que abarca desde los fundamentos teóricos hasta las ultimas tendencias y mejores prácticas en el campo del marketing digital. Los participantes explorarán los conceptos clave del Marketing de Contenidos, comprendiendo cómo desarrollar estrategias efectivas que impulsen el compromiso del público objetivo y generen resultados tangibles para las marcas. </p>
         </div>
       </div>
       <div className='flex justify-end items-end flex-col'>
