@@ -50,6 +50,20 @@ export const getStudentSubjects = async (id: number) => {
   return data
 }
 
+/* Professors */
+export const getProfessors = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('user_data').select('*').eq('role', USER_TYPES.PROFESSOR)
+
+  if (error != null) {
+    console.error('Error getting professors:', error)
+    throw new Error('Error getting professors')
+  }
+
+  return data
+}
+
 /* Careers */
 export const createCareer = async (data: FormData) => {
   'use server'
@@ -67,6 +81,19 @@ export const createCareer = async (data: FormData) => {
 
   revalidatePath('/admin/careers')
   redirect('/admin/careers')
+}
+
+export const getCareers = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('careers').select('id, name, rvoe, created_at, campus(name)')
+
+  if (error != null) {
+    console.error('Error getting careers:', error)
+    throw new Error('Error getting careers')
+  }
+
+  return data
 }
 
 /* Campus */
