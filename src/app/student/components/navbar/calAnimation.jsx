@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-export const CalAnimation = ({ children, href }) => {
+export const CalAnimation = () => {
   const routes = [
     {
       name: 'Temas',
@@ -53,12 +53,5 @@ export const CalAnimation = ({ children, href }) => {
         </div>
       ))}
     </div>
-  //   )}
-  //   </div>
-  //    <Link href={href}>
-  //       <button onClick={handleClick} className={selected ? ' : ''}>
-  //         {children}
-  //       </button>
-  //     </Link>
   )
 }

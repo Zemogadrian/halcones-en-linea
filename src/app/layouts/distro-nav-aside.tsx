@@ -8,6 +8,7 @@ interface Props {
 }
 
 export const DistroNavASide = ({ children, navbar, options }: Props) => {
+  console.log(options)
   return (
     <div className='h-screen flex flex-col '>
       {navbar}
