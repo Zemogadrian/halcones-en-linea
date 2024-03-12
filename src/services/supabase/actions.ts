@@ -303,8 +303,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
     if (semester == null) continue
 
     const subjectsToDelete = oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester)?.semester_subjects.filter((ss) => {
-      // @ts-expect-error
-      return !semester.subjects.some((subject) => subject?.name === ss.subject?.name)
+      return !semester.subjects.some((subject) => subject?.name === ss.subjects?.name)
     })
 
     const { data: se } = await supabase.from('semesters').select('id').eq('education_plan', oldPlan.id).eq('number', semester.semester).single()
@@ -316,8 +315,11 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
     }
 
     const subjectsToAdd = semester.subjects.filter((subject) => {
-      // @ts-expect-error
-      return !oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester).semester_subjects.some((ss) => ss.subject?.name === subject?.name)
+      const edu = oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester)
+
+      if (edu == null) return []
+
+      return !edu.semester_subjects.some((ss) => ss?.subjects?.name === subject?.name)
     })
 
     for (const subject of subjectsToAdd) {
