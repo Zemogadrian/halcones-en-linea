@@ -1,8 +1,9 @@
-import { Form, FormSection, H1, LabeledInput, Main, Select, SubmitButton } from '@/components/utils'
-import { createGroup, getCareers } from '@/services/supabase/actions'
+import { Form, FormSection, H1, LabeledInput, Main, LabeledSelect, SubmitButton } from '@/components/utils'
+import { createGroup, getReducedCareers } from '@/services/supabase/actions'
 
 export default async function NewGroupPage () {
-  const carears = await getCareers()
+  const carears = await getReducedCareers()
+
   return (
     <Main>
       <H1 className='text-white'>Crear Grupo</H1>
@@ -15,14 +16,14 @@ export default async function NewGroupPage () {
             required
             placeholder='Grupo A, Grupo B, etc...'
           />
-          <Select
+          <LabeledSelect
             label='Carrera'
             name='career'
           >
             {carears.map((career) => (
               <option key={career.id} value={career.id}>{career.name}</option>
             ))}
-          </Select>
+          </LabeledSelect>
           <SubmitButton>Crear</SubmitButton>
         </Form>
       </FormSection>

@@ -34,6 +34,19 @@ export const getGroups = async () => {
   return data
 }
 
+export const getGroupsByCareer = async (careerId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('groups').select('*').eq('career', careerId)
+
+  if (error != null) {
+    console.error('Error getting groups:', error)
+    throw new Error('Error getting groups')
+  }
+
+  return data
+}
+
 export const createGroup = async (data: FormData) => {
   const supabase = await createClient()
 
@@ -115,8 +128,7 @@ export const createCareer = async (data: FormData) => {
   await supabase.from('careers').insert({
     name: z.coerce.string().parse(entries.name),
     rvoe: z.coerce.string().parse(entries.rvoe),
-    campus: z.coerce.number().parse(entries.campus),
-    plan_edu: z.coerce.number().parse(entries.plan)
+    campus: z.coerce.number().parse(entries.campus)
   })
 
   revalidatePath('/admin/careers')
@@ -126,7 +138,20 @@ export const createCareer = async (data: FormData) => {
 export const getCareers = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('careers').select('id, name, rvoe, created_at, campus(name)')
+  const { data, error } = await supabase.from('careers').select('id, name, rvoe, created_at, campus(id, name)')
+
+  if (error != null) {
+    console.error('Error getting careers:', error)
+    throw new Error('Error getting careers')
+  }
+
+  return data
+}
+
+export const getReducedCareers = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('careers').select('id, name, campus(id, name)')
 
   if (error != null) {
     console.error('Error getting careers:', error)
@@ -351,7 +376,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
 export const getEducationPlans = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(subjects(*)))')
+  const { data, error } = await supabase.from('education_plans').select('id, name, created_at, careers(id, name), semesters(*, semester_subjects(subjects(*)))')
 
   if (error != null) {
     console.error('Error getting education plans:', error)
@@ -364,7 +389,7 @@ export const getEducationPlans = async () => {
 export const getEducationPlan = async (id: string) => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(subjects(*)))').eq('id', id).single()
+  const { data, error } = await supabase.from('education_plans').select('*, careers(id, name), semesters(*, semester_subjects(subjects(*)))').eq('id', id).single()
 
   if (error != null) {
     console.error('Error getting education plan:', error)
