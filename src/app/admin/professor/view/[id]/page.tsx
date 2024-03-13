@@ -13,11 +13,11 @@ export default async function ProfessorViewPage ({ params }: Props) {
 
   return (
     <Main>
-      <H1 className='capitalize'>{professor.first_name}</H1>
+      <H1 className='capitalize text-white'>{professor.first_name}</H1>
 
       <section>
         <div className='flex justify-between'>
-          <H2>Clases</H2>
+          <H2 className='text-white'>Clases</H2>
 
           <AddClass />
         </div>

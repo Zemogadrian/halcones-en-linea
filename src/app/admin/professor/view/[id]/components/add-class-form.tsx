@@ -13,6 +13,7 @@ export const AddClassForm = () => {
     getEducationPlans()
       .then(plans => {
         setPlans(plans)
+        setSelectedPlan(plans[0] ?? null)
       })
       .catch(console.error)
   }, [])
