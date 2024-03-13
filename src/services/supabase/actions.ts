@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { EducationPlan } from './types'
 import { USER_TYPES } from './functions/types'
+import { extractSemesters, filterSemestersToAdd, filterSemestersToDelete, filterSemestersToUpdate, filterSubjectsToAdd, filterSubjectsToDelete } from './utils/create-education-plan'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -63,17 +64,15 @@ export const getStudents = async () => {
   return data
 }
 
-export const getStudentSubjects = async (id: number) => {
+export const getStudentSubjects = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('student_config').select('semesters(number, semester_subjects(subject(*)))')
+  const { data, error } = await supabase.from('student_config').select('semesters(number, semester_subjects(subjects(*)))')
 
   if (error != null) {
     console.error('Error getting student subjects:', error)
     throw new Error('Error getting student subjects')
   }
-
-  console.log(data)
 
   return data
 }
@@ -244,18 +243,7 @@ export const createEducationPlan = async (data: FormData) => {
 
   const entries = Object.fromEntries(data.entries())
 
-  const [,...semesters] = Object.entries(entries).map(([key, value]) => {
-    if (key.startsWith('subjects-')) {
-      const newValue = z.coerce.string().parse(value)
-
-      return {
-        semester: key.split('-')[1],
-        subjects: newValue.split(',').map((subjectName) => subjects.find((subject) => subject.name === subjectName))
-      }
-    }
-
-    return null
-  }).filter((value) => value != null)
+  const semesters = extractSemesters(subjects, entries)
 
   const { data: eduPlan } = await supabase.from('education_plans').insert({
     name: z.coerce.string().parse(entries.name),
@@ -295,28 +283,13 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
 
   const entries = Object.fromEntries(data.entries())
 
-  const [,...semesters] = Object.entries(entries).map(([key, value]) => {
-    if (key.startsWith('subjects-')) {
-      const newValue = z.coerce.string().parse(value)
-
-      return {
-        semester: key.split('-')[1],
-        subjects: newValue.split(',').map((subjectName) => subjects.find((subject) => subject.name === subjectName))
-      }
-    }
-
-    return null
-  }).filter((value) => value != null)
+  const semesters = extractSemesters(subjects, entries)
 
   await supabase.from('education_plans').update({
     name: z.coerce.string().parse(entries.name)
   }).eq('id', oldPlan.id)
 
-  console.log(z.coerce.string().parse(entries.name))
-
-  const semestersToDelete = oldPlan.semesters.filter((semester) => {
-    return !semesters.some((newSemester) => newSemester?.semester === semester.number.toString())
-  })
+  const semestersToDelete = filterSemestersToDelete(semesters, oldPlan)
 
   for (const semester of semestersToDelete) {
     if (semester == null) continue
@@ -324,16 +297,12 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
     await supabase.from('semesters').delete().eq('id', semester.id)
   }
 
-  const semestersToUpdate = semesters.filter((semester) => {
-    return oldPlan.semesters.some((oldSemester) => oldSemester.number.toString() === semester?.semester)
-  })
+  const semestersToUpdate = filterSemestersToUpdate(semesters, oldPlan)
 
   for (const semester of semestersToUpdate) {
     if (semester == null) continue
 
-    const subjectsToDelete = oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester)?.semester_subjects.filter((ss) => {
-      return !semester.subjects.some((subject) => subject?.name === ss.subjects?.name)
-    })
+    const subjectsToDelete = filterSubjectsToDelete(oldPlan, semester)
 
     const { data: se } = await supabase.from('semesters').select('id').eq('education_plan', oldPlan.id).eq('number', semester.semester).single()
 
@@ -343,13 +312,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
       await supabase.from('semester_subjects').delete().eq('subject', subject.subjects?.id ?? 0).eq('semester', se?.id ?? 0)
     }
 
-    const subjectsToAdd = semester.subjects.filter((subject) => {
-      const edu = oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester)
-
-      if (edu == null) return []
-
-      return !edu.semester_subjects.some((ss) => ss?.subjects?.name === subject?.name)
-    })
+    const subjectsToAdd = filterSubjectsToAdd(semester, oldPlan)
 
     for (const subject of subjectsToAdd) {
       if (subject == null) continue
@@ -361,9 +324,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
     }
   }
 
-  const semestersToAdd = semesters.filter((semester) => {
-    return !oldPlan.semesters.some((oldSemester) => oldSemester.number.toString() === semester?.semester)
-  })
+  const semestersToAdd = filterSemestersToAdd(semesters, oldPlan)
 
   for (const semester of semestersToAdd) {
     if (semester == null) continue
