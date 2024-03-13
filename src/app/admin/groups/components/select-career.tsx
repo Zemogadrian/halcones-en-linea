@@ -14,14 +14,17 @@ export const SelectCareers = ({ careers }: Props) => {
   const { replace } = useRouter()
   const pathname = usePathname()
   const search = useSearchParams()
+  const selectedCareer = search.get('career') ?? ''
 
   useEffect(() => {
+    if (selectedCareer !== '') return
+
     const newSearch = new URLSearchParams(search)
 
     newSearch.set('career', careers[0].id.toString())
 
     replace(`${pathname}?${newSearch.toString()}`)
-  }, [careers, pathname, replace, search])
+  }, [])
 
   return (
     <Select
@@ -33,6 +36,7 @@ export const SelectCareers = ({ careers }: Props) => {
 
         replace(`${pathname}?${newSearch.toString()}`)
       }}
+      value={selectedCareer}
     >
       {careers.map((career) => (
         <option key={v4()} value={career.id}>{career.name}</option>

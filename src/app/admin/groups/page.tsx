@@ -2,6 +2,12 @@ import { H1, Main } from '@/components/utils'
 import { getReducedCareers } from '@/services/supabase/actions'
 import { SelectCareers } from './components/select-career'
 
+interface Props {
+  searchParams: {
+    career: string
+  }
+}
+
 export default async function GroupsPage () {
   const careers = await getReducedCareers()
 
