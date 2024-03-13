@@ -69,5 +69,18 @@ export const staticRoutes: SideBarOptions = [
         title: 'Nuevo plan de estudio'
       }
     ]
+  },
+  {
+    title: 'Grupos',
+    sub: [
+      {
+        href: '/admin/groups',
+        title: 'Lista de grupos'
+      },
+      {
+        href: '/admin/groups/new',
+        title: 'Nuevo grupo'
+      }
+    ]
   }
 ]

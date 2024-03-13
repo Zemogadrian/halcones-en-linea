@@ -19,6 +19,34 @@ export const getTopics = async () => {
   return []
 }
 
+/* Groups */
+export const getGroups = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('groups').select('*')
+
+  if (error != null) {
+    console.error('Error getting groups:', error)
+    throw new Error('Error getting groups')
+  }
+
+  return data
+}
+
+export const createGroup = async (data: FormData) => {
+  const supabase = await createClient()
+
+  const entries = Object.fromEntries(data.entries())
+
+  await supabase.from('groups').insert({
+    name: z.coerce.string().parse(entries.name),
+    career: z.coerce.number().parse(entries.career)
+  })
+
+  revalidatePath('/admin/groups')
+  redirect('/admin/groups')
+}
+
 /* Students */
 export const getStudents = async () => {
   const supabase = await createClient()
@@ -230,7 +258,8 @@ export const createEducationPlan = async (data: FormData) => {
   }).filter((value) => value != null)
 
   const { data: eduPlan } = await supabase.from('education_plans').insert({
-    name: z.coerce.string().parse(entries.name)
+    name: z.coerce.string().parse(entries.name),
+    career: z.coerce.number().parse(entries.career)
   }).select('id').single()
 
   for (const semester of semesters) {
