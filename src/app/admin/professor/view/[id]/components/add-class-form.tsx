@@ -7,9 +7,10 @@ import { assingProfessorToSubject } from '@/services/supabase/actions'
 
 interface Props {
   onCreate: () => void
+  professorId: string
 }
 
-export const AddClassForm = ({ onCreate }: Props) => {
+export const AddClassForm = ({ onCreate, professorId }: Props) => {
   const {
     careers,
     selectedCareer,
@@ -25,11 +26,14 @@ export const AddClassForm = ({ onCreate }: Props) => {
 
   return (
     <Form action={assingProfessorToSubject}>
+      <input name='professor' className='hidden' value={professorId} />
+
       <H1 className='text-white mb-4'>
         Agregar clase
       </H1>
 
       <LabeledSelect
+        required
         name='career'
         label='Carrera'
         value={selectedCareer?.id}
@@ -44,6 +48,7 @@ export const AddClassForm = ({ onCreate }: Props) => {
       </LabeledSelect>
 
       <LabeledSelect
+        required
         name='educationPlan'
         label='Plan de estudios'
         value={selectedEducationPlan?.id}
@@ -58,6 +63,7 @@ export const AddClassForm = ({ onCreate }: Props) => {
       </LabeledSelect>
 
       <LabeledSelect
+        required
         label='Grupo'
         name='group'
       >
@@ -67,6 +73,7 @@ export const AddClassForm = ({ onCreate }: Props) => {
       </LabeledSelect>
 
       <LabeledSelect
+        required
         label='Semestre'
         name='semester'
         value={semester?.id}
@@ -81,6 +88,7 @@ export const AddClassForm = ({ onCreate }: Props) => {
       </LabeledSelect>
 
       <LabeledSelect
+        required
         label='Materia'
         name='subject'
       >

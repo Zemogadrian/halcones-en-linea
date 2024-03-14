@@ -120,14 +120,18 @@ export const getProfessors = async () => {
 export const getProfessorSubjects = async (id: string) => {
   const supabase = await createClient()
 
+  console.log(id)
+
   const { data, error } = await supabase.from('teacher_config').select('subjects(*)').eq('owner', id)
+
+  console.log(data)
 
   if (error != null) {
     console.error('Error getting professor subjects:', error)
     throw new Error('Error getting professor subjects')
   }
 
-  const subjects = data?.map((tc) => tc.subjects).filter(s => s != null) as Array<Tables<'subjects'>>
+  const subjects = data.map((tc) => tc.subjects).filter(s => s != null) as Array<Tables<'subjects'>>
 
   return subjects
 }
@@ -135,16 +139,12 @@ export const getProfessorSubjects = async (id: string) => {
 export const assingProfessorToSubject = async (data: FormData) => {
   const supabase = await createClient()
 
-  const user = await getUser()
-
-  if (user == null) return
-
   const entries = Object.fromEntries(data.entries())
 
   const { error } = await supabase.from('teacher_config').insert({
     career: z.coerce.number().parse(entries.career),
     group: z.coerce.number().parse(entries.group),
-    owner: user.owner ?? '',
+    owner: z.coerce.string().parse(entries.professor),
     plan_edu: z.coerce.number().parse(entries.educationPlan),
     semester: z.coerce.number().parse(entries.semester),
     subject: z.coerce.number().parse(entries.subject)
@@ -155,7 +155,7 @@ export const assingProfessorToSubject = async (data: FormData) => {
     throw new Error('Error assigning professor to subject')
   }
 
-  revalidatePath(`/admin/professors/view/${user.owner ?? ''}`)
+  revalidatePath(`/admin/professors/view/${z.coerce.string().parse(entries.professor)}`)
 }
 
 /* Careers */
