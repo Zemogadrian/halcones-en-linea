@@ -3,6 +3,7 @@
 import { Form, H1, LabeledSelect, SubmitButton } from '@/components/utils'
 import { v4 } from '@/utils/uuid'
 import { useAddSubjects } from '../hooks/use-add-subjects'
+import { assingProfessorToSubject } from '@/services/supabase/actions'
 
 export const AddClassForm = () => {
   const {
@@ -19,7 +20,7 @@ export const AddClassForm = () => {
   } = useAddSubjects()
 
   return (
-    <Form>
+    <Form action={assingProfessorToSubject}>
       <H1 className='text-white mb-4'>
         Agregar clase
       </H1>

@@ -117,6 +117,10 @@ export const getProfessors = async () => {
   return data
 }
 
+export const assingProfessorToSubject = async (data: FormData) => {
+
+}
+
 /* Careers */
 export const createCareer = async (data: FormData) => {
   'use server'
