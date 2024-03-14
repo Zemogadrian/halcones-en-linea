@@ -1,0 +1,44 @@
+.maestro {
+  position: relative;
+  margin: 1em 0;
+  padding: 10px 20px;
+  background: #e2fdc9;
+  border-radius: 10px;
+  border-top-right-radius: 0;
+}
+.maestro::after {
+  content: '';
+  position: absolute;
+  top: -4.0px;
+  right: -12px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 17.3px 10px;
+  rotate:60deg;
+  border-color: transparent transparent #e2fdc9 transparent;
+}
+
+.alumno {
+  position: relative;
+  margin: 1em 0;
+  padding: 10px 20px;
+  background: #fefefe;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+}
+
+
+
+.alumno::after {
+  content: '';
+  position: absolute;
+  top: -4.0px;
+  left: -12px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 17.3px 10px;
+  rotate:-60deg;
+  border-color: transparent transparent #fefefe transparent;
+}
