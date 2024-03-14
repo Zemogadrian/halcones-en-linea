@@ -14,8 +14,6 @@ export default async function ProfessorViewPage ({ params }: Props) {
 
   const careers = await getProfessorCareers(params.id)
 
-  console.log(careers)
-
   return (
     <Main>
 
