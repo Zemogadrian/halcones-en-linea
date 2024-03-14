@@ -8,11 +8,13 @@ export const useAddSubjects = () => {
   const [selectedCareer, setSelectedCareer] = useState<ReducedCareer | null>(null)
 
   const [groups, setGroups] = useState<GroupByCareer[]>([])
+  const [selectedGroup, setSelectedGroup] = useState<number | null>(null)
 
   const [educationPlans, setEducationPlans] = useState<EducationPlanByCareer[]>([])
   const [selectedEducationPlan, setSelectedEducationPlan] = useState<EducationPlanByCareer | null>(null)
 
   const [subjects, setSubjects] = useState<Array<Tables<'subjects'>>>([])
+  const [selectedSubject, setSelectedSubject] = useState<number | null>(null)
 
   const [semester, setSemester] = useState<{
     id: number
@@ -30,6 +32,8 @@ export const useAddSubjects = () => {
     const educationPlans = await getEducationPlansByCareer(careerId)
 
     setGroups(groups)
+    setSelectedGroup(groups[0].id)
+
     setEducationPlans(educationPlans)
 
     setSelectedEducationPlan(educationPlans[0])
@@ -39,6 +43,7 @@ export const useAddSubjects = () => {
     const subjects = await getSubjectsBySemester(educationPlans[0].semesters[0].id)
 
     setSubjects(subjects)
+    setSelectedSubject(subjects[0].id)
   }
 
   const changeEducationPlan = async (educationPlanId: number) => {
@@ -57,6 +62,7 @@ export const useAddSubjects = () => {
     const subjects = await getSubjectsBySemester(semester.id)
 
     setSubjects(subjects)
+    setSelectedSubject(subjects[0].id)
   }
 
   const changeSemester = async (semesterId: number) => {
@@ -69,6 +75,7 @@ export const useAddSubjects = () => {
     const subjects = await getSubjectsBySemester(semesterId)
 
     setSubjects(subjects)
+    setSelectedSubject(subjects[0].id)
   }
 
   useEffect(() => {
@@ -85,7 +92,10 @@ export const useAddSubjects = () => {
             setSemester(plans[0].semesters[0])
 
             getSubjectsBySemester(plans[0].semesters[0].id)
-              .then(setSubjects)
+              .then(subjects => {
+                setSubjects(subjects)
+                setSelectedSubject(subjects[0].id)
+              })
               .catch(console.error)
           })
           .catch(console.error)
@@ -93,6 +103,7 @@ export const useAddSubjects = () => {
         getGroupsByCareer(careers[0].id)
           .then(groups => {
             setGroups(groups)
+            setSelectedGroup(groups[0].id)
           })
           .catch(console.error)
       })
@@ -109,6 +120,10 @@ export const useAddSubjects = () => {
     semester,
     changeCareer,
     changeEducationPlan,
-    changeSemester
+    changeSemester,
+    selectedGroup,
+    setSelectedGroup,
+    selectedSubject,
+    setSelectedSubject
   }
 }

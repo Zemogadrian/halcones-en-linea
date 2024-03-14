@@ -25,7 +25,7 @@ export const AddClass = ({ professorId }: Props) => {
         {isView && (
           <motion.div
             onClick={() => setView(false)}
-            className='fixed flex justify-end w-screen h-screen inset-0 bg-black/50'
+            className='fixed flex justify-end w-screen h-screen inset-0 bg-black/50 z-30'
             initial='hidden'
             animate='visible'
             exit='hidden'

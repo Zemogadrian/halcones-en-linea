@@ -1,4 +1,4 @@
-import { H1, H2, Main } from '@/components/utils'
+import { H1, H2, H3, H4, Main, ShyScrollbar, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
 import { getProfessor, getProfessorCareers } from '@/services/supabase/actions'
 import { AddClass } from './components/add-class'
 import { v4 } from '@/utils/uuid'
@@ -26,13 +26,57 @@ export default async function ProfessorViewPage ({ params }: Props) {
         <AddClass professorId={params.id} />
       </header>
 
-      <section>
+      <section className='flex-1 flex flex-col overflow-hidden'>
         <H2 className='text-white mb-4'>Carreras</H2>
 
-        <div className='grid grid-cols-3 gap-2'>
+        <div style={ShyScrollbar} className='grid grid-cols-2 gap-2 flex-1 overflow-y-auto'>
           {careers.map(c => (
-            <article key={v4()}>
-              a
+            <article key={v4()} className='bg-white rounded-md p-4'>
+              <H3 className='capitalize'>{c.name}</H3>
+
+              <ul className='flex flex-col w-full gap-3'>
+                {c.educationPlans.map(p => (
+                  <li key={v4()} className='capitalize'>
+                    <H4>{p.name}</H4>
+
+                    {p.groups.map(g => (
+                      <TableContainer key={v4()}>
+                        <Table>
+                          <THeadSticky>
+                            <tr>
+                              <Th className='text-black text-center'>{g.name}</Th>
+                              {g.semesters.map(s => (
+                                <Th className='text-black text-center' key={v4()}>Semestre {s.number}</Th>
+                              ))}
+                            </tr>
+                          </THeadSticky>
+
+                          <tbody>
+                            {Array.from({
+                              length: g.semesters.reduce((acc, curr) => {
+                                if (curr.subjects.length > acc) {
+                                  return curr.subjects.length
+                                }
+
+                                return acc
+                              }, 0)
+                            }).map((_, i) => {
+                              return (
+                                <Tr key={v4()}>
+                                  <td />
+                                  {g.semesters.map(s => (
+                                    <Td className='text-black text-center' key={v4()}>{s.subjects[i]?.name}</Td>
+                                  ))}
+                                </Tr>
+                              )
+                            })}
+                          </tbody>
+                        </Table>
+                      </TableContainer>
+                    ))}
+                  </li>
+                ))}
+              </ul>
             </article>
           ))}
         </div>

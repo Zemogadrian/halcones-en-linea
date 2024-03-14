@@ -21,7 +21,11 @@ export const AddClassForm = ({ onCreate, professorId }: Props) => {
     groups,
     selectedEducationPlan,
     semester,
-    subjects
+    subjects,
+    selectedGroup,
+    selectedSubject,
+    setSelectedGroup,
+    setSelectedSubject
   } = useAddSubjects()
 
   return (
@@ -66,6 +70,8 @@ export const AddClassForm = ({ onCreate, professorId }: Props) => {
         required
         label='Grupo'
         name='group'
+        value={selectedGroup ?? undefined}
+        onChange={e => setSelectedGroup(Number(e.target.value))}
       >
         {groups.map(group => (
           <option key={v4()} value={group.id}>{group.name}</option>
@@ -91,6 +97,8 @@ export const AddClassForm = ({ onCreate, professorId }: Props) => {
         required
         label='Materia'
         name='subject'
+        value={selectedSubject ?? undefined}
+        onChange={e => setSelectedSubject(Number(e.target.value))}
       >
         {subjects.map(subject => (
           <option key={v4()} value={subject.id}>{subject.name}</option>
