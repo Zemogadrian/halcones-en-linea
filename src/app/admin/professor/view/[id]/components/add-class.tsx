@@ -37,7 +37,7 @@ export const AddClass = () => {
                 visible: { x: 0, opacity: 1 }
               }}
               transition={{ type: 'just' }}
-              className='bg-white w-96 h-full overflow-y-auto p-4'
+              className=' bg-gradient-to-b from-itesus-secondary from-20% to-itesus-primary w-96 h-full overflow-y-auto p-4'
             >
               <AddClassForm />
             </motion.section>

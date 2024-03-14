@@ -1,7 +1,7 @@
 'use server'
 
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from 'database.types'
+import { Database, Tables } from 'database.types'
 import { cookies } from 'next/headers'
 
 import { foundUserRedirect } from '@/services/supabase/functions/utils'
@@ -24,7 +24,7 @@ export const getTopics = async () => {
 export const getGroups = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('groups').select('*')
+  const { data, error } = await supabase.from('groups').select('id, name, created_at, careers(id, name)')
 
   if (error != null) {
     console.error('Error getting groups:', error)
@@ -37,7 +37,7 @@ export const getGroups = async () => {
 export const getGroupsByCareer = async (careerId: number) => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('groups').select('*').eq('career', careerId)
+  const { data, error } = await supabase.from('groups').select('id, name, created_at').eq('career', careerId)
 
   if (error != null) {
     console.error('Error getting groups:', error)
@@ -225,6 +225,27 @@ export const getUser = async () => {
 }
 
 /* Subjects */
+export const getSubjectsBySemester = async (semesterId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('semester_subjects').select('subjects(*)').eq('semester', semesterId)
+
+  if (error != null) {
+    console.error('Error getting subjects:', error)
+    throw new Error('Error getting subjects')
+  }
+
+  const subjects = data?.map((ss: {
+    subjects: {
+      created_at: string
+      id: number
+      name: string
+    } | null
+  }) => ss.subjects).filter(s => s != null) as Array<Tables<'subjects'>>
+
+  return subjects
+}
+
 export const getSubjects = async () => {
   const supabase = await createClient()
 
@@ -390,6 +411,19 @@ export const getEducationPlan = async (id: string) => {
   const supabase = await createClient()
 
   const { data, error } = await supabase.from('education_plans').select('*, careers(id, name), semesters(*, semester_subjects(subjects(*)))').eq('id', id).single()
+
+  if (error != null) {
+    console.error('Error getting education plan:', error)
+    throw new Error('Error getting education plan')
+  }
+
+  return data
+}
+
+export const getEducationPlansByCareer = async (careerId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('id, name, created_at, semesters(id, number)').eq('career', careerId)
 
   if (error != null) {
     console.error('Error getting education plan:', error)
