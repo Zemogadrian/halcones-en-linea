@@ -1,6 +1,6 @@
 'use client'
 
-import { Form, H1, LabeledSelect } from '@/components/utils'
+import { Form, H1, LabeledSelect, SubmitButton } from '@/components/utils'
 import { v4 } from '@/utils/uuid'
 import { useAddSubjects } from '../hooks/use-add-subjects'
 
@@ -25,6 +25,7 @@ export const AddClassForm = () => {
       </H1>
 
       <LabeledSelect
+        name='career'
         label='Carrera'
         value={selectedCareer?.id}
         onChange={e => {
@@ -38,6 +39,7 @@ export const AddClassForm = () => {
       </LabeledSelect>
 
       <LabeledSelect
+        name='educationPlan'
         label='Plan de estudios'
         value={selectedEducationPlan?.id}
         onChange={e => {
@@ -52,6 +54,7 @@ export const AddClassForm = () => {
 
       <LabeledSelect
         label='Grupo'
+        name='group'
       >
         {groups.map(group => (
           <option key={v4()} value={group.id}>{group.name}</option>
@@ -60,6 +63,7 @@ export const AddClassForm = () => {
 
       <LabeledSelect
         label='Semestre'
+        name='semester'
         value={semester?.id}
         onChange={e => {
           changeSemester(Number(e.target.value))
@@ -73,11 +77,16 @@ export const AddClassForm = () => {
 
       <LabeledSelect
         label='Materia'
+        name='subject'
       >
         {subjects.map(subject => (
           <option key={v4()} value={subject.id}>{subject.name}</option>
         ))}
       </LabeledSelect>
+
+      <SubmitButton>
+        Agregar
+      </SubmitButton>
 
     </Form>
   )
