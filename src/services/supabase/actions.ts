@@ -117,19 +117,142 @@ export const getProfessors = async () => {
   return data
 }
 
-export const getProfessorSubjects = async (id: string) => {
+export const getProfessorData = async (id: string) => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('teacher_config').select('subjects(*)').eq('owner', id)
+  const { data, error } = await supabase.from('teacher_config').select('subjects(*), careers(id, name), education_plans(id, name), groups(id, name), semesters(id, number)').eq('owner', id)
 
-  if (error != null) {
+  if (error != null || data == null) {
     console.error('Error getting professor subjects:', error)
     throw new Error('Error getting professor subjects')
   }
 
-  const subjects = data.map((tc) => tc.subjects).filter(s => s != null) as Array<Tables<'subjects'>>
+  const configData: {
+    [c: number]: {
+      id: number
+      name: string
+      educationPlans: {
+        [e: number]: {
+          id: number
+          name: string
+          groups: {
+            [g: number]: {
+              id: number
+              name: string
+              semesters: {
+                [s: number]: {
+                  id: number
+                  number: number
+                  subjects: Array<Tables<'subjects'>>
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  } = {}
 
-  return subjects
+  for (const config of data) {
+    if (config.careers == null || config.semesters == null || config.groups == null || config.subjects == null || config.education_plans == null) continue
+
+    const c = configData[config.careers.id]
+
+    if (c == null) {
+      configData[config.careers.id] = {
+        ...config.careers,
+        educationPlans: {
+          [config.education_plans.id]: {
+            ...config.education_plans,
+            groups: {
+              [config.groups.id]: {
+                ...config.groups,
+                semesters: {
+                  [config.semesters.id]: {
+                    ...config.semesters,
+                    subjects: [
+                      config.subjects
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      continue
+    }
+
+    const e = c.educationPlans[config.education_plans.id]
+
+    if (e == null) {
+      c.educationPlans[config.education_plans.id] = {
+        ...config.education_plans,
+        groups: {
+          [config.groups.id]: {
+            ...config.groups,
+            semesters: {
+              [config.semesters.id]: {
+                ...config.semesters,
+                subjects: [
+                  config.subjects
+                ]
+              }
+            }
+          }
+        }
+      }
+
+      continue
+    }
+
+    const g = e.groups[config.groups.id]
+
+    if (g == null) {
+      e.groups[config.groups.id] = {
+        ...config.groups,
+        semesters: {
+          [config.semesters.id]: {
+            ...config.semesters,
+            subjects: [
+              config.subjects
+            ]
+          }
+        }
+      }
+
+      continue
+    }
+
+    const s = g.semesters[config.semesters.id]
+
+    if (s == null) {
+      g.semesters[config.semesters.id] = {
+        ...config.semesters,
+        subjects: [
+          config.subjects
+        ]
+      }
+
+      continue
+    }
+
+    s.subjects.push(config.subjects)
+  }
+
+  const configDataArray = Object.values(configData).map(c => ({
+    ...c,
+    educationPlans: Object.values(c.educationPlans).map(e => ({
+      ...e,
+      groups: Object.values(e.groups).map(g => ({
+        ...g,
+        semesters: Object.values(g.semesters).map(s => s)
+      }))
+    }))
+  }))
+
+  return configDataArray
 }
 
 export const assingProfessorToSubject = async (data: FormData) => {

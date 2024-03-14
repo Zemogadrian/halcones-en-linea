@@ -1,5 +1,5 @@
 import { H1, H2, Main } from '@/components/utils'
-import { getProfessor, getProfessorSubjects } from '@/services/supabase/actions'
+import { getProfessor, getProfessorData } from '@/services/supabase/actions'
 import { AddClass } from './components/add-class'
 
 interface Props {
@@ -11,9 +11,9 @@ interface Props {
 export default async function ProfessorViewPage ({ params }: Props) {
   const professor = await getProfessor(params.id)
 
-  const subjects = await getProfessorSubjects(params.id)
+  const careers = await getProfessorData(params.id)
 
-  console.log(subjects)
+  console.log(careers)
 
   return (
     <Main>
