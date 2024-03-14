@@ -5,7 +5,11 @@ import { IconPlus } from '@tabler/icons-react'
 import { useState } from 'react'
 import { AddClassForm } from './add-class-form'
 
-export const AddClass = () => {
+interface Props {
+  professorId: string
+}
+
+export const AddClass = ({ professorId }: Props) => {
   const [isView, setView] = useState(false)
 
   return (
@@ -37,9 +41,14 @@ export const AddClass = () => {
                 visible: { x: 0, opacity: 1 }
               }}
               transition={{ type: 'just' }}
-              className='bg-white w-96 h-full overflow-y-auto p-4'
+              className=' bg-gradient-to-b from-itesus-secondary from-20% to-itesus-primary w-96 h-full overflow-y-auto p-4'
             >
-              <AddClassForm />
+              <AddClassForm
+                professorId={professorId}
+                onCreate={() => {
+                  setView(false)
+                }}
+              />
             </motion.section>
           </motion.div>
         )}

@@ -11,7 +11,7 @@ export default async function ProfessorPage () {
   return (
     <Main>
       <div className='flex items-center justify-between mb-4'>
-        <H1 className='mb-0'>Profesores</H1>
+        <H1 className='text-white'>Profesores</H1>
 
         <RedirectPlus href='/admin/professor/new' />
       </div>

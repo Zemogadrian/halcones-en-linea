@@ -1,5 +1,5 @@
-import { Form, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
-import { createEducationPlan, getEducationPlan, getSubjects, updateEducationPlan } from '@/services/supabase/actions'
+import { Form, H1, LabeledInput, LabeledSelect, Main, SubmitButton } from '@/components/utils'
+import { createEducationPlan, getEducationPlan, getReducedCareers, getSubjects, updateEducationPlan } from '@/services/supabase/actions'
 import { SemesterSection } from './components/semester-section'
 import { Tables } from 'database.types'
 
@@ -12,31 +12,22 @@ interface Props {
 
 export default async function NewEducationPlan ({ params, isEditMode = false }: Props) {
   const planEdu = isEditMode ? await getEducationPlan(params.id) : null
+  const careers = !isEditMode && await getReducedCareers()
 
-  const materiasInPlan = planEdu?.semesters.reduce((acc, semester) => {
-    // @ts-expect-error
-    return acc.concat(semester.semester_subjects.map((ss) => ss.subject))
-  }, []) as Array<Tables<'subjects'>>
+  const subjectsInPlan = (planEdu?.semesters ?? []).reduce<Array<Tables<'subjects'>>>((acc, semester) => {
+    const subjects = (semester.semester_subjects ?? []).map((ss) => ss?.subjects).filter((s) => s != null) as Array<Tables<'subjects'>>
+
+    return acc.concat(subjects)
+  }, [])
 
   const subjects = isEditMode
     ? (await getSubjects()).filter((subject) => {
-        return !materiasInPlan.some((materia) => materia.id === subject.id)
+        return !(subjectsInPlan ?? []).some((materia) => materia.id === subject.id)
       })
     : await getSubjects()
 
   const action = async (data: FormData) => {
     'use server'
-
-    // const type = '1' // 1, 2, 3, 4
-
-    // const actions = {
-    //   1: async () => {},
-    //   2: async () => {},
-    //   3: async () => {},
-    //   4: async () => {}
-    // }
-
-    // actions[type]()
 
     const func = isEditMode && planEdu != null
       ? async () => await updateEducationPlan(planEdu, data)
@@ -47,7 +38,7 @@ export default async function NewEducationPlan ({ params, isEditMode = false }: 
 
   return (
     <Main>
-      <H1>Nuevo plan educativo</H1>
+      <H1 className='mb-4 text-white'>Nuevo plan educativo</H1>
 
       <section className='flex-1'>
         <Form
@@ -62,6 +53,25 @@ export default async function NewEducationPlan ({ params, isEditMode = false }: 
             required
             defaultValue={planEdu?.name}
           />
+
+          {/* <LabeledSelect /> */}
+
+          {careers !== false && (
+            <LabeledSelect
+              label='Carrera'
+              name='career'
+              required
+            >
+              {careers.map((career) => (
+                <option
+                  key={career.id}
+                  value={career.id}
+                >
+                  {career.name}
+                </option>
+              ))}
+            </LabeledSelect>
+          )}
 
           <SemesterSection
             defaultValue={planEdu ?? undefined}

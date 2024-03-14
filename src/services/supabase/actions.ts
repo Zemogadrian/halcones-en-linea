@@ -1,7 +1,7 @@
 'use server'
 
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from 'database.types'
+import { Database, Tables } from 'database.types'
 import { cookies } from 'next/headers'
 
 import { foundUserRedirect } from '@/services/supabase/functions/utils'
@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { EducationPlan } from './types'
 import { USER_TYPES } from './functions/types'
+import { extractSemesters, filterSemestersToAdd, filterSemestersToDelete, filterSemestersToUpdate, filterSubjectsToAdd, filterSubjectsToDelete } from './utils/create-education-plan'
 
 export const createClient = async () => createServerActionClient<Database>({
   cookies: () => cookies()
@@ -17,6 +18,47 @@ export const createClient = async () => createServerActionClient<Database>({
 
 export const getTopics = async () => {
   return []
+}
+
+/* Groups */
+export const getGroups = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('groups').select('id, name, created_at, careers(id, name)')
+
+  if (error != null) {
+    console.error('Error getting groups:', error)
+    throw new Error('Error getting groups')
+  }
+
+  return data
+}
+
+export const getGroupsByCareer = async (careerId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('groups').select('id, name, created_at').eq('career', careerId)
+
+  if (error != null) {
+    console.error('Error getting groups:', error)
+    throw new Error('Error getting groups')
+  }
+
+  return data
+}
+
+export const createGroup = async (data: FormData) => {
+  const supabase = await createClient()
+
+  const entries = Object.fromEntries(data.entries())
+
+  await supabase.from('groups').insert({
+    name: z.coerce.string().parse(entries.name),
+    career: z.coerce.number().parse(entries.career)
+  })
+
+  revalidatePath('/admin/groups')
+  redirect('/admin/groups')
 }
 
 /* Students */
@@ -35,17 +77,15 @@ export const getStudents = async () => {
   return data
 }
 
-export const getStudentSubjects = async (id: number) => {
+export const getStudentSubjects = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('student_config').select('semesters(number, semester_subjects(subject(*)))')
+  const { data, error } = await supabase.from('student_config').select('semesters(number, semester_subjects(subjects(*)))')
 
   if (error != null) {
     console.error('Error getting student subjects:', error)
     throw new Error('Error getting student subjects')
   }
-
-  console.log(data)
 
   return data
 }
@@ -77,6 +117,43 @@ export const getProfessors = async () => {
   return data
 }
 
+export const getProfessorSubjects = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('teacher_config').select('subjects(*)').eq('owner', id)
+
+  if (error != null) {
+    console.error('Error getting professor subjects:', error)
+    throw new Error('Error getting professor subjects')
+  }
+
+  const subjects = data.map((tc) => tc.subjects).filter(s => s != null) as Array<Tables<'subjects'>>
+
+  return subjects
+}
+
+export const assingProfessorToSubject = async (data: FormData) => {
+  const supabase = await createClient()
+
+  const entries = Object.fromEntries(data.entries())
+
+  const { error } = await supabase.from('teacher_config').insert({
+    career: z.coerce.number().parse(entries.career),
+    group: z.coerce.number().parse(entries.group),
+    owner: z.coerce.string().parse(entries.professor),
+    plan_edu: z.coerce.number().parse(entries.educationPlan),
+    semester: z.coerce.number().parse(entries.semester),
+    subject: z.coerce.number().parse(entries.subject)
+  })
+
+  if (error != null) {
+    console.error('Error assigning professor to subject:', error)
+    throw new Error('Error assigning professor to subject')
+  }
+
+  revalidatePath(`/admin/professors/view/${z.coerce.string().parse(entries.professor)}`)
+}
+
 /* Careers */
 export const createCareer = async (data: FormData) => {
   'use server'
@@ -88,8 +165,7 @@ export const createCareer = async (data: FormData) => {
   await supabase.from('careers').insert({
     name: z.coerce.string().parse(entries.name),
     rvoe: z.coerce.string().parse(entries.rvoe),
-    campus: z.coerce.number().parse(entries.campus),
-    plan_edu: z.coerce.number().parse(entries.plan)
+    campus: z.coerce.number().parse(entries.campus)
   })
 
   revalidatePath('/admin/careers')
@@ -99,7 +175,20 @@ export const createCareer = async (data: FormData) => {
 export const getCareers = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('careers').select('id, name, rvoe, created_at, campus(name)')
+  const { data, error } = await supabase.from('careers').select('id, name, rvoe, created_at, campus(id, name)')
+
+  if (error != null) {
+    console.error('Error getting careers:', error)
+    throw new Error('Error getting careers')
+  }
+
+  return data
+}
+
+export const getReducedCareers = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('careers').select('id, name, campus(id, name)')
 
   if (error != null) {
     console.error('Error getting careers:', error)
@@ -173,6 +262,27 @@ export const getUser = async () => {
 }
 
 /* Subjects */
+export const getSubjectsBySemester = async (semesterId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('semester_subjects').select('subjects(*)').eq('semester', semesterId)
+
+  if (error != null) {
+    console.error('Error getting subjects:', error)
+    throw new Error('Error getting subjects')
+  }
+
+  const subjects = data?.map((ss: {
+    subjects: {
+      created_at: string
+      id: number
+      name: string
+    } | null
+  }) => ss.subjects).filter(s => s != null) as Array<Tables<'subjects'>>
+
+  return subjects
+}
+
 export const getSubjects = async () => {
   const supabase = await createClient()
 
@@ -216,21 +326,11 @@ export const createEducationPlan = async (data: FormData) => {
 
   const entries = Object.fromEntries(data.entries())
 
-  const [,...semesters] = Object.entries(entries).map(([key, value]) => {
-    if (key.startsWith('subjects-')) {
-      const newValue = z.coerce.string().parse(value)
-
-      return {
-        semester: key.split('-')[1],
-        subjects: newValue.split(',').map((subjectName) => subjects.find((subject) => subject.name === subjectName))
-      }
-    }
-
-    return null
-  }).filter((value) => value != null)
+  const semesters = extractSemesters(subjects, entries)
 
   const { data: eduPlan } = await supabase.from('education_plans').insert({
-    name: z.coerce.string().parse(entries.name)
+    name: z.coerce.string().parse(entries.name),
+    career: z.coerce.number().parse(entries.career)
   }).select('id').single()
 
   for (const semester of semesters) {
@@ -266,28 +366,13 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
 
   const entries = Object.fromEntries(data.entries())
 
-  const [,...semesters] = Object.entries(entries).map(([key, value]) => {
-    if (key.startsWith('subjects-')) {
-      const newValue = z.coerce.string().parse(value)
-
-      return {
-        semester: key.split('-')[1],
-        subjects: newValue.split(',').map((subjectName) => subjects.find((subject) => subject.name === subjectName))
-      }
-    }
-
-    return null
-  }).filter((value) => value != null)
+  const semesters = extractSemesters(subjects, entries)
 
   await supabase.from('education_plans').update({
     name: z.coerce.string().parse(entries.name)
   }).eq('id', oldPlan.id)
 
-  console.log(z.coerce.string().parse(entries.name))
-
-  const semestersToDelete = oldPlan.semesters.filter((semester) => {
-    return !semesters.some((newSemester) => newSemester?.semester === semester.number.toString())
-  })
+  const semestersToDelete = filterSemestersToDelete(semesters, oldPlan)
 
   for (const semester of semestersToDelete) {
     if (semester == null) continue
@@ -295,16 +380,12 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
     await supabase.from('semesters').delete().eq('id', semester.id)
   }
 
-  const semestersToUpdate = semesters.filter((semester) => {
-    return oldPlan.semesters.some((oldSemester) => oldSemester.number.toString() === semester?.semester)
-  })
+  const semestersToUpdate = filterSemestersToUpdate(semesters, oldPlan)
 
   for (const semester of semestersToUpdate) {
     if (semester == null) continue
 
-    const subjectsToDelete = oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester)?.semester_subjects.filter((ss) => {
-      return !semester.subjects.some((subject) => subject?.name === ss.subjects?.name)
-    })
+    const subjectsToDelete = filterSubjectsToDelete(oldPlan, semester)
 
     const { data: se } = await supabase.from('semesters').select('id').eq('education_plan', oldPlan.id).eq('number', semester.semester).single()
 
@@ -314,13 +395,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
       await supabase.from('semester_subjects').delete().eq('subject', subject.subjects?.id ?? 0).eq('semester', se?.id ?? 0)
     }
 
-    const subjectsToAdd = semester.subjects.filter((subject) => {
-      const edu = oldPlan.semesters.find((oldSemester) => oldSemester.number.toString() === semester.semester)
-
-      if (edu == null) return []
-
-      return !edu.semester_subjects.some((ss) => ss?.subjects?.name === subject?.name)
-    })
+    const subjectsToAdd = filterSubjectsToAdd(semester, oldPlan)
 
     for (const subject of subjectsToAdd) {
       if (subject == null) continue
@@ -332,9 +407,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
     }
   }
 
-  const semestersToAdd = semesters.filter((semester) => {
-    return !oldPlan.semesters.some((oldSemester) => oldSemester.number.toString() === semester?.semester)
-  })
+  const semestersToAdd = filterSemestersToAdd(semesters, oldPlan)
 
   for (const semester of semestersToAdd) {
     if (semester == null) continue
@@ -361,7 +434,7 @@ export const updateEducationPlan = async (oldPlan: EducationPlan, data: FormData
 export const getEducationPlans = async () => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(subjects(*)))')
+  const { data, error } = await supabase.from('education_plans').select('id, name, created_at, careers(id, name), semesters(*, semester_subjects(subjects(*)))')
 
   if (error != null) {
     console.error('Error getting education plans:', error)
@@ -374,7 +447,20 @@ export const getEducationPlans = async () => {
 export const getEducationPlan = async (id: string) => {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('education_plans').select('*, semesters(*, semester_subjects(subjects(*)))').eq('id', id).single()
+  const { data, error } = await supabase.from('education_plans').select('*, careers(id, name), semesters(*, semester_subjects(subjects(*)))').eq('id', id).single()
+
+  if (error != null) {
+    console.error('Error getting education plan:', error)
+    throw new Error('Error getting education plan')
+  }
+
+  return data
+}
+
+export const getEducationPlansByCareer = async (careerId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('education_plans').select('id, name, created_at, semesters(id, number)').eq('career', careerId)
 
   if (error != null) {
     console.error('Error getting education plan:', error)

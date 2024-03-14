@@ -80,8 +80,7 @@ export const SemesterSection = ({ subjects, defaultValue }: Props) => {
 
               <MultiDragAndDrop
                 group='subjects'
-                // @ts-expect-error
-                options={semesterItem.find(s => s.number === index + 1)?.semester_subjects.map((ss) => ss.subject?.name) ?? []}
+                options={semesterItem.find(s => s.number === index + 1)?.semester_subjects.map((ss) => ss.subjects?.name ?? '') ?? []}
                 id={`${index + 1}`}
               />
             </article>

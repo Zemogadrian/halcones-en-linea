@@ -1,45 +1,108 @@
 'use client'
-import { H1 } from '@/components/utils'
-import { getEducationPlans } from '@/services/supabase/actions'
-import { EducationPlan } from '@/services/supabase/types'
+
+import { Form, H1, LabeledSelect, SubmitButton } from '@/components/utils'
 import { v4 } from '@/utils/uuid'
-import { useEffect, useState } from 'react'
+import { useAddSubjects } from '../hooks/use-add-subjects'
+import { assingProfessorToSubject } from '@/services/supabase/actions'
 
-export const AddClassForm = () => {
-  const [plans, setPlans] = useState<EducationPlan[]>([])
-  const [selectedPlan, setSelectedPlan] = useState<EducationPlan | null>(null)
+interface Props {
+  onCreate: () => void
+  professorId: string
+}
 
-  useEffect(() => {
-    getEducationPlans()
-      .then(plans => {
-        setPlans(plans)
-      })
-      .catch(console.error)
-  }, [])
+export const AddClassForm = ({ onCreate, professorId }: Props) => {
+  const {
+    careers,
+    selectedCareer,
+    changeCareer,
+    changeEducationPlan,
+    changeSemester,
+    educationPlans,
+    groups,
+    selectedEducationPlan,
+    semester,
+    subjects
+  } = useAddSubjects()
 
   return (
-    <form>
-      <H1 className='text-black'>
+    <Form action={assingProfessorToSubject}>
+      <input name='professor' className='hidden' value={professorId} />
+
+      <H1 className='text-white mb-4'>
         Agregar clase
       </H1>
 
-      <select
-        onChange={(e) => setSelectedPlan(() => {
-          const planId = e.target.value
-          return plans.find(plan => plan.id.toString() === planId) ?? null
-        })}
-        value={selectedPlan?.id}
+      <LabeledSelect
+        required
+        name='career'
+        label='Carrera'
+        value={selectedCareer?.id}
+        onChange={e => {
+          changeCareer(Number(e.target.value))
+            .catch(console.error)
+        }}
       >
-        {plans.map((plan) => (
-          <option
-            key={v4()}
-            value={plan.id}
-          >
-            {plan.name}
-          </option>
+        {careers.map(career => (
+          <option key={v4()} value={career.id}>{career.name}</option>
         ))}
-      </select>
+      </LabeledSelect>
 
-    </form>
+      <LabeledSelect
+        required
+        name='educationPlan'
+        label='Plan de estudios'
+        value={selectedEducationPlan?.id}
+        onChange={e => {
+          changeEducationPlan(Number(e.target.value))
+            .catch(console.error)
+        }}
+      >
+        {educationPlans.map(plan => (
+          <option key={v4()} value={plan.id}>{plan.name}</option>
+        ))}
+      </LabeledSelect>
+
+      <LabeledSelect
+        required
+        label='Grupo'
+        name='group'
+      >
+        {groups.map(group => (
+          <option key={v4()} value={group.id}>{group.name}</option>
+        ))}
+      </LabeledSelect>
+
+      <LabeledSelect
+        required
+        label='Semestre'
+        name='semester'
+        value={semester?.id}
+        onChange={e => {
+          changeSemester(Number(e.target.value))
+            .catch(console.error)
+        }}
+      >
+        {selectedEducationPlan?.semesters.map(semester => (
+          <option key={v4()} value={semester.id}>{semester.number}</option>
+        ))}
+      </LabeledSelect>
+
+      <LabeledSelect
+        required
+        label='Materia'
+        name='subject'
+      >
+        {subjects.map(subject => (
+          <option key={v4()} value={subject.id}>{subject.name}</option>
+        ))}
+      </LabeledSelect>
+
+      <SubmitButton
+        onClick={onCreate}
+      >
+        Agregar
+      </SubmitButton>
+
+    </Form>
   )
 }

@@ -27,6 +27,7 @@ export default async function EducationPlansPage () {
           <THeadSticky>
             <tr>
               <Th>Nombre</Th>
+              <Th>Carrera</Th>
               <Th>Semestres</Th>
               <Th>Fecha de creacion</Th>
               <Th>Acciones</Th>
@@ -39,6 +40,9 @@ export default async function EducationPlansPage () {
                   className='capitalize'
                 >
                   {plan.name}
+                </Td>
+                <Td>
+                  {plan.careers?.name ?? 'Sin carrera'}
                 </Td>
                 <Td>
                   {plan.semesters.length}

@@ -11,10 +11,10 @@ export default async function CareersPage () {
   return (
     <Main>
       <div
-        className='flex items-center justify-between mb-4'
+        className='flex items-center justify-between mb-10'
       >
         <H1
-          className='mb-0'
+          className='text-white'
         >
           Carreras
         </H1>

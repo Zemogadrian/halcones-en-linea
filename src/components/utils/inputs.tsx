@@ -57,7 +57,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label: string
 }
 
-export const Select = ({ children, label, ...props }: SelectProps) => (
+export const LabeledSelect = ({ children, label, ...props }: SelectProps) => (
   <label
     className='flex flex-col gap-1 mt-1'
   >
@@ -66,11 +66,17 @@ export const Select = ({ children, label, ...props }: SelectProps) => (
     >
       {label}
     </span>
-    <select
-      className='w-full px-2 border py-1 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-itesus-primary focus:border-transparent'
-      {...props}
-    >
+    <Select {...props}>
       {children}
-    </select>
+    </Select>
   </label>
+)
+
+export const Select = ({ children, ...props }: React.SelectHTMLAttributes<HTMLSelectElement>) => (
+  <select
+    className='w-full px-2 border py-1 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-itesus-primary focus:border-transparent'
+    {...props}
+  >
+    {children}
+  </select>
 )

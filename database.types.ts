@@ -87,7 +87,6 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          plan_edu: number
           rvoe: string
         }
         Insert: {
@@ -95,7 +94,6 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
-          plan_edu: number
           rvoe: string
         }
         Update: {
@@ -103,17 +101,9 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
-          plan_edu?: number
           rvoe?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "public_careers_plan_edu_fkey"
-            columns: ["plan_edu"]
-            isOneToOne: false
-            referencedRelation: "education_plans"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "public_carreras_campues_fkey"
             columns: ["campus"]
@@ -125,39 +115,61 @@ export type Database = {
       }
       education_plans: {
         Row: {
+          career: number
           created_at: string
           id: number
           name: string
         }
         Insert: {
+          career: number
           created_at?: string
           id?: number
           name: string
         }
         Update: {
+          career?: number
           created_at?: string
           id?: number
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_education_plans_career_fkey"
+            columns: ["career"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       groups: {
         Row: {
+          career: number
           created_at: string
           id: number
           name: string
         }
         Insert: {
+          career: number
           created_at?: string
           id?: number
           name: string
         }
         Update: {
+          career?: number
           created_at?: string
           id?: number
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_groups_career_fkey"
+            columns: ["career"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       roles: {
         Row: {
@@ -246,6 +258,7 @@ export type Database = {
         Row: {
           career: number
           created_at: string
+          education_plan: number
           group: number
           id: number
           owner: string
@@ -254,6 +267,7 @@ export type Database = {
         Insert: {
           career: number
           created_at?: string
+          education_plan: number
           group: number
           id?: number
           owner: string
@@ -262,6 +276,7 @@ export type Database = {
         Update: {
           career?: number
           created_at?: string
+          education_plan?: number
           group?: number
           id?: number
           owner?: string
@@ -273,6 +288,13 @@ export type Database = {
             columns: ["career"]
             isOneToOne: false
             referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_student_config_education_plan_fkey"
+            columns: ["education_plan"]
+            isOneToOne: false
+            referencedRelation: "education_plans"
             referencedColumns: ["id"]
           },
           {
