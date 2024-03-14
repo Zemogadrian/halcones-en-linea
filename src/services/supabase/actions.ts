@@ -117,7 +117,7 @@ export const getProfessors = async () => {
   return data
 }
 
-export const getProfessorData = async (id: string) => {
+export const getProfessorCareers = async (id: string) => {
   const supabase = await createClient()
 
   const { data, error } = await supabase.from('teacher_config').select('subjects(*), careers(id, name), education_plans(id, name), groups(id, name), semesters(id, number)').eq('owner', id)
