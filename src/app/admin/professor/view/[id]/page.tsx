@@ -63,7 +63,9 @@ export default async function ProfessorViewPage ({ params }: Props) {
                                 <Tr key={v4()}>
                                   <td />
                                   {g.semesters.map(s => (
-                                    <Td className='text-black text-center' key={v4()}>{s.subjects[i]?.name}</Td>
+                                    <Td className='text-black text-center' key={v4()}>
+                                      {s.subjects[i]?.name}
+                                    </Td>
                                   ))}
                                 </Tr>
                               )
