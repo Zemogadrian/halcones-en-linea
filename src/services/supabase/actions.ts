@@ -120,11 +120,7 @@ export const getProfessors = async () => {
 export const getProfessorSubjects = async (id: string) => {
   const supabase = await createClient()
 
-  console.log(id)
-
   const { data, error } = await supabase.from('teacher_config').select('subjects(*)').eq('owner', id)
-
-  console.log(data)
 
   if (error != null) {
     console.error('Error getting professor subjects:', error)
