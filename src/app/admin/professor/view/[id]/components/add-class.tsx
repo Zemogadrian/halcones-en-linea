@@ -39,7 +39,10 @@ export const AddClass = () => {
               transition={{ type: 'just' }}
               className=' bg-gradient-to-b from-itesus-secondary from-20% to-itesus-primary w-96 h-full overflow-y-auto p-4'
             >
-              <AddClassForm />
+              <AddClassForm onCreate={() => {
+                setView(false)
+              }}
+              />
             </motion.section>
           </motion.div>
         )}

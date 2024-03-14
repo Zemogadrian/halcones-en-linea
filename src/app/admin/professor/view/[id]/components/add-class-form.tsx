@@ -5,7 +5,11 @@ import { v4 } from '@/utils/uuid'
 import { useAddSubjects } from '../hooks/use-add-subjects'
 import { assingProfessorToSubject } from '@/services/supabase/actions'
 
-export const AddClassForm = () => {
+interface Props {
+  onCreate: () => void
+}
+
+export const AddClassForm = ({ onCreate }: Props) => {
   const {
     careers,
     selectedCareer,
@@ -85,7 +89,9 @@ export const AddClassForm = () => {
         ))}
       </LabeledSelect>
 
-      <SubmitButton>
+      <SubmitButton
+        onClick={onCreate}
+      >
         Agregar
       </SubmitButton>
 
