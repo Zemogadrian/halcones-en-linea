@@ -20,6 +20,12 @@ export const useAddSubjects = () => {
   } | null>(null)
 
   const changeCareer = async (careerId: number) => {
+    const career = careers.find(career => career.id === careerId)
+
+    if (career == null) return
+
+    setSelectedCareer(career)
+
     const groups = await getGroupsByCareer(careerId)
     const educationPlans = await getEducationPlansByCareer(careerId)
 
@@ -36,7 +42,13 @@ export const useAddSubjects = () => {
   }
 
   const changeEducationPlan = async (educationPlanId: number) => {
-    const semester = educationPlans.find(plan => plan.id === educationPlanId)?.semesters[0]
+    const educationPlan = educationPlans.find(plan => plan.id === educationPlanId)
+
+    if (educationPlan == null) return
+
+    setSelectedEducationPlan(educationPlan)
+
+    const semester = educationPlan.semesters[0]
 
     if (semester == null) return
 
@@ -48,6 +60,12 @@ export const useAddSubjects = () => {
   }
 
   const changeSemester = async (semesterId: number) => {
+    const semester = selectedEducationPlan?.semesters.find(semester => semester.id === semesterId)
+
+    if (semester == null) return
+
+    setSemester(semester)
+
     const subjects = await getSubjectsBySemester(semesterId)
 
     setSubjects(subjects)
