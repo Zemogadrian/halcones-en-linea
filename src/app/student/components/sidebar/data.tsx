@@ -88,6 +88,13 @@ export const options: SideBarOptions = [
     ]
   },
   {
-    title: 'Foros'
+    title: 'Foros',
+    sub: [
+      {
+        title: 'Foros',
+        href: '/student/forums'
+      }
+    ]
   }
+
 ]
