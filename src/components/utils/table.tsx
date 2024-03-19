@@ -39,7 +39,7 @@ export const Table = ({ children, className, ...props }: React.HTMLAttributes<HT
 
 export const THeadSticky = ({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) => (
   <thead
-    className='sticky top-0 bg-itesus-primary/50 backdrop-blur-sm text-white'
+    className='sticky top-0 bg-itesus-primary/50 backdrop-blur-sm'
     {...props}
   >
     {children}
