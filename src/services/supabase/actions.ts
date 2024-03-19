@@ -72,8 +72,6 @@ export const getStudents = async () => {
     throw new Error('Error getting students')
   }
 
-  console.log(data)
-
   return data
 }
 
