@@ -12,7 +12,7 @@ export default async function StudentsPage () {
 
       <HeaderBetween>
         <H1
-          className='mb-0'
+          className='text-white'
         >
           Estudiantes
         </H1>
