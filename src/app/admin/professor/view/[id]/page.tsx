@@ -27,7 +27,12 @@ export default async function ProfessorViewPage ({ params }: Props) {
       <section className='flex-1 flex flex-col overflow-hidden'>
         <H2 className='text-white mb-4'>Carreras</H2>
 
-        <div style={ShyScrollbar} className='grid grid-cols-2 gap-2 flex-1 overflow-y-auto'>
+        <div
+          style={{
+            ...ShyScrollbar,
+            gridTemplateColumns: 'repeat(auto-fill, minmax(500px, 1fr))'
+          }} className='grid gap-2 flex-1 overflow-y-auto px-1'
+        >
           {careers.map(c => (
             <article key={v4()} className='bg-white rounded-md p-4'>
               <H3 className='capitalize'>{c.name}</H3>

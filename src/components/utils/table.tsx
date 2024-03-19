@@ -1,15 +1,18 @@
+
+// Before has a text-gray-300 class
 export const Th = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
   <th
-    className={`text-gray-300 py-1 ${className ?? ''}`}
+    className={`py-1 ${className ?? ''}`}
     {...props}
   >
     {children}
   </th>
 )
 
+// Before has a text-white class
 export const Td = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
   <td
-    className={`text-white text-center ${className ?? ''}`}
+    className={`text-center ${className ?? ''}`}
     {...props}
   >
     {children}
