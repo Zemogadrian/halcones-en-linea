@@ -87,7 +87,7 @@ export default function Forums () {
       </section>
       <ScrollToBottomButton scrollContainerRef={scrollContainerRef} />
       <section className='w-full flex flex-row gap-4'>
-        <input placeholder='Escribe un mensaje' className='w-full rounded-full p-5' />
+        <input placeholder='Escribe un mensaje' className='w-full rounded-xl p-5' />
         <button title='Enviar'>
           <img src='/accept.svg' alt='' className='w-10 h-10' />
         </button>
