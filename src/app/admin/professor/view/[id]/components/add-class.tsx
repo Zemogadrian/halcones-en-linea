@@ -1,8 +1,8 @@
 'use client'
 
-import { IconPlus } from '@tabler/icons-react'
 import { AddClassForm } from './add-class-form'
 import { AsideFadeIn } from '@/components/aside-fade-in'
+import { PlusButton } from '@/components/utils'
 
 interface Props {
   professorId: string
@@ -12,12 +12,9 @@ export const AddClassAsideContainer = ({ professorId }: Props) => {
   return (
     <AsideFadeIn
       Button={(props) => (
-        <button
-          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded transition-colors'
+        <PlusButton
           {...props}
-        >
-          <IconPlus size={20} />
-        </button>
+        />
       )}
       Render={(props) => (
         <AddClassForm

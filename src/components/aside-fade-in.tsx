@@ -6,7 +6,7 @@ interface RenderProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 interface Props {
-  Button: (props: React.HTMLAttributes<HTMLElement>) => JSX.Element
+  Button: (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => JSX.Element
   Render: (props: RenderProps) => JSX.Element
 }
 
