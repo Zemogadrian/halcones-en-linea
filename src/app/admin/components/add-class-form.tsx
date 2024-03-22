@@ -3,7 +3,6 @@
 import { Form, H1, LabeledSelect, SubmitButton } from '@/components/utils'
 import { v4 } from '@/utils/uuid'
 import { useAddSubjects } from '../professor/view/[id]/hooks/use-add-subjects'
-import { metadata } from '@/app/layout'
 
 interface Props {
   close: () => void
@@ -14,7 +13,7 @@ interface Props {
   }
 }
 
-export const AddClassForm = ({ close, action, withoutSubjects = false }: Props) => {
+export const AddClassForm = ({ close, action, withoutSubjects = false, metadata }: Props) => {
   const {
     careers,
     selectedCareer,
