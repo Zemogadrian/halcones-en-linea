@@ -1,8 +1,9 @@
 'use client'
 
-import { AddClassForm } from './add-class-form'
+import { AddClassForm } from '../../../../components/add-class-form'
 import { AsideFadeIn } from '@/components/aside-fade-in'
 import { PlusButton } from '@/components/utils'
+import { assingProfessorToSubject } from '@/services/supabase/actions'
 
 interface Props {
   professorId: string
@@ -18,7 +19,10 @@ export const AddClassAsideContainer = ({ professorId }: Props) => {
       )}
       Render={(props) => (
         <AddClassForm
-          professorId={professorId}
+          metadata={{
+            professor: professorId
+          }}
+          action={assingProfessorToSubject}
           {...props}
         />
       )}

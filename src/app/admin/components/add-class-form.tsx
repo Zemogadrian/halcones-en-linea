@@ -2,15 +2,19 @@
 
 import { Form, H1, LabeledSelect, SubmitButton } from '@/components/utils'
 import { v4 } from '@/utils/uuid'
-import { useAddSubjects } from '../hooks/use-add-subjects'
-import { assingProfessorToSubject } from '@/services/supabase/actions'
+import { useAddSubjects } from '../professor/view/[id]/hooks/use-add-subjects'
+import { metadata } from '@/app/layout'
 
 interface Props {
   close: () => void
-  professorId: string
+  action?: (data: FormData) => Promise<void>
+  withoutSubjects?: boolean
+  metadata?: {
+    [key: string]: string | number
+  }
 }
 
-export const AddClassForm = ({ close, professorId }: Props) => {
+export const AddClassForm = ({ close, action, withoutSubjects = false }: Props) => {
   const {
     careers,
     selectedCareer,
@@ -29,8 +33,11 @@ export const AddClassForm = ({ close, professorId }: Props) => {
   } = useAddSubjects()
 
   return (
-    <Form action={assingProfessorToSubject}>
-      <input name='professor' className='hidden' value={professorId} />
+    <Form action={action}>
+
+      {Object.entries(metadata ?? {}).map(([key, value]) => (
+        <input key={v4()} name={key} type='hidden' value={String(value)} />
+      ))}
 
       <H1 className='text-white mb-4'>
         Agregar clase
@@ -93,17 +100,19 @@ export const AddClassForm = ({ close, professorId }: Props) => {
         ))}
       </LabeledSelect>
 
-      <LabeledSelect
-        required
-        label='Materia'
-        name='subject'
-        value={selectedSubject ?? undefined}
-        onChange={e => setSelectedSubject(Number(e.target.value))}
-      >
-        {subjects.map(subject => (
-          <option key={v4()} value={subject.id}>{subject.name}</option>
-        ))}
-      </LabeledSelect>
+      {!withoutSubjects && (
+        <LabeledSelect
+          required
+          label='Materia'
+          name='subject'
+          value={selectedSubject ?? undefined}
+          onChange={e => setSelectedSubject(Number(e.target.value))}
+        >
+          {subjects.map(subject => (
+            <option key={v4()} value={subject.id}>{subject.name}</option>
+          ))}
+        </LabeledSelect>
+      )}
 
       <SubmitButton
         onClick={close}

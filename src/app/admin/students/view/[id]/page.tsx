@@ -19,7 +19,7 @@ export default async function ViewStudentPage ({ params }: Props) {
         <div>
           <H1 className='capitalize text-white'>{student.first_name}</H1>
         </div>
-        <AddClassAsideContainer />
+        <AddClassAsideContainer studentId={params.id} />
       </header>
     </Main>
   )
