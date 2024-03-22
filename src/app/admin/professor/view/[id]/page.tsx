@@ -1,6 +1,6 @@
 import { H1, H2, H3, H4, Main, ShyScrollbar, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
 import { getAccount, getProfessorCareers } from '@/services/supabase/actions'
-import { AddClass } from './components/add-class'
+import { AddClassAsideContainer } from './components/add-class'
 import { v4 } from '@/utils/uuid'
 
 interface Props {
@@ -21,7 +21,7 @@ export default async function ProfessorViewPage ({ params }: Props) {
         <div>
           <H1 className='capitalize text-white'>{professor.first_name}</H1>
         </div>
-        <AddClass professorId={params.id} />
+        <AddClassAsideContainer professorId={params.id} />
       </header>
 
       <section className='flex-1 flex flex-col overflow-hidden'>

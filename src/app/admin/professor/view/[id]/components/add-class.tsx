@@ -8,7 +8,7 @@ interface Props {
   professorId: string
 }
 
-export const AddClass = ({ professorId }: Props) => {
+export const AddClassAsideContainer = ({ professorId }: Props) => {
   return (
     <AsideFadeIn
       Button={(props) => (
