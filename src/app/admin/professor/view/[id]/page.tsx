@@ -1,5 +1,5 @@
 import { H1, H2, H3, H4, Main, ShyScrollbar, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
-import { getProfessor, getProfessorCareers } from '@/services/supabase/actions'
+import { getAccount, getProfessorCareers } from '@/services/supabase/actions'
 import { AddClass } from './components/add-class'
 import { v4 } from '@/utils/uuid'
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default async function ProfessorViewPage ({ params }: Props) {
-  const professor = await getProfessor(params.id)
+  const professor = await getAccount(params.id)
 
   const careers = await getProfessorCareers(params.id)
 

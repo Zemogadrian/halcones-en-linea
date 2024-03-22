@@ -89,18 +89,6 @@ export const getStudentSubjects = async () => {
 }
 
 /* Professors */
-export const getProfessor = async (id: string) => {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.from('user_data').select('*').eq('owner', id).single()
-
-  if (error != null) {
-    console.error('Error getting professor:', error)
-    throw new Error('Error getting professor')
-  }
-
-  return data
-}
 
 export const getProfessors = async () => {
   const supabase = await createClient()
@@ -334,6 +322,19 @@ export const getCampuses = async () => {
 }
 
 /* Auth */
+export const getAccount = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('user_data').select('*').eq('owner', id).single()
+
+  if (error != null) {
+    console.error('Error getting professor:', error)
+    throw new Error('Error getting professor')
+  }
+
+  return data
+}
+
 export const login = async (email: string, password: string) => {
   const supabase = await createClient()
 

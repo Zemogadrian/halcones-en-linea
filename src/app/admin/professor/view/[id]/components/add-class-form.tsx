@@ -6,11 +6,11 @@ import { useAddSubjects } from '../hooks/use-add-subjects'
 import { assingProfessorToSubject } from '@/services/supabase/actions'
 
 interface Props {
-  onCreate: () => void
+  close: () => void
   professorId: string
 }
 
-export const AddClassForm = ({ onCreate, professorId }: Props) => {
+export const AddClassForm = ({ close, professorId }: Props) => {
   const {
     careers,
     selectedCareer,
@@ -106,7 +106,7 @@ export const AddClassForm = ({ onCreate, professorId }: Props) => {
       </LabeledSelect>
 
       <SubmitButton
-        onClick={onCreate}
+        onClick={close}
       >
         Agregar
       </SubmitButton>

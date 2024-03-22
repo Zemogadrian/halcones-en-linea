@@ -24,7 +24,7 @@ export default async function StudentsPage () {
         <Table>
           <THeadSticky>
             <tr>
-              <Th>Nombre</Th>
+              <Th className='text-white'>Nombre</Th>
               <Th>Correo</Th>
               <Th>Telefono</Th>
               <Th>Acciones</Th>
@@ -46,7 +46,7 @@ export default async function StudentsPage () {
                 <Td>
                   <div className='flex justify-center items-center py-1'>
                     <Link
-                      href={`/admin/students/edit/${student.id}`}
+                      href={`/admin/students/view/${student.owner ?? ''}`}
                       className='p-1 bg-itesus-primary rounded-md cursor-pointer hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
                     >
                       <IconEdit
