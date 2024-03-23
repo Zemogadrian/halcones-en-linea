@@ -3,7 +3,11 @@ import { EducationPlanByCareer, GroupByCareer, ReducedCareer } from '@/services/
 import { Tables } from 'database.types'
 import { useEffect, useState } from 'react'
 
-export const useAddSubjects = () => {
+interface Props {
+  withoutSubjects: boolean
+}
+
+export const useAddSubjects = ({ withoutSubjects = false }: Props) => {
   const [careers, setCareers] = useState<ReducedCareer[]>([])
   const [selectedCareer, setSelectedCareer] = useState<ReducedCareer | null>(null)
 
@@ -40,10 +44,12 @@ export const useAddSubjects = () => {
 
     setSemester(educationPlans[0].semesters[0])
 
-    const subjects = await getSubjectsBySemester(educationPlans[0].semesters[0].id)
+    if (!withoutSubjects) {
+      const subjects = await getSubjectsBySemester(educationPlans[0].semesters[0].id)
 
-    setSubjects(subjects)
-    setSelectedSubject(subjects[0].id)
+      setSubjects(subjects)
+      setSelectedSubject(subjects[0].id)
+    }
   }
 
   const changeEducationPlan = async (educationPlanId: number) => {
@@ -59,10 +65,12 @@ export const useAddSubjects = () => {
 
     setSemester(semester)
 
-    const subjects = await getSubjectsBySemester(semester.id)
+    if (!withoutSubjects) {
+      const subjects = await getSubjectsBySemester(semester.id)
 
-    setSubjects(subjects)
-    setSelectedSubject(subjects[0].id)
+      setSubjects(subjects)
+      setSelectedSubject(subjects[0].id)
+    }
   }
 
   const changeSemester = async (semesterId: number) => {
@@ -72,10 +80,12 @@ export const useAddSubjects = () => {
 
     setSemester(semester)
 
-    const subjects = await getSubjectsBySemester(semesterId)
+    if (!withoutSubjects) {
+      const subjects = await getSubjectsBySemester(semesterId)
 
-    setSubjects(subjects)
-    setSelectedSubject(subjects[0].id)
+      setSubjects(subjects)
+      setSelectedSubject(subjects[0].id)
+    }
   }
 
   useEffect(() => {
@@ -91,12 +101,14 @@ export const useAddSubjects = () => {
 
             setSemester(plans[0].semesters[0])
 
-            getSubjectsBySemester(plans[0].semesters[0].id)
-              .then(subjects => {
-                setSubjects(subjects)
-                setSelectedSubject(subjects[0].id)
-              })
-              .catch(console.error)
+            if (!withoutSubjects) {
+              getSubjectsBySemester(plans[0].semesters[0].id)
+                .then(subjects => {
+                  setSubjects(subjects)
+                  setSelectedSubject(subjects[0].id)
+                })
+                .catch(console.error)
+            }
           })
           .catch(console.error)
 

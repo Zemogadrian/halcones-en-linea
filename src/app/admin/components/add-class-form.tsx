@@ -29,7 +29,7 @@ export const AddClassForm = ({ close, action, withoutSubjects = false, metadata 
     selectedSubject,
     setSelectedGroup,
     setSelectedSubject
-  } = useAddSubjects()
+  } = useAddSubjects({ withoutSubjects })
 
   return (
     <Form action={action}>
