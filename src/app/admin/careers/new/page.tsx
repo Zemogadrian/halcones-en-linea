@@ -1,5 +1,6 @@
 import { Form, FormSection, H1, LabeledInput, Main, LabeledSelect, SubmitButton } from '@/components/utils'
-import { createCareer, getCampuses } from '@/services/supabase/actions'
+import { createCareer } from '@/services/supabase/actions/admin/career'
+import { getCampuses } from '@/services/supabase/actions/campuses'
 import { v4 } from '@/utils/uuid'
 
 export default async function NewCareerPage () {

@@ -1,5 +1,5 @@
 import { TableContainer, Table, THeadSticky, Th, Tr, Td } from '@/components/utils'
-import { getGroupsByCareer } from '@/services/supabase/actions'
+import { getGroupsByCareer } from '@/services/supabase/actions/groups'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'

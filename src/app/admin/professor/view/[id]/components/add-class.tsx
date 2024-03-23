@@ -3,7 +3,7 @@
 import { AddClassForm } from '../../../../components/add-class-form'
 import { AsideFadeIn } from '@/components/aside-fade-in'
 import { PlusButton } from '@/components/utils'
-import { assingProfessorToSubject } from '@/services/supabase/actions'
+import { assingProfessorToSubject } from '@/services/supabase/actions/admin/professor'
 
 interface Props {
   professorId: string

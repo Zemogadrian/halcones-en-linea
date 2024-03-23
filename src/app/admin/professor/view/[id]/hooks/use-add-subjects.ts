@@ -1,4 +1,7 @@
-import { getEducationPlansByCareer, getGroupsByCareer, getReducedCareers, getSubjectsBySemester } from '@/services/supabase/actions'
+import { getEducationPlansByCareer } from '@/services/supabase/actions/admin/education-plan'
+import { getReducedCareers } from '@/services/supabase/actions/careers'
+import { getGroupsByCareer } from '@/services/supabase/actions/groups'
+import { getSubjectsBySemester } from '@/services/supabase/actions/subjects'
 import { EducationPlanByCareer, GroupByCareer, ReducedCareer } from '@/services/supabase/types'
 import { Tables } from 'database.types'
 import { useEffect, useState } from 'react'

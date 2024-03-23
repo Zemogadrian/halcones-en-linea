@@ -1,5 +1,5 @@
 import { Form, FormSection, H1, LabeledInput, Main, SubmitButton } from '@/components/utils'
-import { insertSubjectUsingForm } from '@/services/supabase/actions'
+import { insertSubjectUsingForm } from '@/services/supabase/actions/admin/subject'
 
 export default function NewSubjectPage () {
   return (

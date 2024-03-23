@@ -1,5 +1,5 @@
 import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
-import { getEducationPlans } from '@/services/supabase/actions'
+import { getEducationPlans } from '@/services/supabase/actions/admin/education-plan'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'

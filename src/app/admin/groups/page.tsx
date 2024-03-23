@@ -1,8 +1,8 @@
 import { H1, Main } from '@/components/utils'
-import { getReducedCareers } from '@/services/supabase/actions'
 import { SelectCareers } from './components/select-career'
 import { TableGroups } from './components/table-groups'
 import { Suspense } from 'react'
+import { getReducedCareers } from '@/services/supabase/actions/careers'
 
 interface Props {
   searchParams: {

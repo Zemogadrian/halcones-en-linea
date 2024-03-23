@@ -3,7 +3,7 @@
 import { AddClassForm } from '@/app/admin/components/add-class-form'
 import { AsideFadeIn } from '@/components/aside-fade-in'
 import { PlusButton } from '@/components/utils'
-import { assignClassToStudent } from '@/services/supabase/actions'
+import { assignClass } from '@/services/supabase/actions/admin/student'
 
 interface Props {
   studentId: string
@@ -17,7 +17,7 @@ export const AddClassAsideContainer = ({ studentId }: Props) => {
       )}
       Render={(props) => (
         <AddClassForm
-          action={assignClassToStudent}
+          action={assignClass}
           metadata={{
             student: studentId
           }}

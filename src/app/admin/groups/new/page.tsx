@@ -1,5 +1,6 @@
 import { Form, FormSection, H1, LabeledInput, Main, LabeledSelect, SubmitButton } from '@/components/utils'
-import { createGroup, getReducedCareers } from '@/services/supabase/actions'
+import { getReducedCareers } from '@/services/supabase/actions/careers'
+import { createGroup } from '@/services/supabase/actions/groups'
 
 export default async function NewGroupPage () {
   const carears = await getReducedCareers()

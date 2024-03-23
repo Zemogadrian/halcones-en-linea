@@ -1,5 +1,5 @@
 import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
-import { getCareers } from '@/services/supabase/actions'
+import { getCareers } from '@/services/supabase/actions/careers'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'

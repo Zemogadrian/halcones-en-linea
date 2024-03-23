@@ -1,7 +1,9 @@
 import { Form, H1, LabeledInput, LabeledSelect, Main, SubmitButton } from '@/components/utils'
-import { createEducationPlan, getEducationPlan, getReducedCareers, getSubjects, updateEducationPlan } from '@/services/supabase/actions'
 import { SemesterSection } from './components/semester-section'
 import { Tables } from 'database.types'
+import { createEducationPlan, getEducationPlan, updateEducationPlan } from '@/services/supabase/actions/admin/education-plan'
+import { getReducedCareers } from '@/services/supabase/actions/careers'
+import { getSubjects } from '@/services/supabase/actions/subjects'
 
 interface Props {
   params: {

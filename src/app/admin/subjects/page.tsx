@@ -1,5 +1,5 @@
 import { H1, Main, RedirectPlus, ShyScrollbar } from '@/components/utils'
-import { getSubjects } from '@/services/supabase/actions'
+import { getSubjects } from '@/services/supabase/actions/subjects'
 import { v4 } from '@/utils/uuid'
 
 export default async function SubjectsPage () {

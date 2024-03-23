@@ -1,5 +1,5 @@
 import { H1, Main, RedirectPlus, HeaderBetween, TableContainer, Table, THeadSticky, Th, Tr, Td } from '@/components/utils'
-import { getStudents } from '@/services/supabase/actions'
+import { getStudents } from '@/services/supabase/actions/students'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'
 import Link from 'next/link'

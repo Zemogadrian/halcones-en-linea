@@ -1,7 +1,7 @@
 'use client'
 
+import { login } from '@/services/supabase/actions/auth'
 import { useState } from 'react'
-import { login } from '@/services/supabase/actions'
 
 export const LoginForm = () => {
   const [err, setErr] = useState<null | string>(null)
