@@ -98,16 +98,19 @@ export const getStudentClasses = async (id: string) => {
     throw new Error('Error getting student careers')
   }
 
-  const classes = data.map(c => ({
-    ...c,
-    semesters: {
+  const careers = data.map(c => ({
+    ...c.careers,
+    educationPlan: c.education_plans,
+    actualSemester: {
+      id: c.semesters?.id,
+      number: c.semesters?.number,
       semester_subjects: null,
-      ...c.semesters,
-      subjects: SubjectScheme.array().parse(c.semesters?.semester_subjects.map(ss => ss.subjects))
-    }
+      subjects: SubjectScheme.array().parse(c.semesters?.semester_subjects.map(ss => ss.subjects).filter(s => s != null) ?? [])
+    },
+    group: c.groups
   }))
 
-  return classes
+  return careers
 }
 
 export const getStudents = async () => {
