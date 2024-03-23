@@ -79,6 +79,35 @@ export const assignClassToStudent = async (formdata: FormData) => {
     console.error('Error assigning class to student:', error)
     throw new Error('Error assigning class to student')
   }
+
+  revalidatePath(`/admin/students/view/${z.coerce.string().parse(data.student)}`)
+}
+
+const SubjectScheme = z.object({
+  id: z.number(),
+  name: z.string()
+})
+
+export const getStudentClasses = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('student_config').select('careers(id, name), education_plans(id, name), semesters(id, number, semester_subjects(subjects(id, name))), groups(id, name)').eq('owner', id)
+
+  if (error != null) {
+    console.error('Error getting student careers:', error)
+    throw new Error('Error getting student careers')
+  }
+
+  const classes = data.map(c => ({
+    ...c,
+    semesters: {
+      semester_subjects: null,
+      ...c.semesters,
+      subjects: SubjectScheme.array().parse(c.semesters?.semester_subjects.map(ss => ss.subjects))
+    }
+  }))
+
+  return classes
 }
 
 export const getStudents = async () => {

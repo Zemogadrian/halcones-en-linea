@@ -1,5 +1,5 @@
 import { H1, Main } from '@/components/utils'
-import { getAccount } from '@/services/supabase/actions'
+import { getAccount, getStudentClasses } from '@/services/supabase/actions'
 import { AddClassAsideContainer } from './components/add-class-aside-container'
 
 interface Props {
@@ -10,8 +10,10 @@ interface Props {
 
 export default async function ViewStudentPage ({ params }: Props) {
   const student = await getAccount(params.id)
+  const studentClasses = await getStudentClasses(params.id)
 
   console.log(student)
+  console.log(studentClasses)
 
   return (
     <Main>
