@@ -27,11 +27,9 @@ export const CalAnimation = () => {
     }
   ]
 
-  const [active, setActive] = useState(false)
   const [selected, setSelected] = useState('')
 
   const handleClick = (e) => {
-    setActive(prev => !prev)
     setSelected(e.target.innerText)
   }
 
