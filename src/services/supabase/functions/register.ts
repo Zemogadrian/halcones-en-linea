@@ -1,5 +1,4 @@
 import { supabase } from '../client'
-import { redirectAndRevalidate } from '@/services/actions'
 
 interface RegisterProps {
   email: string
@@ -11,8 +10,8 @@ interface RegisterProps {
   birthdate: Date
 }
 
-export const register = async ({ email, password, phone, birthdate, firstName, lastName, role }: RegisterProps, redirectUrl?: string) => {
-  const { data, error } = await supabase.auth.signUp({
+export const register = async ({ email, password, phone, birthdate, firstName, lastName, role }: RegisterProps) => {
+  return await supabase.auth.signUp({
     email,
     password,
     phone,
@@ -26,17 +25,10 @@ export const register = async ({ email, password, phone, birthdate, firstName, l
       }
     }
   })
-
-  if (error != null) {
-    throw new Error(error.message)
-  }
-
-  if (redirectUrl != null) {
-    redirectAndRevalidate(redirectUrl)
-      .catch((err) => {
-        console.error(err)
-      })
-  }
-
-  return data
+    .then(({ data, error }) => {
+      if (error != null) {
+        throw new Error(error.message)
+      }
+      return data
+    })
 }

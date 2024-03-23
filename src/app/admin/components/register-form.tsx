@@ -3,6 +3,7 @@
 import { Form, LabeledInput, SubmitButton } from '@/components/utils'
 import { register } from '@/services/supabase/client'
 import { USER_TYPES } from '@/services/supabase/functions/types'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 interface Props {
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export const RegisterForm = ({ role, redirect }: Props) => {
+  const { push } = useRouter()
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -22,9 +25,13 @@ export const RegisterForm = ({ role, redirect }: Props) => {
       password: e.currentTarget.password.value,
       phone: e.currentTarget.phone.value,
       role
-    }, redirect)
+    })
       .then(() => {
         toast.success('Usuario registrado')
+
+        if (redirect != null) {
+          push(redirect)
+        }
       })
       .catch((err) => {
         console.error(err)
