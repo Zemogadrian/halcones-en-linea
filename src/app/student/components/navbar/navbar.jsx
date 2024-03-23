@@ -1,8 +1,8 @@
-import { getUser } from '@/services/supabase/actions'
 import { Days } from './days'
 import Logout from './logout'
 import { CalAnimation } from './calAnimation'
 import { options } from '../../../student/components/sidebar/data'
+import { getUser } from '@/services/supabase/actions/auth'
 
 export const NavBar = async ({ handleClick }) => {
   const user = await getUser()
