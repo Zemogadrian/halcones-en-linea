@@ -12,9 +12,13 @@ import { EducationPlan } from './types'
 import { USER_TYPES } from './functions/types'
 import { extractSemesters, filterSemestersToAdd, filterSemestersToDelete, filterSemestersToUpdate, filterSubjectsToAdd, filterSubjectsToDelete } from './utils/create-education-plan'
 
-export const createClient = async () => createServerActionClient<Database>({
-  cookies: () => cookies()
-})
+export async function createClient () {
+  const cookiesStore = cookies()
+
+  return createServerActionClient<Database>({
+    cookies: () => cookiesStore
+  })
+}
 
 export const getTopics = async () => {
   return []
