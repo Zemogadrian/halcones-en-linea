@@ -8,6 +8,10 @@ const SubjectScheme = z.object({
   name: z.string()
 })
 
+const SubjectWithCreatedDate = SubjectScheme.extend({
+  created_at: z.string()
+})
+
 export const getStudents = async () => {
   const supabase = await createClient()
 
@@ -44,4 +48,30 @@ export const getClasses = async (id: string) => {
   }))
 
   return careers
+}
+
+export const getMySubjects = async () => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error != null || data.session == null) {
+    console.error('Error getting session:', error)
+    throw new Error('Error getting session')
+  }
+
+  const userId = data.session.user.id
+
+  const { data: studentData, error: studentError } = await supabase.from('student_config').select('semesters(semester_subjects(subjects(*)))').eq('owner', userId)
+
+  if (studentError != null) {
+    console.error('Error getting student subjects:', studentError)
+    throw new Error('Error getting student subjects')
+  }
+
+  const subjects = SubjectWithCreatedDate.array().parse(
+    (studentData?.map(s => s.semesters?.semester_subjects.map(ss => ss.subjects)) ?? []).flat()
+  )
+
+  return subjects
 }
