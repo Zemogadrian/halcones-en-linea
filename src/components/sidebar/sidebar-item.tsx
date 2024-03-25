@@ -74,7 +74,6 @@ const SubEl = ({ title, href }: {
   href: string
 }) => {
   const pathname = usePathname()
-
   const isActive = pathname === href
 
   return (
