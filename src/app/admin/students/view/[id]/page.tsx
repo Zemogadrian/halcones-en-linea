@@ -21,10 +21,14 @@ export default async function ViewStudentPage ({ params }: Props) {
       <header className='flex justify-between mb-10'>
         <Link
           href={`/admin/students/edit/${params.id}`}
-          className='group flex items-center gap-4'
+          className='group flex items-center gap-4 text-white hover:text-blue-500 transition-colors'
         >
-          <H1 className='capitalize text-white'>{student.first_name} {student.last_name}</H1>
-          <IconEdit className='text-blue-500 group-hover:text-blue-600 transition-colors' size={24} />
+          <H1
+            className='capitalize'
+          >
+            {student.first_name} {student.last_name}
+          </H1>
+          <IconEdit size={24} />
         </Link>
 
         <AddClassAsideContainer studentId={params.id} />
