@@ -66,7 +66,7 @@ export const SideBarMultiItem = ({
                 height: 'auto'
               }
             }}
-            initial='collapsed'
+            initial={isOpen ? 'open' : 'collapsed'}
             animate='open'
             exit='collapsed'
           >
