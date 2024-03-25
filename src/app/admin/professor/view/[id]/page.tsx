@@ -1,4 +1,4 @@
-import { H1, H2, H3, H4, Main, ShyScrollbar, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
+import { H1, H2, H3, H4, Main, ShyScrollbar, THeadSticky, Table, TableContainer, Td, Th, Tr, autoColumns } from '@/components/utils'
 import { AddClassAsideContainer } from './components/add-class'
 import { v4 } from '@/utils/uuid'
 import { getAccount } from '@/services/supabase/actions/auth'
@@ -31,7 +31,7 @@ export default async function ProfessorViewPage ({ params }: Props) {
         <div
           style={{
             ...ShyScrollbar,
-            gridTemplateColumns: 'repeat(auto-fill, minmax(500px, 1fr))'
+            gridTemplateColumns: autoColumns('500px', '1fr')
           }} className='grid gap-2 flex-1 overflow-y-auto px-1'
         >
           {careers.map(c => (
