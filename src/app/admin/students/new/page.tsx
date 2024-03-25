@@ -4,13 +4,14 @@ import { Main, H1, FormSection } from '@/components/utils'
 import { getAccount } from '@/services/supabase/actions/auth'
 
 interface Props {
-  editMode?: boolean
   params?: {
     id: string
   }
 }
 
-export default async function NewStudentsPage ({ editMode, params }: Props) {
+export default async function NewStudentsPage ({ params }: Props) {
+  const editMode = params?.id != null
+
   const student = editMode != null ? await getAccount(params?.id ?? '') : null
 
   return (
