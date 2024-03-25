@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { DistroNavASide } from '../layouts/distro-nav-aside'
 import { staticRoutes } from './data'
 
@@ -9,7 +8,10 @@ export default function AdminPage ({ children }) {
         <nav
           className='bg-nav-bg p-2'
         >
-          <Image src='/img/logoItesus.png' alt='Logo de itesus' width={120} height={40} />
+          <img
+            className='aspect-[24/9] w-28'
+            src='/img/logo-itesus.png' alt='Logo de itesus'
+          />
         </nav>
       )}
       options={staticRoutes}
