@@ -1,6 +1,7 @@
 'use client'
 
 import { Form, LabeledInput, SubmitButton } from '@/components/utils'
+import { updateAccountInfo } from '@/services/supabase/actions/admin/auth'
 import { register } from '@/services/supabase/client'
 import { USER_TYPES } from '@/services/supabase/functions/types'
 import { Account } from '@/services/supabase/types'
@@ -19,33 +20,58 @@ export const RegisterForm = ({ role, redirect, defaultValues }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    register({
-      birthdate: new Date(e.currentTarget.birthdate.value),
-      email: e.currentTarget.email.value,
-      firstName: e.currentTarget.first_name.value,
-      lastName: e.currentTarget.last_name.value,
-      password: e.currentTarget.password.value,
-      phone: e.currentTarget.phone.value,
-      role
-    })
-      .then(() => {
-        toast.success('Usuario registrado')
+    const execute = defaultValues != null
+      ? () => {
+          const data = new FormData(e.currentTarget)
 
-        if (redirect != null) {
-          push(redirect)
+          updateAccountInfo(data)
+            .catch((err) => {
+              console.error(err)
+
+              toast.error('Error al actualizar usuario')
+            })
         }
-      })
-      .catch((err) => {
-        console.error(err)
+      : () => {
+          register({
+            birthdate: new Date(e.currentTarget.birthdate.value),
+            email: e.currentTarget.email.value,
+            firstName: e.currentTarget.first_name.value,
+            lastName: e.currentTarget.last_name.value,
+            password: e.currentTarget.password.value,
+            phone: e.currentTarget.phone.value,
+            role
+          })
+            .then(() => {
+              toast.success('Usuario registrado')
 
-        toast.error('Error al registrar usuario')
-      })
+              if (redirect != null) {
+                push(redirect)
+              }
+            })
+            .catch((err) => {
+              console.error(err)
+
+              toast.error('Error al registrar usuario')
+            })
+        }
+
+    execute()
 
     e.currentTarget.reset()
   }
 
   return (
     <Form onSubmit={handleSubmit}>
+      {
+        defaultValues != null && (
+          <input
+            type='hidden'
+            name='owner'
+            value={defaultValues.owner ?? ''}
+          />
+        )
+      }
+
       <LabeledInput
         label='Nombres'
         name='first_name'
