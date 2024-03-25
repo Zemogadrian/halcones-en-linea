@@ -87,12 +87,15 @@ export const RegisterForm = ({ role, redirect, defaultValues }: Props) => {
         defaultValue={defaultValues?.phone ?? ''}
       />
 
-      <LabeledInput
-        label='Fecha de nacimiento'
-        name='birthdate'
-        type='date'
-        defaultValue={defaultValues?.birthdate ?? ''}
-      />
+      {
+        defaultValues == null && (
+          <LabeledInput
+            label='Fecha de nacimiento'
+            name='birthdate'
+            type='date'
+          />
+        )
+      }
 
       <SubmitButton>
         {
