@@ -101,12 +101,11 @@ export default async function ViewStudentPage ({ params }: Props) {
                 <footer
                   className='mt-4 flex justify-end'
                 >
-                  <Link
-                    href={`/admin/students/${params.id}/classes/${c.id ?? ''}`}
+                  <button
                     className='bg-blue-500 text-white px-2 py-1 rounded-md text-sm hover:bg-blue-600 transition-colors mr-2'
                   >
-                    Configurar
-                  </Link>
+                    Cambiar semestre
+                  </button>
                   <button
                     className='bg-red-500 text-white px-2 py-1 rounded-md text-sm hover:bg-red-600 transition-colors'
                   >
