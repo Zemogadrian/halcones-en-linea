@@ -1,11 +1,12 @@
 'use client'
 
 import { ArrowIcon, SquareIcon } from '@/assets/icons'
+import { getCookie, setCookie } from '@/services/actions'
 import { v4 } from '@/utils/uuid'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props {
   onClick?: () => void
@@ -23,6 +24,18 @@ export const SideBarMultiItem = ({
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  useEffect(() => {
+    getCookie('sidebar-option-open')
+      .then(cookie => {
+        if (cookie == null) return
+
+        if (cookie.value === children) {
+          setIsOpen(true)
+        }
+      })
+      .catch(console.error)
+  }, [])
+
   return (
     <li
       className='cursor-pointer'
@@ -30,6 +43,8 @@ export const SideBarMultiItem = ({
       <button
         className='px-7 py-2 w-full flex items-center bg-gradient-to-r from-itesus-primary to-itesus-secondary gap-3'
         onClick={() => {
+          setCookie('sidebar-option-open', children as string)
+            .catch(console.error)
           onClick?.()
           setIsOpen(prev => !prev)
         }}
