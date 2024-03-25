@@ -23,7 +23,7 @@ export default async function ViewStudentPage ({ params }: Props) {
           href={`/admin/students/${params.id}/edit`}
           className='group flex items-center gap-4'
         >
-          <H1 className='capitalize text-white'>{student.first_name}</H1>
+          <H1 className='capitalize text-white'>{student.first_name} {student.last_name}</H1>
           <IconEdit className='text-blue-500 group-hover:text-blue-600 transition-colors' size={24} />
         </Link>
 
