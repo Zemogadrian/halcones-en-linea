@@ -12,9 +12,10 @@ interface Props {
   role: USER_TYPES
   redirect?: string
   defaultValues?: Account
+  from: 'students' | 'professor'
 }
 
-export const RegisterForm = ({ role, redirect, defaultValues }: Props) => {
+export const RegisterForm = ({ role, redirect, defaultValues, from }: Props) => {
   const { push } = useRouter()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +25,7 @@ export const RegisterForm = ({ role, redirect, defaultValues }: Props) => {
       ? () => {
           const data = new FormData(e.currentTarget)
 
-          updateAccountInfo(data)
+          updateAccountInfo(data, from)
             .catch((err) => {
               console.error(err)
 

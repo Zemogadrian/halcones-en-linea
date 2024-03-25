@@ -1,14 +1,29 @@
 import { USER_TYPES } from '@/services/supabase/functions/types'
 import { RegisterForm } from '@/app/admin/components/register-form'
 import { Main, H1, FormSection } from '@/components/utils'
+import { getAccount } from '@/services/supabase/actions/auth'
 
-export default function NewProfessorPage () {
+interface Props {
+  editMode?: boolean
+  params?: {
+    id: string
+  }
+}
+
+export default async function NewProfessorPage ({ editMode, params }: Props) {
+  const professor = editMode != null ? await getAccount(params?.id ?? '') : null
+
   return (
     <Main>
-      <H1>Crear nuevo profesor</H1>
+      <H1>
+        {editMode != null ? 'Editar profesor' : 'Crear nuevo profesor'}
+      </H1>
 
       <FormSection>
-        <RegisterForm role={USER_TYPES.PROFESSOR} />
+        <RegisterForm
+          defaultValues={professor ?? undefined}
+          from='professor' role={USER_TYPES.PROFESSOR}
+        />
       </FormSection>
 
     </Main>

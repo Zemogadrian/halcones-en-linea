@@ -3,6 +3,8 @@ import { AddClassAsideContainer } from './components/add-class'
 import { v4 } from '@/utils/uuid'
 import { getAccount } from '@/services/supabase/actions/auth'
 import { getCareers } from '@/services/supabase/actions/professors'
+import Link from 'next/link'
+import { IconEdit } from '@tabler/icons-react'
 
 interface Props {
   params: {
@@ -19,9 +21,17 @@ export default async function ProfessorViewPage ({ params }: Props) {
     <Main>
 
       <header className='flex justify-between mb-10'>
-        <div>
-          <H1 className='capitalize text-white'>{professor.first_name}</H1>
-        </div>
+        <Link
+          href={`/admin/professor/edit/${params.id}`}
+          className='group flex items-center gap-4 text-white hover:text-blue-500 transition-colors'
+        >
+          <H1
+            className='capitalize'
+          >
+            {professor.first_name} {professor.last_name}
+          </H1>
+          <IconEdit size={24} />
+        </Link>
         <AddClassAsideContainer professorId={params.id} />
       </header>
 

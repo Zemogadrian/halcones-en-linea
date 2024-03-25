@@ -5,7 +5,7 @@ import { createClient } from '../../actions'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-export const updateAccountInfo = async (data: FormData) => {
+export const updateAccountInfo = async (data: FormData, from: 'students' | 'professor') => {
   const supabase = await createClient()
 
   const convertToString = (val: any) => z.string({
@@ -23,6 +23,6 @@ export const updateAccountInfo = async (data: FormData) => {
     throw new Error(error.message)
   }
 
-  revalidatePath(`/admin/students/view/${convertToString(data.get('owner'))}`)
-  redirect(`/admin/students/view/${convertToString(data.get('owner'))}`)
+  revalidatePath(`/admin/${from}/view/${convertToString(data.get('owner'))}`)
+  redirect(`/admin/${from}/view/${convertToString(data.get('owner'))}`)
 }
