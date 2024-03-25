@@ -1,6 +1,7 @@
 'use client'
 
 import { ArrowIcon, SquareIcon } from '@/assets/icons'
+import { getCookie } from '@/services/actions'
 import { v4 } from '@/utils/uuid'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
@@ -13,6 +14,7 @@ interface Props {
   subItems?: Array<{
     title: string
     href: string
+    type?: 'subject'
   }>
 }
 
@@ -60,10 +62,8 @@ export const SideBarMultiItem = ({
                 <SubEl
                   href={item.href}
                   title={item.title}
+                  type={item.type}
                   key={v4()}
-                  onClick={() => {
-                    setIsOpen(false)
-                  }}
                 />
               ))}
             </ul>
@@ -74,18 +74,34 @@ export const SideBarMultiItem = ({
   )
 }
 
-const SubEl = ({ title, href, onClick }: {
+const SubEl = ({ title, href, type }: {
   title: string
   href: string
-  onClick: () => void
+  type?: 'subject'
 }) => {
   const pathname = usePathname()
-  const isActive = pathname === href
+  const isActive = type != null ? pathname.includes(href) : pathname === href
+  const [req, setReq] = useState('')
+
+  const requirements = {
+    subject: () => {
+      getCookie('calNav')
+        .then(cookie => {
+          if (cookie != null) {
+            setReq(cookie.value)
+          }
+        })
+        .catch(console.error)
+    }
+  }
+
+  if (type != null) {
+    requirements[type]()
+  }
 
   return (
     <Link
-      onClick={onClick}
-      key={v4()} href={href}
+      key={v4()} href={type != null ? `${href}/${req}` : href}
     >
       <li
         className={`flex px-7 gap-4 border-b border-b-gray-400 ${isActive ? 'bg-[#808080]' : 'bg-[#e7e6e6]'}`}
