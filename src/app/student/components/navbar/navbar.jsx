@@ -13,7 +13,7 @@ export const NavBar = async ({ isMateriasSelected }) => {
     <nav className=' flex flex-row h-16 select-none bg-[#cdcbcc] justify-around items-center'>
       <Days />
       <section className='flex flex-row text-xl h-full justify-center '>
-        {isMateriasSelected && <CalAnimation />}
+        <CalAnimation />
       </section>
       <section className='flex items-center gap-2 bg-[#b0b0b0] rounded-lg px-3 py-1'>
         <button className='text-[#394075] font-semibold capitalize'>{user?.first_name}</button>
