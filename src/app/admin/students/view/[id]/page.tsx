@@ -20,7 +20,7 @@ export default async function ViewStudentPage ({ params }: Props) {
     <Main>
       <header className='flex justify-between mb-10'>
         <Link
-          href={`/admin/students/${params.id}/edit`}
+          href={`/admin/students/edit/${params.id}`}
           className='group flex items-center gap-4'
         >
           <H1 className='capitalize text-white'>{student.first_name} {student.last_name}</H1>

@@ -3,15 +3,17 @@
 import { Form, LabeledInput, SubmitButton } from '@/components/utils'
 import { register } from '@/services/supabase/client'
 import { USER_TYPES } from '@/services/supabase/functions/types'
+import { Account } from '@/services/supabase/types'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 interface Props {
   role: USER_TYPES
   redirect?: string
+  defaultValues?: Account
 }
 
-export const RegisterForm = ({ role, redirect }: Props) => {
+export const RegisterForm = ({ role, redirect, defaultValues }: Props) => {
   const { push } = useRouter()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,12 +50,14 @@ export const RegisterForm = ({ role, redirect }: Props) => {
         label='Nombres'
         name='first_name'
         placeholder='Jose'
+        defaultValue={defaultValues?.first_name ?? ''}
       />
 
       <LabeledInput
         label='Apellidos'
         name='last_name'
         placeholder='Perez Leon'
+        defaultValue={defaultValues?.last_name ?? ''}
       />
 
       <LabeledInput
@@ -61,30 +65,39 @@ export const RegisterForm = ({ role, redirect }: Props) => {
         name='email'
         type='email'
         placeholder='example@example.com'
+        defaultValue={defaultValues?.email ?? ''}
       />
 
-      <LabeledInput
-        label='Contraseña'
-        name='password'
-        type='password'
-        placeholder='********'
-      />
+      {
+        defaultValues == null && (
+          <LabeledInput
+            label='Contraseña'
+            name='password'
+            type='password'
+            placeholder='********'
+          />
+        )
+      }
 
       <LabeledInput
         label='Telefono'
         name='phone'
         type='tel'
         placeholder='1234567890'
+        defaultValue={defaultValues?.phone ?? ''}
       />
 
       <LabeledInput
         label='Fecha de nacimiento'
         name='birthdate'
         type='date'
+        defaultValue={defaultValues?.birthdate ?? ''}
       />
 
       <SubmitButton>
-        Registrar
+        {
+          defaultValues == null ? 'Registrar' : 'Actualizar'
+        }
       </SubmitButton>
     </Form>
   )
