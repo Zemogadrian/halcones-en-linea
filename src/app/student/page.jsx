@@ -1,18 +1,14 @@
-import { ActivityDisplay } from './components/students/display-activities'
+import { H1, Main } from '@/components/utils'
+import { getUser } from '@/services/supabase/actions/auth'
 
 export default async function StudentPage () {
-  return (
-    <main className='flex flex-col gap-2'>
-      <section className='flex justify-end'>
-        <select>
-          <option>Entregadas</option>
-          <option>No entregadas</option>
-        </select>
-      </section>
+  const account = await getUser()
 
-      <section className=''>
-        <ActivityDisplay />
-      </section>
-    </main>
+  return (
+    <Main>
+      <header>
+        <H1 className='text-white'>Hola, {account.first_name} {account.last_name}</H1>
+      </header>
+    </Main>
   )
 }
