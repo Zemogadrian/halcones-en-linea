@@ -1,47 +1,53 @@
 'use client'
 
+import { setCookie } from '@/services/actions'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useParams, usePathname } from 'next/navigation'
 
 export const CalAnimation = () => {
+  const { id: subjectId } = useParams()
+  const pathname = usePathname()
   const routes = [
     {
       name: 'Temas',
-      href: '/student/topics/subjects'
+      href: `/student/subject/${subjectId}/topics`,
+      ref: 'topics'
     },
     {
       name: 'Documentación',
-      href: '/student/topics/documents'
+      href: `/student/subject/${subjectId}/documents`,
+      ref: 'documents'
     },
     {
       name: 'Actividades',
-      href: '/student/topics/activities'
+      href: `/student/subject/${subjectId}/activities`,
+      ref: 'activities'
     },
     {
       name: 'Examen',
-      href: '/student/topics/exam'
+      href: `/student/subject/${subjectId}/exam`,
+      ref: 'exam'
     },
     {
       name: 'Clases grabadas',
-      href: '/student/topics/recordedclasses'
+      href: `/student/subject/${subjectId}/recordedclasses`,
+      ref: 'recordedclasses'
     }
   ]
 
-  const [selected, setSelected] = useState('')
-
-  const handleClick = (e) => {
-    setSelected(e.target.innerText)
+  const handleNav = (ref) => () => {
+    setCookie('calNav', ref)
+      .catch(err => console.error(err))
   }
 
   return (
     <div className='flex flex-row text-xl h-full justify-center items-center'>
-      {routes.map(({ name, href }) => (
+      {routes.map(({ name, href, ref }) => (
         <div className='flex  border-r-2 border-r-[#27316e] px-2 py-1' key={name}>
-          <Link href={href}>
+          <Link onClick={handleNav(ref)} href={href}>
             <button
-              onClick={handleClick}
               className={` px-2
-          ${selected === name ? 'text-[#fff] bg-gradient-to-tr from-[#1f5186] to-[#131a2d] rounded-lg' : 'text-[#27316e]'}
+          ${pathname === href ? 'text-[#fff] bg-gradient-to-tr from-[#1f5186] to-[#131a2d] rounded-lg' : 'text-[#27316e]'}
           hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg
         `}
             >

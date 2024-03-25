@@ -2,15 +2,17 @@ import { NavBar } from '@/app/student/components/navbar/navbar'
 import { options } from './components/sidebar/data'
 import { DistroNavASide } from '../layouts/distro-nav-aside'
 import { getMySubjects } from '@/services/supabase/actions/students'
+import { getCookie } from '@/services/actions'
 
 export default async function AlumnLayout ({ children }) {
-  const subjects = await getMySubjects()
+  const calNav = await getCookie('calNav')
 
+  const subjects = await getMySubjects()
   const materiasOption = {
     title: 'Materias',
     sub: subjects.map(subject => ({
       title: subject.name,
-      href: `/alumno/materias/${subject.id}`
+      href: `/student/subject/${subject.id}/${calNav?.value ?? 'topics'}`
     }))
   }
 

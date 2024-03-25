@@ -1,4 +1,4 @@
-import ShowClassesRecorded from '../../components/students/recorded-clases'
+import ShowClassesRecorded from '../../../components/students/recorded-clases'
 
 export default function RecordedClasses () {
   return (
