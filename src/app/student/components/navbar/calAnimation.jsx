@@ -47,8 +47,8 @@ export const CalAnimation = () => {
           <Link onClick={handleNav(ref)} href={href}>
             <button
               className={` px-2
-          ${pathname === href ? 'text-[#fff] bg-gradient-to-tr from-[#1f5186] to-[#131a2d] rounded-lg' : 'text-[#27316e]'}
-          hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg
+        ${pathname === href ? 'text-[#fff] bg-gradient-to-tr from-[#1f5186] to-[#131a2d] rounded-lg' : 'text-[#27316e]'}
+        hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg
         `}
             >
               {name}

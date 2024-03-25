@@ -8,6 +8,7 @@ export default async function AlumnLayout ({ children }) {
   const calNav = await getCookie('calNav')
 
   const subjects = await getMySubjects()
+
   const materiasOption = {
     title: 'Materias',
     sub: subjects.map(subject => ({
@@ -15,12 +16,10 @@ export default async function AlumnLayout ({ children }) {
       href: `/student/subject/${subject.id}/${calNav?.value ?? 'topics'}`
     }))
   }
-
   const newOptios = [materiasOption, ...options]
-
   return (
     <DistroNavASide
-      navbar={<NavBar />}
+      navbar={<NavBar isMateriasSelected />}
       options={newOptios}
     >
       {children}
