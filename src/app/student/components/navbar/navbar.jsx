@@ -10,9 +10,7 @@ export const NavBar = async ({ handleClick }) => {
   return (
     <nav className=' flex flex-row h-16 select-none px-5 bg-[#cdcbcc] justify-around items-center'>
       <Days />
-      <section className='flex flex-row text-xl h-full justify-center flex-1 '>
-        <NavOptios />
-      </section>
+      <NavOptios />
       <section className='flex items-center gap-2 bg-[#b0b0b0] rounded-lg px-3 py-1'>
         <button className='text-[#394075] font-semibold capitalize'>{user?.first_name}</button>
         <Logout />

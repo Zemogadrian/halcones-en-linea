@@ -12,7 +12,7 @@ interface Props {
 export default async function NewProfessorPage ({ params }: Props) {
   const editMode = params?.id != null
 
-  const professor = editMode != null ? await getAccount(params?.id ?? '') : null
+  const professor = editMode ? await getAccount(params?.id ?? '') : null
 
   return (
     <Main>
