@@ -3,37 +3,40 @@
 import { setCookie } from '@/services/actions'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
+import { z } from 'zod'
 
-export const CalAnimation = () => {
+const getRoutes = (subjectId: string) => [
+  {
+    name: 'Temas',
+    href: `/student/subject/${subjectId}/topics`,
+    ref: 'topics'
+  },
+  {
+    name: 'Documentación',
+    href: `/student/subject/${subjectId}/documents`,
+    ref: 'documents'
+  },
+  {
+    name: 'Actividades',
+    href: `/student/subject/${subjectId}/activities`,
+    ref: 'activities'
+  },
+  {
+    name: 'Examen',
+    href: `/student/subject/${subjectId}/exam`,
+    ref: 'exam'
+  },
+  {
+    name: 'Clases grabadas',
+    href: `/student/subject/${subjectId}/recordedclasses`,
+    ref: 'recordedclasses'
+  }
+]
+
+export const SubjectOptions = () => {
   const { id: subjectId } = useParams()
   const pathname = usePathname()
-  const routes = [
-    {
-      name: 'Temas',
-      href: `/student/subject/${subjectId}/topics`,
-      ref: 'topics'
-    },
-    {
-      name: 'Documentación',
-      href: `/student/subject/${subjectId}/documents`,
-      ref: 'documents'
-    },
-    {
-      name: 'Actividades',
-      href: `/student/subject/${subjectId}/activities`,
-      ref: 'activities'
-    },
-    {
-      name: 'Examen',
-      href: `/student/subject/${subjectId}/exam`,
-      ref: 'exam'
-    },
-    {
-      name: 'Clases grabadas',
-      href: `/student/subject/${subjectId}/recordedclasses`,
-      ref: 'recordedclasses'
-    }
-  ]
+  const routes = getRoutes(z.coerce.string().parse(subjectId))
 
   const handleNav = (ref) => () => {
     setCookie('calNav', ref)
