@@ -18,6 +18,7 @@ export type Database = {
           id: number
           professor: string
           semester: number
+          type: Database["public"]["Enums"]["activity_type"]
         }
         Insert: {
           career: number
@@ -27,6 +28,7 @@ export type Database = {
           id?: number
           professor: string
           semester: number
+          type: Database["public"]["Enums"]["activity_type"]
         }
         Update: {
           career?: number
@@ -36,6 +38,7 @@ export type Database = {
           id?: number
           professor?: string
           semester?: number
+          type?: Database["public"]["Enums"]["activity_type"]
         }
         Relationships: [
           {
@@ -233,6 +236,73 @@ export type Database = {
             columns: ["career"]
             isOneToOne: false
             referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      multiple_options_questions: {
+        Row: {
+          created_at: string
+          id: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_correct?: boolean
+          option?: string
+          question?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_multiple_options_questions_question_fkey"
+            columns: ["question"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      questions: {
+        Row: {
+          accept_file: boolean
+          activity: number
+          created_at: string
+          id: number
+          question: string
+          type: Database["public"]["Enums"]["question_type"]
+        }
+        Insert: {
+          accept_file: boolean
+          activity: number
+          created_at?: string
+          id?: number
+          question: string
+          type: Database["public"]["Enums"]["question_type"]
+        }
+        Update: {
+          accept_file?: boolean
+          activity?: number
+          created_at?: string
+          id?: number
+          question?: string
+          type?: Database["public"]["Enums"]["question_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_questions_activity_fkey"
+            columns: ["activity"]
+            isOneToOne: false
+            referencedRelation: "activities"
             referencedColumns: ["id"]
           },
         ]
@@ -556,6 +626,7 @@ export type Database = {
     }
     Enums: {
       activity_type: "work" | "exam" | "trivia" | "questionary"
+      question_type: "multiple_option" | "open"
     }
     CompositeTypes: {
       [_ in never]: never
