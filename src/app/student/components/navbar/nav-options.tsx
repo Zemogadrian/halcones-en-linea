@@ -6,9 +6,18 @@ import { SubjectOptions } from './subject-options'
 export const NavOptios = () => {
   const pathname = usePathname()
 
-  if (pathname.startsWith('/student/subject')) {
-    return (
-      <SubjectOptions />
-    )
-  }
+  const options = [
+    {
+      startWith: '/student/subject',
+      component: SubjectOptions
+    }
+  ]
+
+  const Component = options.find(({ startWith }) => pathname.startsWith(startWith))?.component
+
+  if (Component == null) return null
+
+  return (
+    <Component />
+  )
 }
