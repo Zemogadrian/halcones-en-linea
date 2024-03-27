@@ -3,6 +3,7 @@ import { options } from './components/sidebar/data'
 import { DistroNavASide } from '../layouts/distro-nav-aside'
 import { getMySubjects } from '@/services/supabase/actions/students'
 import { SideBarOption } from '@/components/sidebar/types'
+import { addSideBarOption } from '@/components/sidebar/utils/add-side-bar-option'
 
 export const enum subjectRefs {
   topics = 'topics',
@@ -28,7 +29,8 @@ export default async function AlumnLayout ({ children }) {
       defaultRef: subjectRefs.topics
     }))
   }
-  const newOptios = [materiasOption, ...options]
+
+  const newOptios = addSideBarOption(options, 0, materiasOption)
 
   return (
     <DistroNavASide
