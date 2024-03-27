@@ -15,7 +15,7 @@
 
 ## Halcones en línea
 
-Halcones en línea es una plataforma educativa desarrollada por FocoGrafico para la universidad Itesus que permite a los estudiantes realizar carreras y doctorados de manera completamente remota.
+Halcones en línea es una plataforma educativa desarrollada por **Foco Grafico** para la universidad Itesus que permite a los estudiantes realizar carreras y doctorados de manera completamente remota.
 
 [Web en construcción](https://halcones-en-linea.vercel.app/)
 
