@@ -42,8 +42,8 @@ Halcones en línea es una plataforma educativa desarrollada por la Universidad I
 
 ### Capturas de pantalla
 
-![Captura de pantalla en móvil](inserta-url-captura-movil)
-![Captura de pantalla en ordenador](inserta-url-captura-ordenador)
+![Captura de pantalla en móvil](/public/img/desktop-ss.png)
+<!-- ![Captura de pantalla en ordenador](inserta-url-captura-ordenador) -->
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
