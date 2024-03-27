@@ -1,3 +1,4 @@
+import React from 'react'
 
 // Before has a text-gray-300 class
 export const Th = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
@@ -9,6 +10,8 @@ export const Th = ({ children, className, ...props }: React.HTMLAttributes<HTMLT
   </th>
 )
 
+export const ThWhite = ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => <Th {...props} className={`text-white ${className ?? ''}`} />
+
 // Before has a text-white class
 export const Td = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
   <td
@@ -18,6 +21,7 @@ export const Td = ({ children, className, ...props }: React.HTMLAttributes<HTMLT
     {children}
   </td>
 )
+export const TdWhite = ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => <Td {...props} className={`text-white ${className ?? ''}`} />
 
 export const TableContainer = ({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) => (
   <div
