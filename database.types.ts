@@ -13,9 +13,11 @@ export type Database = {
         Row: {
           career: number
           created_at: string
+          desc: string | null
           education_plan: number
           group: number
           id: number
+          name: string
           professor: string
           semester: number
           type: Database["public"]["Enums"]["activity_type"]
@@ -23,9 +25,11 @@ export type Database = {
         Insert: {
           career: number
           created_at?: string
+          desc?: string | null
           education_plan: number
           group: number
           id?: number
+          name: string
           professor: string
           semester: number
           type: Database["public"]["Enums"]["activity_type"]
@@ -33,9 +37,11 @@ export type Database = {
         Update: {
           career?: number
           created_at?: string
+          desc?: string | null
           education_plan?: number
           group?: number
           id?: number
+          name?: string
           professor?: string
           semester?: number
           type?: Database["public"]["Enums"]["activity_type"]
@@ -157,6 +163,7 @@ export type Database = {
           id: number
           name: string
           rvoe: string
+          slug: string
         }
         Insert: {
           campus: number
@@ -164,6 +171,7 @@ export type Database = {
           id?: number
           name: string
           rvoe: string
+          slug: string
         }
         Update: {
           campus?: number
@@ -171,6 +179,7 @@ export type Database = {
           id?: number
           name?: string
           rvoe?: string
+          slug?: string
         }
         Relationships: [
           {
@@ -616,6 +625,12 @@ export type Database = {
           semesters_to_add: number[]
         }
         Returns: undefined
+      }
+      generate_slug: {
+        Args: {
+          title_text: string
+        }
+        Returns: string
       }
       get_role: {
         Args: {
