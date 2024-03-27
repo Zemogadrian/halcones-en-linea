@@ -1,6 +1,7 @@
 'use client'
 
 import { ArrowIcon, SquareIcon } from '@/assets/icons'
+import { getCookie } from '@/services/actions'
 import { v4 } from '@/utils/uuid'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
@@ -13,6 +14,7 @@ interface Props {
   subItems?: Array<{
     title: string
     href: string
+    type?: 'subject'
   }>
 }
 
@@ -56,11 +58,14 @@ export const SideBarMultiItem = ({
             exit='collapsed'
           >
             <ul>
-              {subItems.map((item) => (<SubEl
-                href={item.href}
-                title={item.title}
-                key={v4()}
-                                       />))}
+              {subItems.map((item) => (
+                <SubEl
+                  href={item.href}
+                  title={item.title}
+                  type={item.type}
+                  key={v4()}
+                />
+              ))}
             </ul>
           </motion.div>
         )}
@@ -69,15 +74,37 @@ export const SideBarMultiItem = ({
   )
 }
 
-const SubEl = ({ title, href }: {
+const SubEl = ({ title, href, type }: {
   title: string
   href: string
+  type?: 'subject'
 }) => {
   const pathname = usePathname()
-  const isActive = pathname === href
+  const isActive = type != null ? pathname.includes(href) : pathname === href
+  const [req, setReq] = useState('')
+
+  const requirements = {
+    subject: () => {
+      getCookie('calNav')
+        .then(cookie => {
+          if (cookie != null) {
+            setReq(cookie.value)
+          } else {
+            setReq('topics')
+          }
+        })
+        .catch(console.error)
+    }
+  }
+
+  if (type != null) {
+    requirements[type]()
+  }
 
   return (
-    <Link key={v4()} href={href}>
+    <Link
+      key={v4()} href={type != null ? `${href}/${req}` : href}
+    >
       <li
         className={`flex px-7 gap-4 border-b border-b-gray-400 ${isActive ? 'bg-[#808080]' : 'bg-[#e7e6e6]'}`}
       >

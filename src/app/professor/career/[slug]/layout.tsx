@@ -1,20 +1,19 @@
-import { DistroNavASide } from '../layouts/distro-nav-aside'
-import { staticRoutes } from './data'
+import { DistroNavASide } from '@/app/layouts/distro-nav-aside'
 
-export default function AdminPage ({ children }) {
+export default function Layout ({ children }) {
   return (
     <DistroNavASide
-      navbar={(
+      navbar={
         <nav
-          className='bg-nav-bg p-2'
+          className='bg-nav-bg p-2 flex justify-between items-center'
         >
           <img
             className='aspect-[24/9] w-28'
             src='/img/logo-itesus.png' alt='Logo de itesus'
           />
         </nav>
-      )}
-      options={staticRoutes}
+            }
+      options={[]}
     >
       {children}
     </DistroNavASide>

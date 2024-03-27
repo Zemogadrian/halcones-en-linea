@@ -11,10 +11,6 @@ export const staticRoutes: SideBarOptions = [
       {
         href: '/admin/students/new',
         title: 'Nuevo alumno'
-      },
-      {
-        href: '/admin/students/grades',
-        title: 'Calificaciones'
       }
     ]
   },

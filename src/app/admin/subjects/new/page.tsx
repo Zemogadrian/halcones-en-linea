@@ -4,7 +4,7 @@ import { insertSubjectUsingForm } from '@/services/supabase/actions/admin/subjec
 export default function NewSubjectPage () {
   return (
     <Main>
-      <H1>Crear materia</H1>
+      <H1 className='text-white'>Crear materia</H1>
 
       <FormSection>
         <Form

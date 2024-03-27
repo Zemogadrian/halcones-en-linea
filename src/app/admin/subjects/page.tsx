@@ -11,7 +11,7 @@ export default async function SubjectsPage () {
         className='flex items-center justify-between mb-4'
       >
         <H1
-          className='mb-0'
+          className='mb-0 text-white'
         >
           Materias
         </H1>

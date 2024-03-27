@@ -9,6 +9,81 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      activities: {
+        Row: {
+          career: number
+          created_at: string
+          desc: string | null
+          education_plan: number
+          group: number
+          id: number
+          name: string
+          professor: string
+          semester: number
+          type: Database["public"]["Enums"]["activity_type"]
+        }
+        Insert: {
+          career: number
+          created_at?: string
+          desc?: string | null
+          education_plan: number
+          group: number
+          id?: number
+          name: string
+          professor: string
+          semester: number
+          type: Database["public"]["Enums"]["activity_type"]
+        }
+        Update: {
+          career?: number
+          created_at?: string
+          desc?: string | null
+          education_plan?: number
+          group?: number
+          id?: number
+          name?: string
+          professor?: string
+          semester?: number
+          type?: Database["public"]["Enums"]["activity_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_activities_career_fkey"
+            columns: ["career"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_activities_education_plan_fkey"
+            columns: ["education_plan"]
+            isOneToOne: false
+            referencedRelation: "education_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_activities_group_fkey"
+            columns: ["group"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_activities_professor_fkey"
+            columns: ["professor"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_activities_semester_fkey"
+            columns: ["semester"]
+            isOneToOne: false
+            referencedRelation: "semesters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           after_value: string | null
@@ -88,6 +163,7 @@ export type Database = {
           id: number
           name: string
           rvoe: string
+          slug: string
         }
         Insert: {
           campus: number
@@ -95,6 +171,7 @@ export type Database = {
           id?: number
           name: string
           rvoe: string
+          slug: string
         }
         Update: {
           campus?: number
@@ -102,6 +179,7 @@ export type Database = {
           id?: number
           name?: string
           rvoe?: string
+          slug?: string
         }
         Relationships: [
           {
@@ -110,7 +188,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "campus"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       education_plans: {
@@ -139,7 +217,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "careers"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       groups: {
@@ -168,7 +246,74 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "careers"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      multiple_options_questions: {
+        Row: {
+          created_at: string
+          id: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_correct?: boolean
+          option?: string
+          question?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_multiple_options_questions_question_fkey"
+            columns: ["question"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      questions: {
+        Row: {
+          accept_file: boolean
+          activity: number
+          created_at: string
+          id: number
+          question: string
+          type: Database["public"]["Enums"]["question_type"]
+        }
+        Insert: {
+          accept_file: boolean
+          activity: number
+          created_at?: string
+          id?: number
+          question: string
+          type: Database["public"]["Enums"]["question_type"]
+        }
+        Update: {
+          accept_file?: boolean
+          activity?: number
+          created_at?: string
+          id?: number
+          question?: string
+          type?: Database["public"]["Enums"]["question_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_questions_activity_fkey"
+            columns: ["activity"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
         ]
       }
       roles: {
@@ -222,7 +367,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "subjects"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       semesters: {
@@ -251,7 +396,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "education_plans"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       student_config: {
@@ -317,7 +462,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "semesters"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       subjects: {
@@ -411,7 +556,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "subjects"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_data: {
@@ -462,7 +607,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "roles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -481,6 +626,12 @@ export type Database = {
         }
         Returns: undefined
       }
+      generate_slug: {
+        Args: {
+          title_text: string
+        }
+        Returns: string
+      }
       get_role: {
         Args: {
           user_id: string
@@ -489,7 +640,8 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      activity_type: "work" | "exam" | "trivia" | "questionary"
+      question_type: "multiple_option" | "open"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -497,14 +649,16 @@ export type Database = {
   }
 }
 
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -512,67 +666,67 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-      Database["public"]["Views"])
-  ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database["public"]["Enums"]
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
+    : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never

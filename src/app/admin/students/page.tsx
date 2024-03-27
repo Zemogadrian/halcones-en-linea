@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, HeaderBetween, TableContainer, Table, THeadSticky, Th, Tr, Td } from '@/components/utils'
+import { H1, Main, RedirectPlus, HeaderBetween, TableContainer, Table, THeadSticky, Tr, ThWhite, TdWhite } from '@/components/utils'
 import { getStudents } from '@/services/supabase/actions/students'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'
@@ -24,26 +24,25 @@ export default async function StudentsPage () {
         <Table>
           <THeadSticky>
             <tr>
-              <Th className='text-white'>Nombre</Th>
-              <Th>Correo</Th>
-              <Th>Telefono</Th>
-              <Th>Acciones</Th>
+              <ThWhite>Nombre</ThWhite>
+              <ThWhite>Correo</ThWhite>
+              <ThWhite>Telefono</ThWhite>
+              <ThWhite>Acciones</ThWhite>
             </tr>
           </THeadSticky>
-
           <tbody>
             {students.map((student) => (
               <Tr
                 key={v4()}
               >
-                <Td
+                <TdWhite
                   className='capitalize'
                 >
                   {student.first_name} {student.last_name}
-                </Td>
-                <Td>{student.email}</Td>
-                <Td>{student.phone}</Td>
-                <Td>
+                </TdWhite>
+                <TdWhite>{student.email}</TdWhite>
+                <TdWhite>{student.phone}</TdWhite>
+                <TdWhite>
                   <div className='flex justify-center items-center py-1'>
                     <Link
                       href={`/admin/students/view/${student.owner ?? ''}`}
@@ -56,7 +55,7 @@ export default async function StudentsPage () {
                       />
                     </Link>
                   </div>
-                </Td>
+                </TdWhite>
               </Tr>
             ))}
           </tbody>

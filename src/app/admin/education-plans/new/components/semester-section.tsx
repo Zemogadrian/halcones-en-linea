@@ -44,13 +44,13 @@ export const SemesterSection = ({ subjects, defaultValue }: Props) => {
         }}
       />
 
-      <div className='flex w-full h-96 overflow-hidden'>
+      <div className='flex w-full h-96 overflow-hidden '>
 
         <section className='px-3 flex flex-col py-1 rounded-md bg-itesus-secondary h-full w-96'>
           <div
             className='flex border-b mb-3 py-1 justify-between gap-10'
           >
-            <H2 className='flex gap-1 items-center'>
+            <H2 className='flex gap-1 items-center text-white'>
               <BooksIcon /> Materias
             </H2>
 
@@ -73,7 +73,7 @@ export const SemesterSection = ({ subjects, defaultValue }: Props) => {
           {Array.from({ length: semesters }).map((_, index) => (
             <article key={v4()} className='border px-3 py-1 rounded-md min-h-72 w-full'>
               <H2
-                className='border-b py-1 mb-3'
+                className='border-b py-1 mb-3 text-white'
               >
                 Semestre {index + 1}
               </H2>

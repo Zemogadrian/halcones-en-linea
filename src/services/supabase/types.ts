@@ -16,3 +16,7 @@ export type GroupByCareer = QueryData<typeof groupByCareer>
 const educationPlanByCareer = supabase.from('education_plans').select('id, name, created_at, semesters(id, number)').single()
 
 export type EducationPlanByCareer = QueryData<typeof educationPlanByCareer>
+
+export const accountQuery = supabase.from('user_data').select('*').single()
+
+export type Account = QueryData<typeof accountQuery>

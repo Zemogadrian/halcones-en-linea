@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
+import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr } from '@/components/utils'
 import { getEducationPlans } from '@/services/supabase/actions/admin/education-plan'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -14,7 +14,7 @@ export default async function EducationPlansPage () {
         className='flex items-center justify-between mb-4'
       >
         <H1
-          className='mb-0'
+          className='mb-0 text-white'
         >
           Planes de educación
         </H1>
@@ -26,31 +26,31 @@ export default async function EducationPlansPage () {
         <Table>
           <THeadSticky>
             <tr>
-              <Th>Nombre</Th>
-              <Th>Carrera</Th>
-              <Th>Semestres</Th>
-              <Th>Fecha de creacion</Th>
-              <Th>Acciones</Th>
+              <ThWhite>Nombre</ThWhite>
+              <ThWhite>Carrera</ThWhite>
+              <ThWhite>Semestres</ThWhite>
+              <ThWhite>Fecha de creacion</ThWhite>
+              <ThWhite>Acciones</ThWhite>
             </tr>
           </THeadSticky>
           <tbody>
             {plans.map((plan, i) => (
               <Tr key={v4()}>
-                <Td
+                <TdWhite
                   className='capitalize'
                 >
                   {plan.name}
-                </Td>
-                <Td>
+                </TdWhite>
+                <TdWhite>
                   {plan.careers?.name ?? 'Sin carrera'}
-                </Td>
-                <Td>
+                </TdWhite>
+                <TdWhite>
                   {plan.semesters.length}
-                </Td>
-                <Td>
+                </TdWhite>
+                <TdWhite>
                   {dateFormatter(new Date(plan.created_at), 'es-MX')}
-                </Td>
-                <Td
+                </TdWhite>
+                <TdWhite
                   className='py-1'
                 >
                   <div className='flex justify-center items-center'>
@@ -63,7 +63,7 @@ export default async function EducationPlansPage () {
                       />
                     </Link>
                   </div>
-                </Td>
+                </TdWhite>
               </Tr>
             ))}
           </tbody>
