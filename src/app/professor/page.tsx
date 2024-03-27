@@ -13,7 +13,7 @@ export default async function ProfessorPage () {
     >
 
       <header
-        className='border-b pb-4 px-14'
+        className='border-b pb-4 px-14 mb-10'
       >
         <H1
           className='text-[#cdcccb] border-b w-min'
@@ -27,7 +27,7 @@ export default async function ProfessorPage () {
       </header>
 
       <section
-        className='flex flex-col items-center gap-4 mt-4 w-full px-80 py-10'
+        className='flex flex-col items-center gap-4 mt-4 w-full px-80'
       >
         {careers.map((career) => (
           <div
