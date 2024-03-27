@@ -86,16 +86,6 @@ const SubEl = ({ title, href, type }: {
   useEffect(() => {
     const requirements = {
       subject: () => {
-        // getCookie('calNav')
-        //   .then(cookie => {
-        //     if (cookie != null) {
-        //       setReq(cookie.value)
-        //     } else {
-        //       setReq('topics')
-        //     }
-        //   })
-        //   .catch(console.error)
-
         const subjectSection = searchParams.get('subject-section')
 
         if (subjectSection != null) {
