@@ -30,7 +30,7 @@ export default async function AlumnLayout ({ children }) {
     }))
   }
 
-  const newOptios = addSideBarOption(options, 0, materiasOption)
+  const newOptios = addSideBarOption(options, 1, materiasOption)
 
   return (
     <DistroNavASide
