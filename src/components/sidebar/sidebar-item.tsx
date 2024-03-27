@@ -1,12 +1,11 @@
 'use client'
 
 import { ArrowIcon, SquareIcon } from '@/assets/icons'
-import { getCookie } from '@/services/actions'
 import { v4 } from '@/utils/uuid'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 interface Props {
   onClick?: () => void
@@ -80,30 +79,41 @@ const SubEl = ({ title, href, type }: {
   type?: 'subject'
 }) => {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const isActive = type != null ? pathname.includes(href) : pathname === href
   const [req, setReq] = useState('')
 
-  const requirements = {
-    subject: () => {
-      getCookie('calNav')
-        .then(cookie => {
-          if (cookie != null) {
-            setReq(cookie.value)
-          } else {
-            setReq('topics')
-          }
-        })
-        .catch(console.error)
-    }
-  }
+  useEffect(() => {
+    const requirements = {
+      subject: () => {
+        // getCookie('calNav')
+        //   .then(cookie => {
+        //     if (cookie != null) {
+        //       setReq(cookie.value)
+        //     } else {
+        //       setReq('topics')
+        //     }
+        //   })
+        //   .catch(console.error)
 
-  if (type != null) {
-    requirements[type]()
-  }
+        const subjectSection = searchParams.get('subject-section')
+
+        if (subjectSection != null) {
+          setReq(subjectSection)
+        } else {
+          setReq('topics')
+        }
+      }
+    }
+
+    if (type != null) {
+      requirements[type]()
+    }
+  }, [type, searchParams])
 
   return (
     <Link
-      key={v4()} href={type != null ? `${href}/${req}` : href}
+      key={v4()} href={type != null ? `${href}/${req}?${searchParams.toString()}` : `${href}?${searchParams.toString()}`}
     >
       <li
         className={`flex px-7 gap-4 border-b border-b-gray-400 ${isActive ? 'bg-[#808080]' : 'bg-[#e7e6e6]'}`}
