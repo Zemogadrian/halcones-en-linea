@@ -4,6 +4,7 @@ import { useParams, usePathname, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 import Link from 'next/link'
 import { v4 } from '@/utils/uuid'
+import { queryParamsSections, subjectRefs } from '../../layout'
 
 export const NavOptios = () => {
   const pathname = usePathname()
@@ -16,37 +17,37 @@ export const NavOptios = () => {
       getRoutes: ({ params }) => {
         const subjectId = z.coerce.string().parse(params.id)
 
-        const queryParam = 'subject-section'
+        const queryParam = queryParamsSections.subjectSection
 
         return [
           {
             name: 'Temas',
             href: `/student/subject/${subjectId}/topics`,
-            ref: 'topics',
+            ref: subjectRefs.topics,
             queryParam
           },
           {
             name: 'Documentación',
             href: `/student/subject/${subjectId}/documents`,
-            ref: 'documents',
+            ref: subjectRefs.documents,
             queryParam
           },
           {
             name: 'Actividades',
             href: `/student/subject/${subjectId}/activities`,
-            ref: 'activities',
+            ref: subjectRefs.activities,
             queryParam
           },
           {
             name: 'Examen',
             href: `/student/subject/${subjectId}/exam`,
-            ref: 'exam',
+            ref: subjectRefs.exam,
             queryParam
           },
           {
             name: 'Clases grabadas',
             href: `/student/subject/${subjectId}/recordedclasses`,
-            ref: 'recordedclasses',
+            ref: subjectRefs.recordedclasses,
             queryParam
           }
         ]
