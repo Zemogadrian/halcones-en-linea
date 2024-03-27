@@ -30,7 +30,7 @@ export default async function AlumnLayout ({ children }) {
   const newOptios = [materiasOption, ...options]
   return (
     <DistroNavASide
-      navbar={<NavBar isMateriasSelected />}
+      navbar={<NavBar />}
       options={newOptios}
     >
       {children}
