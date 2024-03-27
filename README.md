@@ -1,4 +1,4 @@
-Gracias por proporcionar toda esa información. Con eso, puedo generar el README para la aplicación "Halcones en línea". Aquí tienes:
+<!-- Gracias por proporcionar toda esa información. Con eso, puedo generar el README para la aplicación "Halcones en línea". Aquí tienes: -->
 
 <a name="readme-top"></a>
 
