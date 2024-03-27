@@ -1,6 +1,7 @@
 import { Form, FormSection, H1, LabeledInput, Main, LabeledSelect, SubmitButton } from '@/components/utils'
 import { getReducedCareers } from '@/services/supabase/actions/careers'
 import { createGroup } from '@/services/supabase/actions/groups'
+import { v4 } from '@/utils/uuid'
 
 export default async function NewGroupPage () {
   const carears = await getReducedCareers()
@@ -22,7 +23,7 @@ export default async function NewGroupPage () {
             name='career'
           >
             {carears.map((career) => (
-              <option key={career.id} value={career.id}>{career.name}</option>
+              <option key={v4()} value={career.id}>{career.name}</option>
             ))}
           </LabeledSelect>
           <SubmitButton>Crear</SubmitButton>

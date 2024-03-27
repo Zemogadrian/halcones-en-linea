@@ -4,6 +4,7 @@ import { Tables } from 'database.types'
 import { createEducationPlan, getEducationPlan, updateEducationPlan } from '@/services/supabase/actions/admin/education-plan'
 import { getReducedCareers } from '@/services/supabase/actions/careers'
 import { getSubjects } from '@/services/supabase/actions/subjects'
+import { v4 } from '@/utils/uuid'
 
 interface Props {
   params: {
@@ -66,7 +67,7 @@ export default async function NewEducationPlan ({ params, isEditMode = false }: 
             >
               {careers.map((career) => (
                 <option
-                  key={career.id}
+                  key={v4()}
                   value={career.id}
                 >
                   {career.name}
