@@ -2,7 +2,7 @@ import { H1, H2, H3, H4, Main, ShyScrollbar, THeadSticky, Table, TableContainer,
 import { AddClassAsideContainer } from './components/add-class'
 import { v4 } from '@/utils/uuid'
 import { getAccount } from '@/services/supabase/actions/auth'
-import { getCareers } from '@/services/supabase/actions/professors'
+import { getProfessorConfigData } from '@/services/supabase/actions/admin/professor'
 import Link from 'next/link'
 import { IconEdit } from '@tabler/icons-react'
 
@@ -15,7 +15,7 @@ interface Props {
 export default async function ProfessorViewPage ({ params }: Props) {
   const professor = await getAccount(params.id)
 
-  const careers = await getCareers(params.id)
+  const careers = await getProfessorConfigData(params.id)
 
   return (
     <Main>
