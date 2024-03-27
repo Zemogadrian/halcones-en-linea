@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
+import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr } from '@/components/utils'
 import { getProfessors } from '@/services/supabase/actions/professors'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -20,19 +20,19 @@ export default async function ProfessorPage () {
         <Table>
           <THeadSticky>
             <tr>
-              <Th>Nombre</Th>
-              <Th>Correo</Th>
-              <Th>Fecha de creacion</Th>
-              <Th>Acciones</Th>
+              <ThWhite>Nombre</ThWhite>
+              <ThWhite>Correo</ThWhite>
+              <ThWhite>Fecha de creacion</ThWhite>
+              <ThWhite>Acciones</ThWhite>
             </tr>
           </THeadSticky>
           <tbody>
             {professors.map((professor) => (
               <Tr key={v4()}>
-                <Td className='capitalize'>{professor.first_name} {professor.last_name}</Td>
-                <Td>{professor.email}</Td>
-                <Td>{dateFormatter(new Date(professor.created_at), 'es-MX')}</Td>
-                <Td className='py-1'>
+                <TdWhite className='capitalize'>{professor.first_name} {professor.last_name}</TdWhite>
+                <TdWhite>{professor.email}</TdWhite>
+                <TdWhite>{dateFormatter(new Date(professor.created_at), 'es-MX')}</TdWhite>
+                <TdWhite className='py-1'>
                   <div className='flex justify-center items-center'>
                     <Link
                       href={`/admin/professor/view/${professor?.owner ?? ''}`}
@@ -41,7 +41,7 @@ export default async function ProfessorPage () {
                       <IconEdit size={20} />
                     </Link>
                   </div>
-                </Td>
+                </TdWhite>
               </Tr>
             ))}
           </tbody>

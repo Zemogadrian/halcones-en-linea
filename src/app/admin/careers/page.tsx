@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, Td, Th, Tr } from '@/components/utils'
+import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr } from '@/components/utils'
 import { getCareers } from '@/services/supabase/actions/careers'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -26,11 +26,11 @@ export default async function CareersPage () {
         <Table>
           <THeadSticky>
             <tr>
-              <Th>Nombre</Th>
-              <Th>RVOE</Th>
-              <Th>Campus</Th>
-              <Th>Fecha de creacion</Th>
-              <Th>Acciones</Th>
+              <ThWhite>Nombre</ThWhite>
+              <ThWhite>RVOE</ThWhite>
+              <ThWhite>Campus</ThWhite>
+              <ThWhite>Fecha de creacion</ThWhite>
+              <ThWhite>Acciones</ThWhite>
             </tr>
           </THeadSticky>
 
@@ -39,21 +39,21 @@ export default async function CareersPage () {
               <Tr
                 key={v4()}
               >
-                <Td
+                <TdWhite
                   className='capitalize'
                 >
                   {career.name}
-                </Td>
-                <Td>
+                </TdWhite>
+                <TdWhite>
                   {career.rvoe}
-                </Td>
-                <Td>
+                </TdWhite>
+                <TdWhite>
                   {career.campus?.name}
-                </Td>
-                <Td>
+                </TdWhite>
+                <TdWhite>
                   {dateFormatter(new Date(career.created_at), 'es-MX')}
-                </Td>
-                <Td
+                </TdWhite>
+                <TdWhite
                   className='py-1'
                 >
                   <div className='flex justify-center items-center'>
@@ -66,7 +66,7 @@ export default async function CareersPage () {
                       />
                     </Link>
                   </div>
-                </Td>
+                </TdWhite>
               </Tr>
             ))}
           </tbody>

@@ -16,7 +16,7 @@ export default async function NewProfessorPage ({ params }: Props) {
 
   return (
     <Main>
-      <H1>
+      <H1 className='text-white'>
         {editMode != null ? 'Editar profesor' : 'Crear nuevo profesor'}
       </H1>
 
