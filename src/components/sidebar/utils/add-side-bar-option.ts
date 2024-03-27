@@ -17,3 +17,5 @@ export const addSideBarOption = (options: SideBarOptions, position: number, newO
 
   return options
 }
+
+export const constructSideBarOptions = (options: SideBarOptions) => options

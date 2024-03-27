@@ -8,13 +8,11 @@ export const NavProfOptions = () => {
   const pathname = usePathname()
   const params = useParams()
 
-  console.log(params)
-
   const options = [
     {
-      startWith: '/professor/',
+      startWith: '/professor',
       getRoutes: ({ params }) => {
-        const subject = z.coerce.string().parse(params.slug)
+        const subject = decodeURIComponent(z.coerce.string().parse(params.slug))
 
         return [
           {

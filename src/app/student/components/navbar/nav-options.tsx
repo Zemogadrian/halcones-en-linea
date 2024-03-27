@@ -1,59 +1,18 @@
 'use client'
 
 import { useParams, usePathname, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
 import Link from 'next/link'
 import { v4 } from '@/utils/uuid'
-import { queryParamsSections, subjectRefs } from '../../layout'
+import { NavBarItem } from './types'
 
-export const NavOptios = () => {
+interface Props {
+  options: NavBarItem[]
+}
+
+export const NavOptios = ({ options }: Props) => {
   const pathname = usePathname()
   const params = useParams()
   const searchParams = useSearchParams()
-
-  const options = [
-    {
-      startWith: '/student/subject',
-      getRoutes: ({ params }) => {
-        const slug = z.coerce.string().parse(params.slug)
-
-        const queryParam = queryParamsSections.subjectSection
-
-        return [
-          {
-            name: 'Temas',
-            href: `/student/subject/${slug}/topics`,
-            ref: subjectRefs.topics,
-            queryParam
-          },
-          {
-            name: 'Documentación',
-            href: `/student/subject/${slug}/documents`,
-            ref: subjectRefs.documents,
-            queryParam
-          },
-          {
-            name: 'Actividades',
-            href: `/student/subject/${slug}/activities`,
-            ref: subjectRefs.activities,
-            queryParam
-          },
-          {
-            name: 'Examen',
-            href: `/student/subject/${slug}/exam`,
-            ref: subjectRefs.exam,
-            queryParam
-          },
-          {
-            name: 'Clases grabadas',
-            href: `/student/subject/${slug}/recordedclasses`,
-            ref: subjectRefs.recordedclasses,
-            queryParam
-          }
-        ]
-      }
-    }
-  ]
 
   const routes = options.find(({ startWith }) => pathname.startsWith(startWith))?.getRoutes({ params })
 
