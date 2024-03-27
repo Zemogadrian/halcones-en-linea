@@ -1,6 +1,7 @@
 import { H1, Main } from '@/components/utils'
 import { getMyReducedCareers } from '@/services/supabase/actions/professors'
 import { v4 } from '@/utils/uuid'
+import Link from 'next/link'
 
 export default async function ProfessorPage () {
   const careers = await getMyReducedCareers()
@@ -30,14 +31,15 @@ export default async function ProfessorPage () {
         className='flex flex-col items-center gap-4 mt-4 w-full px-80'
       >
         {careers.map((career) => (
-          <div
+          <Link
+            href={`/professor/career/${career?.id ?? ''}`}
             key={v4()}
-            className='gap-4 bg-[#cdcccb] rounded-lg px-4 w-full'
+            className='group gap-4 transition-colors bg-[#cdcccb] rounded-lg px-4 w-full py-1 hover:bg-[#b9b9b8]'
           >
-            <span className='text-black font-bold text-lg'>
+            <span className=' font-bold border-b transition-colors border-b-[#212953] text-[#212953] text-xl group-hover:text-[#020305]'>
               {career?.name}
             </span>
-          </div>
+          </Link>
         ))}
       </section>
 
