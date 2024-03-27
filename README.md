@@ -125,13 +125,13 @@ Para contribuir al desarrollo de Halcones en línea, sigue estos pasos:
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
-[contributors-shield]: https://img.shields.io/github/contributors/tu-usuario/halcones-en-linea.svg?style=for-the-badge
-[contributors-url]: https://github.com/tu-usuario/halcones-en-linea/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/tu-usuario/halcones-en-linea.svg?style=for-the-badge
-[forks-url]: https://github.com/tu-usuario/halcones-en-linea/network/members
-[stars-shield]: https://img.shields.io/github/stars/tu-usuario/halcones-en-linea.svg?style=for-the-badge
-[stars-url]: https://github.com/tu-usuario/halcones-en-linea/stargazers
-[issues-shield]: https://img.shields.io/github/issues/tu-usuario/halcones-en-linea.svg?style=for-the-badge
-[issues-url]: https://github.com/tu-usuario/halcones-en-linea/issues
+[contributors-shield]: https://img.shields.io/github/contributors/Foco-Grafico/halcones-en-linea.svg?style=for-the-badge
+[contributors-url]: https://github.com/Foco-Grafico/halcones-en-linea/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Foco-Grafico/halcones-en-linea.svg?style=for-the-badge
+[forks-url]: https://github.com/Foco-Grafico/halcones-en-linea/network/members
+[stars-shield]: https://img.shields.io/github/stars/Foco-Grafico/halcones-en-linea.svg?style=for-the-badge
+[stars-url]: https://github.com/Foco-Grafico/halcones-en-linea/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Foco-Grafico/halcones-en-linea.svg?style=for-the-badge
+[issues-url]: https://github.com/Foco-Grafico/halcones-en-linea/issues
 
 <!-- Por favor, asegúrate de reemplazar `inserta-url-del-logo-aqui`, `inserta-url-captura-movil` y `inserta-url-captura-ordenador` con las URLs correspondientes para el logo y las capturas de pantalla de la aplicación. Además, reemplaza `tu-url-supabase` y `tu-supabase-anon-key` con las URL y clave anónima de Supabase correspondientes. Y finalmente, sustituye `tu-usuario` en los enlaces de los badges y las URL de GitHub con tu nombre de usuario de GitHub. -->
