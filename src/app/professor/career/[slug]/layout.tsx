@@ -12,18 +12,23 @@ interface Props {
 }
 
 export default async function Layout ({ children, params }: Props) {
-  console.log(params)
   const classes = await getMyClasses(params.slug)
   console.log(classes)
 
   // const classesOption = {
-  //   title: 'Materias',
-  //   sub: classes?.educationPlans?.map(clas => ({
-  //     title: clas.name,
-  //     href: `/professor/${clas.slug}/activities`,
-  //     type: 'subject'
-  //   }))
+  //   classes?.map(clas =>
+  //     clas.educationPlans?.map(plan =>
+  //       plan.groups?.map(group =>
+  //         group.semesters?.map(semester =>
+  //           semester.subjects?.map(subject => ({
+  //             title: `${semester.number}° SEMESTRE - GRUPO ${group.name} (PLAN - ${plan.id})`,
+  //             sub:{
+  //               title:`${subject.name}`,
+  //               href: `/professor/${clas.slug}/${subject.name}/activities`
+  //             }
+  //           }))))))
   // }
+
   return (
     <DistroNavASide
       navbar={<NavBarProf />}
