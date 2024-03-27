@@ -30,7 +30,7 @@ export const getMyClasses = async (careerSlug: string) => {
 
   const careerSlugFixed = decodeURIComponent(careerSlug)
 
-  const { data: classes, error: errClasses } = await supabase.from('teacher_config').select('subjects(*), careers(id, name), education_plans(id, name), groups(id, name), semesters(id, number)').eq('owner', data.session?.user.id ?? '').eq('careers.slug', careerSlugFixed)
+  const { data: classes, error: errClasses } = await supabase.from('teacher_config').select('subjects(*), careers(id, name, slug), education_plans(id, name), groups(id, name), semesters(id, number)').eq('owner', data.session?.user.id ?? '').eq('careers.slug', careerSlugFixed)
 
   const configData: {
     [c: number]: {
