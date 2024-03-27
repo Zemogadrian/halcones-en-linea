@@ -17,6 +17,7 @@ export const enum queryParamsSections {
 
 export default async function AlumnLayout ({ children }) {
   const subjects = await getMySubjects()
+
   const materiasOption = {
     title: 'Materias',
     sub: subjects.map(subject => ({
@@ -26,12 +27,10 @@ export default async function AlumnLayout ({ children }) {
       defaultRef: subjectRefs.topics
     }))
   }
-
   const newOptios = [materiasOption, ...options]
-
   return (
     <DistroNavASide
-      navbar={<NavBar />}
+      navbar={<NavBar isMateriasSelected />}
       options={newOptios}
     >
       {children}

@@ -39,7 +39,7 @@ export default async function ProfessorPage () {
           </H1>
 
           <span className='text-white font-bold text-lg'>
-            Selecciona la carrera en la que desees ingressar
+            Selecciona la carrera en la que desees ingresar
           </span>
         </header>
 
