@@ -15,6 +15,10 @@ export const getProfessors = async () => {
   return data
 }
 
+export const getMyClasses = async (slug) => {
+
+}
+
 export const getMyReducedCareers = async () => {
   const supabase = await createClient()
 

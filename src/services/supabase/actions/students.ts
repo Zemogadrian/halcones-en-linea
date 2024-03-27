@@ -9,7 +9,8 @@ const SubjectScheme = z.object({
 })
 
 const SubjectWithCreatedDate = SubjectScheme.extend({
-  created_at: z.string()
+  created_at: z.string(),
+  slug: z.string()
 })
 
 export const getStudents = async () => {

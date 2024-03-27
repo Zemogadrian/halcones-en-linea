@@ -21,7 +21,7 @@ export default async function AlumnLayout ({ children }) {
     title: 'Materias',
     sub: subjects.map(subject => ({
       title: subject.name,
-      href: `/student/subject/${subject.id}`,
+      href: `/student/subject/${subject.slug}`,
       type: queryParamsSections.subjectSection,
       defaultRef: subjectRefs.topics
     }))
