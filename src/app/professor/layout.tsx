@@ -1,23 +1,26 @@
-import { DistroNavASide } from '../layouts/distro-nav-aside'
+import { ProfileSettingsButton } from '@/components/profile-settings-button'
+import { DistroNav } from '../layouts/distro-nav'
 
 export default function Layout ({
   children
 }) {
   return (
-    <DistroNavASide
+    <DistroNav
       navbar={
         <nav
-          className='bg-nav-bg p-2'
+          className='bg-nav-bg p-2 flex justify-between items-center'
         >
           <img
             className='aspect-[24/9] w-28'
             src='/img/logo-itesus.png' alt='Logo de itesus'
           />
+
+          <ProfileSettingsButton />
         </nav>
       }
       options={[]}
     >
       {children}
-    </DistroNavASide>
+    </DistroNav>
   )
 }
