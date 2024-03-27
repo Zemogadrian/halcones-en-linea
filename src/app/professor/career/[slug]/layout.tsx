@@ -4,26 +4,13 @@ import { constructSideBarOptions } from '@/components/sidebar/utils/add-side-bar
 import { SideBarOptions } from '@/components/sidebar/types'
 import { NavBarProf } from '@/app/student/components/navbar/variants/professor'
 import { getUser } from '@/services/supabase/actions/auth'
+import { queryParamsSections, subjectRefs } from './enums'
 
 interface Props {
   params: {
     slug: string
   }
   children: string
-}
-
-export const enum subjectRefs {
-  schedule = 'schedule',
-  activities = 'activities',
-  tests = 'tests',
-  forums = 'forums',
-  documentation = 'documentation',
-  qualifications = 'qualifications',
-  beginclass = 'beginclass',
-}
-
-export const enum queryParamsSections {
-  professorSubject = 'professor-subject',
 }
 
 export default async function Layout ({ children, params }: Props) {
