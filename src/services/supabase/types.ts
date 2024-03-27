@@ -20,3 +20,7 @@ export type EducationPlanByCareer = QueryData<typeof educationPlanByCareer>
 export const accountQuery = supabase.from('user_data').select('*').single()
 
 export type Account = QueryData<typeof accountQuery>
+
+export const userWithRoles = supabase.from('user_data').select('*, roles(*)').single()
+
+export type UserWithRoles = QueryData<typeof userWithRoles>

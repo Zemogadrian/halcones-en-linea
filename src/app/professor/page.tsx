@@ -4,9 +4,11 @@ import { v4 } from '@/utils/uuid'
 import Link from 'next/link'
 import { DistroNav } from '../layouts/distro-nav'
 import { ProfileSettingsButton } from '@/components/profile-settings-button'
+import { getUser } from '@/services/supabase/actions/auth'
 
 export default async function ProfessorPage () {
   const careers = await getMyReducedCareers()
+  const user = await getUser()
 
   return (
     <DistroNav
@@ -19,7 +21,7 @@ export default async function ProfessorPage () {
             src='/img/logo-itesus.png' alt='Logo de itesus'
           />
 
-          <ProfileSettingsButton />
+          <ProfileSettingsButton user={user} />
         </nav>
       }
     >
