@@ -162,7 +162,7 @@ export const getMyClasses = async (careerSlug: string) => {
     }))
   }))
 
-  return configDataArray
+  return configDataArray[0]
 }
 
 export const getMyReducedCareers = async () => {

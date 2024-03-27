@@ -1,9 +1,10 @@
-import { NavBar } from '@/app/student/components/navbar/navbar'
 import { options } from './components/sidebar/data'
 import { DistroNavASide } from '../layouts/distro-nav-aside'
 import { getMySubjects } from '@/services/supabase/actions/students'
 import { SideBarOption } from '@/components/sidebar/types'
 import { addSideBarOption } from '@/components/sidebar/utils/add-side-bar-option'
+import { NavBarStudent } from './components/navbar/variants/alumn'
+import { getUser } from '@/services/supabase/actions/auth'
 
 export const enum subjectRefs {
   topics = 'topics',
@@ -19,6 +20,7 @@ export const enum queryParamsSections {
 
 export default async function AlumnLayout ({ children }) {
   const subjects = await getMySubjects()
+  const user = await getUser()
 
   const materiasOption: SideBarOption = {
     title: 'Materias',
@@ -34,7 +36,7 @@ export default async function AlumnLayout ({ children }) {
 
   return (
     <DistroNavASide
-      navbar={<NavBar />}
+      navbar={<NavBarStudent user={user} />}
       options={newOptios}
     >
       {children}
