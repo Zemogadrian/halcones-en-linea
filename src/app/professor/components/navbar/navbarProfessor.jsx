@@ -2,7 +2,6 @@
 import { useParams, usePathname } from 'next/navigation'
 import { z } from 'zod'
 import Link from 'next/link'
-import { setCookie } from '@/services/actions'
 import { v4 } from '@/utils/uuid'
 
 export const NavProfOptions = () => {
@@ -63,8 +62,7 @@ export const NavProfOptions = () => {
   if (routes == null) return null
 
   const handleNav = (ref) => () => {
-    setCookie('calNav', ref)
-      .catch(err => console.error(err))
+
   }
 
   return (

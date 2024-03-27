@@ -5,6 +5,7 @@ import { z } from 'zod'
 const SubjectScheme = z.object({
   id: z.number(),
   name: z.string(),
+  slug: z.string(),
   created_at: z.string()
 })
 
@@ -36,6 +37,7 @@ export const getSubjectsBySemester = async (semesterId: number) => {
       created_at: string
       id: number
       name: string
+      slug: string
     } | null
   }) => ss.subjects).filter(s => s != null))
 
