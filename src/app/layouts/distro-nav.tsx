@@ -1,9 +1,7 @@
-import { SideBarOptions } from '@/components/sidebar/types'
 
 interface Props {
   children: React.ReactNode
   navbar: React.JSX.Element
-  options: SideBarOptions
 }
 
 export const DistroNav = ({ children, navbar }: Props) => {

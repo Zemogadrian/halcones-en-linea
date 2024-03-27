@@ -164,7 +164,7 @@ export const getMyReducedCareers = async () => {
     throw new Error('Error getting session')
   }
 
-  const { data: dataCareers, error: errorCareers } = await supabase.from('teacher_config').select('careers(id, name)').eq('owner', data.session?.user.id ?? '')
+  const { data: dataCareers, error: errorCareers } = await supabase.from('teacher_config').select('careers(id, name, slug)').eq('owner', data.session?.user.id ?? '')
 
   if (errorCareers != null || dataCareers == null) {
     console.error('Error getting professor careers:', error)
