@@ -163,7 +163,7 @@ export type Database = {
           id: number
           name: string
           rvoe: string
-          slug: string
+          slug: string | null
         }
         Insert: {
           campus: number
@@ -171,7 +171,7 @@ export type Database = {
           id?: number
           name: string
           rvoe: string
-          slug: string
+          slug?: string | null
         }
         Update: {
           campus?: number
@@ -179,7 +179,7 @@ export type Database = {
           id?: number
           name?: string
           rvoe?: string
-          slug?: string
+          slug?: string | null
         }
         Relationships: [
           {
