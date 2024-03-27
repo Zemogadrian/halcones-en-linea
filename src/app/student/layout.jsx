@@ -10,7 +10,8 @@ export default async function AlumnLayout ({ children }) {
     sub: subjects.map(subject => ({
       title: subject.name,
       href: `/student/subject/${subject.id}`,
-      type: 'subject'
+      type: 'subject-section',
+      defaultRef: 'topics'
     }))
   }
 

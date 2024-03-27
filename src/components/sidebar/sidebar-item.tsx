@@ -14,6 +14,7 @@ interface Props {
     title: string
     href: string
     type?: 'subject'
+    defaultRef?: string
   }>
 }
 
@@ -62,6 +63,7 @@ export const SideBarMultiItem = ({
                   href={item.href}
                   title={item.title}
                   type={item.type}
+                  defaultRef={item.defaultRef}
                   key={v4()}
                 />
               ))}
@@ -73,10 +75,11 @@ export const SideBarMultiItem = ({
   )
 }
 
-const SubEl = ({ title, href, type }: {
+const SubEl = ({ title, href, type, defaultRef }: {
   title: string
   href: string
-  type?: 'subject'
+  type?: string
+  defaultRef?: string
 }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -84,20 +87,14 @@ const SubEl = ({ title, href, type }: {
   const [req, setReq] = useState('')
 
   useEffect(() => {
-    const requirements = {
-      subject: () => {
-        const subjectSection = searchParams.get('subject-section')
-
-        if (subjectSection != null) {
-          setReq(subjectSection)
-        } else {
-          setReq('topics')
-        }
-      }
-    }
-
     if (type != null) {
-      requirements[type]()
+      const searchParamType = searchParams.get(type)
+
+      if (searchParamType != null) {
+        setReq(searchParamType)
+      } else if (defaultRef != null) {
+        setReq(defaultRef)
+      }
     }
   }, [type, searchParams])
 

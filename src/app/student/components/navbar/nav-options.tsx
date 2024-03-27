@@ -16,36 +16,38 @@ export const NavOptios = () => {
       getRoutes: ({ params }) => {
         const subjectId = z.coerce.string().parse(params.id)
 
+        const queryParam = 'subject-section'
+
         return [
           {
             name: 'Temas',
             href: `/student/subject/${subjectId}/topics`,
             ref: 'topics',
-            queryParam: 'subject-section'
+            queryParam
           },
           {
             name: 'Documentación',
             href: `/student/subject/${subjectId}/documents`,
             ref: 'documents',
-            queryParam: 'subject-section'
+            queryParam
           },
           {
             name: 'Actividades',
             href: `/student/subject/${subjectId}/activities`,
             ref: 'activities',
-            queryParam: 'subject-section'
+            queryParam
           },
           {
             name: 'Examen',
             href: `/student/subject/${subjectId}/exam`,
             ref: 'exam',
-            queryParam: 'subject-section'
+            queryParam
           },
           {
             name: 'Clases grabadas',
             href: `/student/subject/${subjectId}/recordedclasses`,
             ref: 'recordedclasses',
-            queryParam: 'subject-section'
+            queryParam
           }
         ]
       }
