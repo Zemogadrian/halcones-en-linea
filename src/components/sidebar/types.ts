@@ -2,18 +2,12 @@ export type SideBarOptions = SideBarOption[]
 
 export interface SideBarOption {
   title: string
-  sub?: Array<{
-    title: string
-    href: string
-    type?: string
-    defaultRef?: string
-  }>
+  sub?: SubElement[]
 }
 
-export type NavBarOptions = Array<{
+export interface SubElement {
   title: string
-  sub?: Array<{
-    title: string
-    href: string
-  }>
-}>
+  href: string
+  type?: string
+  defaultRef?: string
+}

@@ -1,21 +1,16 @@
 'use client'
 
-import { ArrowIcon, SquareIcon } from '@/assets/icons'
+import { ArrowIcon } from '@/assets/icons'
 import { v4 } from '@/utils/uuid'
 import { AnimatePresence, motion } from 'framer-motion'
-import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { SubElement } from './types'
+import { SubEl } from './sub-el'
 
 interface Props {
   onClick?: () => void
   children: React.ReactNode
-  subItems?: Array<{
-    title: string
-    href: string
-    type?: string
-    defaultRef?: string
-  }>
+  subItems?: SubElement[]
 }
 
 export const SideBarMultiItem = ({
@@ -60,10 +55,7 @@ export const SideBarMultiItem = ({
             <ul>
               {subItems.map((item) => (
                 <SubEl
-                  href={item.href}
-                  title={item.title}
-                  type={item.type}
-                  defaultRef={item.defaultRef}
+                  {...item}
                   key={v4()}
                 />
               ))}
@@ -72,49 +64,5 @@ export const SideBarMultiItem = ({
         )}
       </AnimatePresence>
     </li>
-  )
-}
-
-const SubEl = ({ title, href, type, defaultRef }: {
-  title: string
-  href: string
-  type?: string
-  defaultRef?: string
-}) => {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const isActive = type != null ? decodeURIComponent(pathname).includes(href) : decodeURIComponent(pathname) === href
-  const [req, setReq] = useState('')
-
-  useEffect(() => {
-    if (type != null) {
-      const searchParamType = searchParams.get(type)
-
-      if (searchParamType != null) {
-        setReq(searchParamType)
-      } else if (defaultRef != null) {
-        setReq(defaultRef)
-      }
-    }
-  }, [type, searchParams])
-
-  return (
-    <Link
-      key={v4()} href={type != null ? `${href}/${req}?${searchParams.toString()}` : `${href}?${searchParams.toString()}`}
-    >
-      <li
-        className={`flex px-7 gap-4 border-b border-b-gray-400 ${isActive ? 'bg-[#808080]' : 'bg-[#e7e6e6]'}`}
-      >
-        {
-          isActive
-            ? <ArrowIcon fill='#fff' width={8} className='-rotate-90 animate-fade-in animate-duration-150' />
-            : <SquareIcon width={6} className='animate-fade-in animate-duration-150' />
-        }
-        <span
-          className={`text-left text-lg font-medium ${isActive ? 'text-white' : 'text-gray-500'}`}
-        >{title}
-        </span>
-      </li>
-    </Link>
   )
 }
