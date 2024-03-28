@@ -29,7 +29,6 @@ export const enum queryParamsSections {
 export default async function Layout ({ children, params }: Props) {
   const career = await getMyClasses(params.slug)
   const user = await getUser()
-  console.log(career)
 
   const options = constructSideBarOptions(
     career.educationPlans.reduce((acc, plan) => {
