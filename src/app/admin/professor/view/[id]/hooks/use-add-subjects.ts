@@ -1,3 +1,5 @@
+'use client'
+
 import { getEducationPlansByCareer } from '@/services/supabase/actions/admin/education-plan'
 import { getReducedCareers } from '@/services/supabase/actions/careers'
 import { getGroupsByCareer } from '@/services/supabase/actions/groups'
