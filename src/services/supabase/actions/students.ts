@@ -98,6 +98,13 @@ interface GetNyActivities {
 export const getMyActivies = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, filters }: GetNyActivities) => {
   const supabase = await createClient()
 
+  const { data: userData, error: userError } = await supabase.auth.getSession()
+
+  if (userError != null || userData == null) {
+    console.error('Error getting session:', userError)
+    throw new Error('Error getting session')
+  }
+
   const { data, error } = await supabase
     .from('activities')
     .select('id, type, name, desc, deadline, is_open, user_data(id, first_name, last_name), questions(id, question, type, accept_file, responses(id, option, is_correct))')
@@ -114,5 +121,32 @@ export const getMyActivies = async ({ careerId, educationPlanId, groupId, semest
     throw new Error('Error getting activities')
   }
 
-  return data
+  const activities = await Promise.all(data.map(async a => {
+    const { data: studentActivity, error: errorResponses } = await supabase
+      .from('student_activities')
+      .select('id, created_at, is_sent, is_qualified, is_approved')
+      .eq('activity', a.id)
+      .eq('student', userData.session?.user.id ?? '')
+      .eq('is_sent', filters?.sent ?? true)
+      .eq('is_sent', !(filters?.noSent ?? true))
+      .eq('is_qualified', filters?.qualified ?? true)
+      .eq('is_qualified', !(filters?.noQualified ?? true))
+      .eq('is_approved', filters?.approved ?? true)
+      .eq('is_approved', !(filters?.rejected ?? true))
+      .single()
+
+    if (errorResponses != null || studentActivity == null) {
+      console.error('Error getting student activity:', errorResponses)
+      throw new Error('Error getting student activity')
+    }
+
+    return ({
+      ...a,
+      ...studentActivity,
+      id: a.id,
+      studentActivityId: studentActivity?.id
+    })
+  }))
+
+  return activities
 }
