@@ -187,9 +187,9 @@ export const getMyReducedCareers = async () => {
 }
 
 export async function createActivity <
-Q extends Enums<'question_type'>,
-T extends Enums<'activity_type'>
-> (activity: CreateActivityProps<T, Q>) {
+  QT extends Enums<'question_type'>,
+  AT extends Enums<'activity_type'>
+> (activity: CreateActivityProps<AT, QT>) {
   const supabase = await createClient()
 
   const { data, error } = await supabase.from('activities').insert(activity.config).select('id').single()
