@@ -13,7 +13,7 @@ interface Props {
   subItems?: Array<{
     title: string
     href: string
-    type?: 'subject'
+    type?: string
     defaultRef?: string
   }>
 }
