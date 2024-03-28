@@ -83,7 +83,7 @@ const SubEl = ({ title, href, type, defaultRef }: {
 }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const isActive = type != null ? pathname.includes(href) : pathname === href
+  const isActive = type != null ? decodeURIComponent(pathname).includes(href) : decodeURIComponent(pathname) === href
   const [req, setReq] = useState('')
 
   useEffect(() => {
