@@ -1,12 +1,14 @@
-import { Enums, Tables } from 'database.types'
+import { Enums, TablesInsert } from 'database.types'
 
-interface Config<AT extends Enums<'activity_type'>> extends Omit<Tables<'activities'>, 'id' | 'created_at' | 'type'> {
+interface Config<AT extends Enums<'activity_type'>> extends Omit<TablesInsert<'activities'>, 'id' | 'created_at' | 'type'> {
   type: AT
 }
 
-interface Question<QT extends Enums<'question_type'>> extends Omit<Tables<'questions'>, 'id' | 'created_at' | 'type' | 'activity'> {
+type Response = Omit<TablesInsert<'multiple_options_responses'>, 'id' | 'created_at'>
+
+interface Question<QT extends Enums<'question_type'>> extends Omit<TablesInsert<'questions'>, 'id' | 'created_at' | 'type' | 'activity'> {
   type: QT
-  responses: QT extends 'multiple_option' ? Array<Tables<'multiple_options_responses'>> : null
+  responses: QT extends 'multiple_option' ? Response[] : null
 }
 
 export interface CreateActivityProps<AT extends Enums<'activity_type'>, QT extends Enums<'question_type'>> {
