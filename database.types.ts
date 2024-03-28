@@ -13,6 +13,7 @@ export type Database = {
         Row: {
           career: number
           created_at: string
+          deadline: string
           desc: string
           education_plan: number
           group: number
@@ -26,6 +27,7 @@ export type Database = {
         Insert: {
           career: number
           created_at?: string
+          deadline: string
           desc: string
           education_plan: number
           group: number
@@ -39,6 +41,7 @@ export type Database = {
         Update: {
           career?: number
           created_at?: string
+          deadline?: string
           desc?: string
           education_plan?: number
           group?: number
