@@ -18,6 +18,7 @@ export type Database = {
           education_plan: number
           group: number
           id: number
+          is_open: boolean | null
           name: string
           professor: string
           semester: number
@@ -32,6 +33,7 @@ export type Database = {
           education_plan: number
           group: number
           id?: number
+          is_open?: boolean | null
           name: string
           professor: string
           semester: number
@@ -46,6 +48,7 @@ export type Database = {
           education_plan?: number
           group?: number
           id?: number
+          is_open?: boolean | null
           name?: string
           professor?: string
           semester?: number
