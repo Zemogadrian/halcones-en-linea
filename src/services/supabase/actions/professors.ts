@@ -192,7 +192,17 @@ export async function createActivity <
 > (activity: CreateActivityProps<AT, QT>) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('activities').insert(activity.config).select('id').single()
+  const { data: professorData, error: professorError } = await supabase.auth.getSession()
+
+  if (professorError != null || professorData == null) {
+    console.error('Error getting session:', professorError)
+    throw new Error('Error getting session')
+  }
+
+  const { data, error } = await supabase.from('activities').insert({
+    ...activity.config,
+    professor: professorData.session?.user.id ?? ''
+  }).select('id').single()
 
   if (error != null || data == null) {
     console.error('Error creating activity:', error)
@@ -248,3 +258,15 @@ export async function createActivity <
   //   }
   // }
 }
+
+// interface GetMyActivitiesProps {
+//   careerSlug: string
+//   semesterId: number
+//   groupId: number
+//   subjectId: number
+//   educationPlanId: number
+// }
+
+// export const getMyActivities = async () => {
+
+// }

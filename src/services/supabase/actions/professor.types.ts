@@ -2,7 +2,7 @@ import { Enums, TablesInsert } from 'database.types'
 
 interface Config<
   AT extends Enums<'activity_type'>
-> extends Omit<TablesInsert<'activities'>, 'id' | 'created_at' | 'type'> {
+> extends Omit<TablesInsert<'activities'>, 'id' | 'created_at' | 'type' | 'professor'> {
   type: AT
 }
 
