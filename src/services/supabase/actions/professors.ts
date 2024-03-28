@@ -221,11 +221,12 @@ T extends Enums<'activity_type'>
       question: questionsData[i].id
     }))
 
-    await supabase.from('multiple_options_responses').insert(responses).then(({ error: errorResponses }) => {
-      if (errorResponses != null) {
-        console.error('Error creating responses:', error)
-        throw new Error('Error creating responses')
-      }
-    })
+    await supabase.from('multiple_options_responses').insert(responses)
+      .then(({ error: errorResponses }) => {
+        if (errorResponses != null) {
+          console.error('Error creating responses:', error)
+          throw new Error('Error creating responses')
+        }
+      })
   })
 }
