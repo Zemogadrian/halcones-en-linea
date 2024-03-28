@@ -7,8 +7,6 @@ interface Props {
 }
 
 export default async function SectionPage ({ params }: Props) {
-  console.log(params)
-
   //   const getActions = {
   //     events: async () => {},
   //     subjects: async () => {},
