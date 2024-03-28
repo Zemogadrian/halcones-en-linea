@@ -229,4 +229,22 @@ T extends Enums<'activity_type'>
         }
       })
   })
+
+  // for (let i = 0; i < questions.length; i++) {
+  //   const q = questions[i]
+
+  //   if (q.type !== 'multiple_option' || q.responses == null) continue
+
+  //   const responses = q.responses.map(r => ({
+  //     ...r,
+  //     question: questionsData[i].id
+  //   }))
+
+  //   const { error: errorResponses } = await supabase.from('multiple_options_responses').insert(responses)
+
+  //   if (errorResponses != null) {
+  //     console.error('Error creating responses:', error)
+  //     throw new Error('Error creating responses')
+  //   }
+  // }
 }
