@@ -65,37 +65,37 @@ Halcones en línea es una plataforma educativa desarrollada por **Foco Grafico**
   npm install -g pnpm
   ```
 
-- Establecer el archivo `.env.local` con las siguientes variables:
-
-  ```plaintext
-  NEXT_PUBLIC_SUPABASE_URL=tu-url-supabase
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-supabase-anon-key
-  ```
-
-- Traer el tipado de la base de datos:
-
-  ```sh
-  pnpm pnpm:db:types
-  ```
-
 ### Instalación
 
 1. Clonar el repositorio
 
    ```sh
-   git clone https://tu-repositorio/halcones-en-linea.git
+     git clone https://tu-repositorio/halcones-en-linea.git
    ```
 
 2. Instalar las dependencias
 
    ```sh
-   pnpm install
+     pnpm install
    ```
 
-3. Ejecutar el proyecto
+3. Establecer el archivo `.env.local` con las siguientes variables:
+
+  ```plaintext
+    NEXT_PUBLIC_SUPABASE_URL=tu-url-supabase
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-supabase-anon-key
+  ```
+
+4. Traer el tipado de la base de datos:
+
+  ```sh
+    pnpm pnpm:db:types
+  ```
+
+5. Ejecutar el proyecto
 
    ```sh
-   pnpm run dev
+     pnpm run dev
    ```
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>

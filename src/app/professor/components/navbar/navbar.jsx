@@ -1,4 +1,4 @@
-import { ProfileSettingsButton } from '@/components/profile-settings-button'
+import { ProfileSettingsButton } from '@/components/profile-settings/profile-settings-button'
 import { NavProfOptions } from './navbarProfessor'
 import { Carrer } from './carrer'
 

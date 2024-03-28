@@ -5,18 +5,7 @@ import { SideBarOption } from '@/components/sidebar/types'
 import { addSideBarOption } from '@/components/sidebar/utils/add-side-bar-option'
 import { NavBarStudent } from './components/navbar/variants/alumn'
 import { getUser } from '@/services/supabase/actions/auth'
-
-export const enum subjectRefs {
-  topics = 'topics',
-  documents = 'documents',
-  activities = 'activities',
-  exam = 'exam',
-  recordedclasses = 'recordedclasses',
-}
-
-export const enum queryParamsSections {
-  subjectSection = 'subject-section',
-}
+import { queryParamsSections, subjectRefs } from './enums'
 
 export default async function AlumnLayout ({ children }) {
   const subjects = await getMySubjects()

@@ -3,7 +3,7 @@ import { getMyReducedCareers } from '@/services/supabase/actions/professors'
 import { v4 } from '@/utils/uuid'
 import Link from 'next/link'
 import { DistroNav } from '../layouts/distro-nav'
-import { ProfileSettingsButton } from '@/components/profile-settings-button'
+import { ProfileSettingsButton } from '@/components/profile-settings/profile-settings-button'
 import { getUser } from '@/services/supabase/actions/auth'
 
 export default async function ProfessorPage () {

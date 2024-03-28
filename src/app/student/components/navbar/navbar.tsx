@@ -1,4 +1,4 @@
-import { ProfileSettingsButton } from '@/components/profile-settings-button'
+import { ProfileSettingsButton } from '@/components/profile-settings/profile-settings-button'
 import { Days } from './days'
 import { NavOptios } from './nav-options'
 import { NavBarItem } from './types'

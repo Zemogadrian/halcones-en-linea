@@ -1,7 +1,8 @@
 'use server'
-import { Tables } from 'database.types'
+import { Enums, Tables } from 'database.types'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
+import { CreateActivityProps, GetMyActivitiesProps } from './professor.types'
 
 export const getProfessors = async () => {
   const supabase = await createClient()
@@ -183,4 +184,105 @@ export const getMyReducedCareers = async () => {
   }
 
   return dataCareers.map(c => c.careers)
+}
+
+export async function createActivity <
+  QT extends Enums<'question_type'>,
+  AT extends Enums<'activity_type'>
+> (activity: CreateActivityProps<AT, QT>) {
+  const supabase = await createClient()
+
+  const { data: professorData, error: professorError } = await supabase.auth.getSession()
+
+  if (professorError != null || professorData == null) {
+    console.error('Error getting session:', professorError)
+    throw new Error('Error getting session')
+  }
+
+  const { data, error } = await supabase.from('activities').insert({
+    ...activity.config,
+    professor: professorData.session?.user.id ?? ''
+  }).select('id').single()
+
+  if (error != null || data == null) {
+    console.error('Error creating activity:', error)
+    throw new Error('Error creating activity')
+  }
+
+  if (activity.questions == null) return
+
+  const questions = activity.questions.map(q => ({
+    ...q,
+    activity: data.id
+  }))
+
+  const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions).select('id')
+
+  if (errorQuestions != null || questionsData == null) {
+    console.error('Error creating questions:', error)
+    throw new Error('Error creating questions')
+  }
+
+  questions.forEach(async (q, i) => {
+    if (q.type !== 'multiple_option' || q.responses == null) return
+
+    const responses = q.responses.map(r => ({
+      ...r,
+      question: questionsData[i].id
+    }))
+
+    await supabase.from('multiple_options_responses').insert(responses)
+      .then(({ error: errorResponses }) => {
+        if (errorResponses != null) {
+          console.error('Error creating responses:', error)
+          throw new Error('Error creating responses')
+        }
+      })
+  })
+
+  // for (let i = 0; i < questions.length; i++) {
+  //   const q = questions[i]
+
+  //   if (q.type !== 'multiple_option' || q.responses == null) continue
+
+  //   const responses = q.responses.map(r => ({
+  //     ...r,
+  //     question: questionsData[i].id
+  //   }))
+
+  //   const { error: errorResponses } = await supabase.from('multiple_options_responses').insert(responses)
+
+  //   if (errorResponses != null) {
+  //     console.error('Error creating responses:', error)
+  //     throw new Error('Error creating responses')
+  //   }
+  // }
+}
+
+export const getMyActivities = async ({ careerId, educationPlanId, groupId, semesterId, subjectId }: GetMyActivitiesProps) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error != null || data == null) {
+    console.error('Error getting session:', error)
+    throw new Error('Error getting session')
+  }
+
+  const { data: activities, error: errorActivities } = await supabase
+    .from('activities')
+    .select('id, name, desc, type, created_at, deadline, questions(id, question, type, created_at, responses(id, option, is_correct))')
+    .eq('professor', data.session?.user.id ?? '')
+    .eq('careers.id', careerId)
+    .eq('education_plans.id', educationPlanId)
+    .eq('groups.id', groupId)
+    .eq('semesters.id', semesterId)
+    .eq('subjects.id', subjectId)
+
+  if (errorActivities != null || activities == null) {
+    console.error('Error getting activities:', error)
+    throw new Error('Error getting activities')
+  }
+
+  return activities
 }

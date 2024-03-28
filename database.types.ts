@@ -13,37 +13,43 @@ export type Database = {
         Row: {
           career: number
           created_at: string
-          desc: string | null
+          deadline: string
+          desc: string
           education_plan: number
           group: number
           id: number
           name: string
           professor: string
           semester: number
+          subject: number
           type: Database["public"]["Enums"]["activity_type"]
         }
         Insert: {
           career: number
           created_at?: string
-          desc?: string | null
+          deadline: string
+          desc: string
           education_plan: number
           group: number
           id?: number
           name: string
           professor: string
           semester: number
+          subject: number
           type: Database["public"]["Enums"]["activity_type"]
         }
         Update: {
           career?: number
           created_at?: string
-          desc?: string | null
+          deadline?: string
+          desc?: string
           education_plan?: number
           group?: number
           id?: number
           name?: string
           professor?: string
           semester?: number
+          subject?: number
           type?: Database["public"]["Enums"]["activity_type"]
         }
         Relationships: [
@@ -80,6 +86,13 @@ export type Database = {
             columns: ["semester"]
             isOneToOne: false
             referencedRelation: "semesters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_activities_subject_fkey"
+            columns: ["subject"]
+            isOneToOne: false
+            referencedRelation: "subjects"
             referencedColumns: ["id"]
           },
         ]
@@ -249,38 +262,6 @@ export type Database = {
           },
         ]
       }
-      multiple_options_questions: {
-        Row: {
-          created_at: string
-          id: number
-          is_correct: boolean
-          option: string
-          question: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          is_correct: boolean
-          option: string
-          question: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          is_correct?: boolean
-          option?: string
-          question?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_multiple_options_questions_question_fkey"
-            columns: ["question"]
-            isOneToOne: false
-            referencedRelation: "questions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       questions: {
         Row: {
           accept_file: boolean
@@ -312,6 +293,38 @@ export type Database = {
             columns: ["activity"]
             isOneToOne: false
             referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      responses: {
+        Row: {
+          created_at: string
+          id: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_correct?: boolean
+          option?: string
+          question?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_multiple_options_questions_question_fkey"
+            columns: ["question"]
+            isOneToOne: false
+            referencedRelation: "questions"
             referencedColumns: ["id"]
           },
         ]

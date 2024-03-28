@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { NavBarItem } from '../types'
 import { NavBar } from '../navbar'
 import { UserWithRoles } from '@/services/supabase/types'
-import { queryParamsSections, subjectRefs } from '@/app/professor/career/[slug]/layout'
+import { queryParamsSections, subjectRefs } from '@/app/professor/career/[slug]/enums'
 
 const options: NavBarItem[] = [
   {
