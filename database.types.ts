@@ -262,38 +262,6 @@ export type Database = {
           },
         ]
       }
-      multiple_options_responses: {
-        Row: {
-          created_at: string
-          id: number
-          is_correct: boolean
-          option: string
-          question: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          is_correct: boolean
-          option: string
-          question: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          is_correct?: boolean
-          option?: string
-          question?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_multiple_options_questions_question_fkey"
-            columns: ["question"]
-            isOneToOne: false
-            referencedRelation: "questions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       questions: {
         Row: {
           accept_file: boolean
@@ -325,6 +293,38 @@ export type Database = {
             columns: ["activity"]
             isOneToOne: false
             referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      responses: {
+        Row: {
+          created_at: string
+          id: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_correct: boolean
+          option: string
+          question: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_correct?: boolean
+          option?: string
+          question?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_multiple_options_questions_question_fkey"
+            columns: ["question"]
+            isOneToOne: false
+            referencedRelation: "questions"
             referencedColumns: ["id"]
           },
         ]
