@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-export const DeadlineAct = async () => {
+export const DeadlineAct = () => {
   const { replace } = useRouter()
   const params = useSearchParams()
   const pathname = usePathname()

@@ -1,5 +1,7 @@
+'use client'
 import { H1, H2 } from '@/components/utils'
-// import { AssignActName } from './components/assign-act-name'
+import { AssignActName, DisplayOptions } from './components/assign-act-name'
+
 // import { DescribeAct } from './components/describe-act'
 // import { AskDocumentation } from './components/documentation'
 // import { DeadlineAct } from './components/deadline'
@@ -26,10 +28,11 @@ export default function CreateWork ({ params, searchParams }) {
           {searchParams?.activitydeadline}
         </h2>
       </div>
-      {/* <AssignActName />
-      <DescribeAct />
+      <DisplayOptions />
+      {/* <DescribeAct />
       <AskDocumentation />
       <DeadlineAct /> */}
+
     </div>
   )
 }
