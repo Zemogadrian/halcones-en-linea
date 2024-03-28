@@ -1,7 +1,8 @@
 'use server'
-import { Tables } from 'database.types'
+import { Enums, Tables } from 'database.types'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
+import { CreateActivityProps } from './professor.types'
 
 export const getProfessors = async () => {
   const supabase = await createClient()
@@ -183,4 +184,48 @@ export const getMyReducedCareers = async () => {
   }
 
   return dataCareers.map(c => c.careers)
+}
+
+export async function createActivity <
+Q extends Enums<'question_type'>,
+T extends Enums<'activity_type'>
+> (activity: CreateActivityProps<T, Q>) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('activities').insert(activity.config).select('id').single()
+
+  if (error != null || data == null) {
+    console.error('Error creating activity:', error)
+    throw new Error('Error creating activity')
+  }
+
+  if (activity.questions == null) return
+
+  const questions = activity.questions.map(q => ({
+    ...q,
+    activity: data.id
+  }))
+
+  const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions).select('id')
+
+  if (errorQuestions != null || questionsData == null) {
+    console.error('Error creating questions:', error)
+    throw new Error('Error creating questions')
+  }
+
+  questions.forEach(async (q, i) => {
+    if (q.type !== 'multiple_option' || q.responses == null) return
+
+    const responses = q.responses.map(r => ({
+      ...r,
+      question: questionsData[i].id
+    }))
+
+    await supabase.from('multiple_options_responses').insert(responses).then(({ error: errorResponses }) => {
+      if (errorResponses != null) {
+        console.error('Error creating responses:', error)
+        throw new Error('Error creating responses')
+      }
+    })
+  })
 }
