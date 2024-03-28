@@ -16,6 +16,7 @@ interface Props {
 export default async function Layout ({ children, params }: Props) {
   const career = await getMyClasses(params.slug)
   const user = await getUser()
+  console.log(career)
 
   const options = constructSideBarOptions(
     career.educationPlans.reduce((acc, plan) => {
@@ -25,7 +26,7 @@ export default async function Layout ({ children, params }: Props) {
             title: `${semester.number}° SEMESTRE - GRUPO ${group.name} (PLAN - ${plan.id})`,
             sub: [{
               title: `${subject.name}`,
-              href: `/professor/${params.slug}/${subject.slug ?? ''}`,
+              href: `/professor/career/${params.slug}/${subject.slug ?? ''}`,
               type: queryParamsSections.professorSubject,
               defaultRef: subjectRefs.schedule
             }]
@@ -38,7 +39,6 @@ export default async function Layout ({ children, params }: Props) {
       return [...acc, ...elements]
     }, [])
   )
-
   return (
     <DistroNavASide
       navbar={<NavBarProf user={user} />}

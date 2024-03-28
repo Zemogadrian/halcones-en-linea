@@ -10,50 +10,50 @@ const options: NavBarItem[] = [
   {
     startWith: '/professor',
     getRoutes: ({ params }) => {
-      const subject = decodeURIComponent(z.coerce.string().parse(params.slug))
-
+      const slug = z.coerce.string().parse(params.slug)
+      const subjectslug = z.coerce.string().parse(params.subjectslug)
       const queryParam = queryParamsSections.professorSubject
 
       return [
         {
           name: 'Horario',
-          href: `/professor/${subject}/schedule`,
+          href: `/professor/career/${slug}/${subjectslug}/schedule`,
           ref: subjectRefs.schedule,
           queryParam
         },
         {
           name: 'Actividades',
-          href: `/professor/${subject}/Activities`,
+          href: `/professor/career/${slug}/${subjectslug}/activities`,
           ref: subjectRefs.activities,
           queryParam
         },
         {
           name: 'Examenes',
-          href: `/professor/${subject}/tests`,
+          href: `/professor/career/${slug}/${subjectslug}/tests`,
           ref: subjectRefs.tests,
           queryParam
         },
         {
           name: 'Foros',
-          href: `/professor/${subject}/forums`,
+          href: `/professor/career/${slug}/${subjectslug}/forums`,
           ref: subjectRefs.forums,
           queryParam
         },
         {
           name: 'Temas y Documentación',
-          href: `/professor/${subject}/documentation`,
+          href: `/professor/career/${slug}/${subjectslug}/documentation`,
           ref: subjectRefs.documentation,
           queryParam
         },
         {
           name: 'Calificaciones',
-          href: `/professor/${subject}/qualifications`,
+          href: `/professor/career/${slug}/${subjectslug}/qualifications`,
           ref: subjectRefs.qualifications,
           queryParam
         },
         {
           name: 'Iniciar clase',
-          href: `/professor/${subject}/beginclass`,
+          href: `/professor/career/${slug}/${subjectslug}/beginclass`,
           ref: subjectRefs.beginclass,
           queryParam
         }
