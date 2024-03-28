@@ -2,7 +2,7 @@
 import { Enums, Tables } from 'database.types'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
-import { CreateActivityProps } from './professor.types'
+import { CreateActivityProps, GetMyActivitiesProps } from './professor.types'
 
 export const getProfessors = async () => {
   const supabase = await createClient()
@@ -259,14 +259,30 @@ export async function createActivity <
   // }
 }
 
-// interface GetMyActivitiesProps {
-//   careerSlug: string
-//   semesterId: number
-//   groupId: number
-//   subjectId: number
-//   educationPlanId: number
-// }
+export const getMyActivities = async ({ careerId, educationPlanId, groupId, semesterId, subjectId }: GetMyActivitiesProps) => {
+  const supabase = await createClient()
 
-// export const getMyActivities = async () => {
+  const { data, error } = await supabase.auth.getSession()
 
-// }
+  if (error != null || data == null) {
+    console.error('Error getting session:', error)
+    throw new Error('Error getting session')
+  }
+
+  const { data: activities, error: errorActivities } = await supabase
+    .from('activities')
+    .select('id, name, desc, type, created_at, deadline, questions(id, question, type, created_at, responses(id, option, is_correct))')
+    .eq('professor', data.session?.user.id ?? '')
+    .eq('careers.id', careerId)
+    .eq('education_plans.id', educationPlanId)
+    .eq('groups.id', groupId)
+    .eq('semesters.id', semesterId)
+    .eq('subjects.id', subjectId)
+
+  if (errorActivities != null || activities == null) {
+    console.error('Error getting activities:', error)
+    throw new Error('Error getting activities')
+  }
+
+  return activities
+}

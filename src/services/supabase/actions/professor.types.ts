@@ -22,3 +22,11 @@ export interface CreateActivityProps<
   config: Config<AT>
   questions: AT extends 'work' ? null : Array<Question<QT>>
 }
+
+export interface GetMyActivitiesProps {
+  careerId: number
+  semesterId: number
+  groupId: number
+  subjectId: number
+  educationPlanId: number
+}
