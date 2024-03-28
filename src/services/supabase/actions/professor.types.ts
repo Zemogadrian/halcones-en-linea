@@ -6,7 +6,7 @@ interface Config<
   type: AT
 }
 
-type Response = Omit<TablesInsert<'multiple_options_responses'>, 'id' | 'created_at'>
+type Response = Omit<TablesInsert<'responses'>, 'id' | 'created_at'>
 
 interface Question<
   QT extends Enums<'question_type'>
