@@ -76,3 +76,43 @@ export const getMySubjects = async () => {
 
   return subjects
 }
+
+interface GetNyActivities {
+  groupId: number
+  semesterId: number
+  careerId: number
+  subjectId: number
+  educationPlanId: number
+  filters?: {
+    open: boolean
+    close: boolean
+    sent: boolean
+    noSent: boolean
+    qualified: boolean
+    noQualified: boolean
+    approved: boolean
+    rejected: boolean
+  }
+}
+
+export const getMyActivies = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, filters }: GetNyActivities) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('activities')
+    .select('id, type, name, desc, deadline, is_open, user_data(id, first_name, last_name), questions(id, question, type, accept_file, responses(id, option, is_correct))')
+    .eq('careers.id', careerId)
+    .eq('education_plans.id', educationPlanId)
+    .eq('groups.id', groupId)
+    .eq('semesters.id', semesterId)
+    .eq('subjects.id', subjectId)
+    .eq('is_open', filters?.open ?? true)
+    .eq('is_open', !(filters?.close ?? true))
+
+  if (error != null || data == null) {
+    console.error('Error getting activities:', error)
+    throw new Error('Error getting activities')
+  }
+
+  return data
+}
