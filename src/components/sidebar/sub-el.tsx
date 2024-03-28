@@ -18,11 +18,7 @@ export const SubEl = ({ title, href, type, defaultRef }: SubElement) => {
     if (type != null) {
       const searchParamType = searchParams.get(type)
 
-      if (searchParamType != null) {
-        setReq(searchParamType)
-      } else if (defaultRef != null) {
-        setReq(defaultRef)
-      }
+      setReq(searchParamType ?? defaultRef ?? '')
     }
   }, [type, searchParams])
 
