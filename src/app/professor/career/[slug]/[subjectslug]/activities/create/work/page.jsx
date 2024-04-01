@@ -1,13 +1,12 @@
 'use client'
 import { H1, H2 } from '@/components/utils'
-import { AssignActName, DisplayOptions } from './components/assign-act-name'
+import { OptionsSection } from './components/options-section'
 
 // import { DescribeAct } from './components/describe-act'
 // import { AskDocumentation } from './components/documentation'
 // import { DeadlineAct } from './components/deadline'
 
 export default function CreateWork ({ params, searchParams }) {
-  console.log(params, searchParams)
   return (
     <div className='flex flex-col h-full w-full gap-40'>
       <div className='border-b-2 border-b-black px-10 py-5'>
@@ -28,7 +27,7 @@ export default function CreateWork ({ params, searchParams }) {
           {searchParams?.activitydeadline}
         </h2>
       </div>
-      <DisplayOptions />
+      <OptionsSection />
       {/* <DescribeAct />
       <AskDocumentation />
       <DeadlineAct /> */}
