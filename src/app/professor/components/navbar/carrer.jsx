@@ -1,7 +1,7 @@
 'use client'
 import { useParams } from 'next/navigation'
 
-export const Carrer = async ({ handleClick }) => {
+export const Carrer = ({ handleClick }) => {
   const params = useParams()
   const decodedSlug = decodeURIComponent(params.slug)
 

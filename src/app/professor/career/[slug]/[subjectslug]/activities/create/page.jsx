@@ -1,9 +1,11 @@
+'use client'
 import { H1, H2 } from '@/components/utils'
 import { options } from './components/options'
 import Link from 'next/link'
 
 export default function CreateActivities ({ params }) {
   console.log(options)
+
   return (
     <div className='flex flex-col h-full w-full gap-40'>
       <div className='border-b-2 border-b-black px-10 py-5'>
@@ -25,9 +27,7 @@ export default function CreateActivities ({ params }) {
 
         ))}
       </div>
-      {/* <button>
-          <img src='/arrow.svg' alt='' className='w-14 h-14 -rotate-90 ' />
-        </button> */}
+
     </div>
   )
 }

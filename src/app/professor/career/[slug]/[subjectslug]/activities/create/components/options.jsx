@@ -9,7 +9,7 @@ export const options = [
     title: 'Examen',
     subtitle: 'Arma tu examen',
     description: 'Arma tu examen',
-    component: 'text'
+    component: 'test'
   },
   {
     title: 'Cuestionario',
