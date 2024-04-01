@@ -17,6 +17,6 @@ export const AssignActName = () => {
   }
 
   return (
-    <input defaultValue={defaultValue} type='text' onChange={handleOnChange} placeholder='Escribe el nombre de la actividad' className='underline-offset-auto text-white bg-transparent border-2 w-[30rem] h-40 text-center font-bold border-slate-500' />
+    <input defaultValue={defaultValue} type='text' onChange={handleOnChange} placeholder='Escribe el nombre de la actividad' required className='underline-offset-auto text-white bg-transparent border-2 w-[30rem] h-40 text-center font-bold border-slate-500' />
   )
 }

@@ -60,6 +60,7 @@ export const AskDocumentation = () => {
       onChange={handleOnChange}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
+      required
       placeholder='Arrastra tu documentación requerida para la actividad Ej: Archivo .pdf | .doc | .jpg | .ppt | .xls'
       className='underline-offset-auto text-white bg-transparent border-2 w-[30rem] h-40 text-center font-bold border-slate-500'
     />

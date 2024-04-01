@@ -19,6 +19,6 @@ export const DescribeAct = () => {
   }
 
   return (
-    <input type='text' defaultValue={defaultValue} onChange={handleOnChange} placeholder='Describe la actividad' className='underline-offset-auto text-white bg-transparent border-2 w-[30rem] h-40 text-center font-bold border-slate-500' />
+    <input type='text' required defaultValue={defaultValue} onChange={handleOnChange} placeholder='Describe la actividad' className='underline-offset-auto text-white bg-transparent border-2 w-[30rem] h-40 text-center font-bold border-slate-500' />
   )
 }
