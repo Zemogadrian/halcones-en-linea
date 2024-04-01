@@ -292,5 +292,21 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
     throw new Error('Error getting activities')
   }
 
-  return activities
+  const activitiesWithFiles = await Promise.all(
+    activities.map(async a => {
+      const { data: files, error: errorFiles } = await supabase.storage.from(`activities/${a.id}`).list()
+
+      if (errorFiles != null || files == null) {
+        console.error('Error getting files:', error)
+        throw new Error('Error getting files')
+      }
+
+      return {
+        ...a,
+        files
+      }
+    })
+  )
+
+  return activitiesWithFiles
 }
