@@ -220,7 +220,7 @@ export async function createActivity <
     activity.files?.forEach(async f => {
       const path = `activities/${data.id}/${f.name}`
 
-      return await supabase.storage.from(data.id.toString()).upload(path, f)
+      return await supabase.storage.from(`activities/${data.id}`).upload(path, f)
     })
   }
 
