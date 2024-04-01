@@ -1,12 +1,15 @@
 'use client'
 import { H1, H2 } from '@/components/utils'
 import { OptionsSection } from './components/options-section'
-
-// import { DescribeAct } from './components/describe-act'
-// import { AskDocumentation } from './components/documentation'
-// import { DeadlineAct } from './components/deadline'
+import { v4 } from '@/utils/uuid'
+import Link from 'next/link'
 
 export default function CreateWork ({ params, searchParams }) {
+  const files = searchParams?.activitydocumentation && searchParams.activitydocumentation !== ''
+    ? JSON.parse(searchParams.activitydocumentation)
+    : []
+
+  console.log(files)
   return (
     <div className='flex flex-col h-full w-full gap-40'>
       <div className='border-b-2 border-b-black px-10 py-5'>
@@ -21,17 +24,12 @@ export default function CreateWork ({ params, searchParams }) {
           {searchParams?.activitydescription}
         </h2>
         <h2 className='text-[#c4ccd3] font-bold text-xl'>
-          {searchParams?.activitydocumentation}
-        </h2>
-        <h2 className='text-[#c4ccd3] font-bold text-xl'>
-          {searchParams?.activitydeadline}
+          {files?.map(file => (
+            <Link href={file?.url} target='_blank' key={v4()} className='text-[#c4ccd3] font-bold text-xl'>{file?.name}</Link>
+          ))}
         </h2>
       </div>
       <OptionsSection />
-      {/* <DescribeAct />
-      <AskDocumentation />
-      <DeadlineAct /> */}
-
     </div>
   )
 }
