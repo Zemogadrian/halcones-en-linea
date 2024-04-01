@@ -209,6 +209,14 @@ export async function createActivity <
     throw new Error('Error creating activity')
   }
 
+  await supabase.storage.createBucket(`activities/${data.id}`)
+
+  activity.files?.forEach(async f => {
+    const path = `activities/${data.id}/${f.name}`
+
+    return await supabase.storage.from(path).upload(path, f)
+  })
+
   if (activity.questions == null) return
 
   const questions = activity.questions.map(q => ({

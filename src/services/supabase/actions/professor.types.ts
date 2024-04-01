@@ -21,6 +21,7 @@ export interface CreateActivityProps<
 > {
   config: Config<AT>
   questions: AT extends 'work' ? null : Array<Question<QT>>
+  files: AT extends 'work' ? File[] : null
 }
 
 export interface GetMyActivitiesProps {
