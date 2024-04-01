@@ -209,13 +209,20 @@ export async function createActivity <
     throw new Error('Error creating activity')
   }
 
-  await supabase.storage.createBucket(`activities/${data.id}`)
+  if (activity.files != null) {
+    const { data: bucket, error: errbBucket } = await supabase.storage.createBucket(`activities/${data.id}`)
 
-  activity.files?.forEach(async f => {
-    const path = `activities/${data.id}/${f.name}`
+    if (errbBucket != null || bucket == null) {
+      console.error('Error creating bucket:', error)
+      throw new Error('Error creating bucket')
+    }
 
-    return await supabase.storage.from(path).upload(path, f)
-  })
+    activity.files?.forEach(async f => {
+      const path = `activities/${data.id}/${f.name}`
+
+      return await supabase.storage.from(data.id.toString()).upload(path, f)
+    })
+  }
 
   if (activity.questions == null) return
 
