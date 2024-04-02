@@ -56,17 +56,17 @@ export const DeadlineAct = () => {
         Seleccionar fecha de entrega
         <input defaultValue={defaultValue} ref={$inputDate} type='date' required onChange={handleOnChange} placeholder='Fecha de entrega' className=' text-black' />
       </label>
-      {/* <button onClick={uploadWork} className='bg-[#1a62a6] text-white px-4 py-1 rounded-md'>
+      <button onClick={uploadWork} className='bg-[#1a62a6] text-white px-4 py-1 rounded-md'>
         Asignar actividad
-      </button> */}
-      <Link
+      </button>
+      {/* <Link
         href={`/professor/career/${params.slug}/${params.subjectslug}/activities/create/`}
         className='bg-[#1a62a6] text-white px-4 py-1 rounded-md'
       >
         <button onClick={uploadWork} className='bg-[#1a62a6] text-white px-4 py-1 rounded-md'>
           Asignar actividad
         </button>
-      </Link>
+      </Link> */}
     </div>
 
   )
