@@ -1,6 +1,5 @@
 'use client'
 import { createActivity } from '@/services/supabase/actions/professors'
-import Link from 'next/link'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useRef } from 'react'
 
