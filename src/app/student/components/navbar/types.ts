@@ -7,7 +7,8 @@ export interface NavBarItem {
 
 export interface NavRoute {
   name: string
-  href: string
-  ref: string
-  queryParam: string
+  href?: string
+  ref?: string
+  queryParam?: string
+  onClick?: () => void
 }

@@ -55,9 +55,7 @@ const options: NavBarItem[] = [
         },
         {
           name: 'Iniciar clase',
-          href: `/professor/career/${slug}/${subjectslug}/beginclass`,
-          ref: subjectRefs.beginclass,
-          queryParam
+          onClick: () => alert('Iniciar clase')
         }
       ]
     }
