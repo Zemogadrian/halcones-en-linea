@@ -140,11 +140,14 @@ export const getMyActivies = async ({ careerId, educationPlanId, groupId, semest
       throw new Error('Error getting student activity')
     }
 
+    const { data: files } = await supabase.storage.from(`activities/${a.id}`).list()
+
     return ({
       ...a,
       ...studentActivity,
       id: a.id,
-      studentActivityId: studentActivity?.id
+      studentActivityId: studentActivity?.id,
+      files: files ?? []
     })
   }))
 
