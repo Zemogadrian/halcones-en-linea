@@ -2,9 +2,9 @@ import { DistroNavASide } from '@/app/layouts/distro-nav-aside'
 import { getMyClasses } from '@/services/supabase/actions/professors'
 import { constructSideBarOptions } from '@/components/sidebar/utils/add-side-bar-option'
 import { SideBarOptions } from '@/components/sidebar/types'
-import { NavBarProf } from '@/app/student/components/navbar/variants/professor'
 import { getUser } from '@/services/supabase/actions/auth'
 import { queryParamsSections, subjectRefs } from './enums'
+import { NavBarProf } from '@/components/navbar/variants/professor'
 
 interface Props {
   params: {
