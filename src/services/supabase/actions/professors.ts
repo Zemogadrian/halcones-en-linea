@@ -312,3 +312,37 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
 
   return activitiesWithFiles
 }
+
+interface StartClassProps {
+  groupId: number
+  semesterId: number
+  subjectId: number
+  educationPlanId: number
+  careerId: number
+  rtc: {
+    id: string
+    token: string
+  }
+}
+
+export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, rtc }: StartClassProps) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error != null || data == null) {
+    console.error('Error getting session:', error)
+    throw new Error('Error getting session')
+  }
+
+  await supabase.from('classes').insert({
+    career: careerId,
+    education_plan: educationPlanId,
+    group: groupId,
+    semester: semesterId,
+    subject: subjectId,
+    professor: data.session?.user.id ?? '',
+    rtcId: rtc.id,
+    rtcToken: rtc.token
+  })
+}

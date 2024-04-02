@@ -10,6 +10,8 @@ const options: NavBarItem[] = [
   {
     startWith: '/professor',
     getRoutes: ({ params }) => {
+      if (params.slug == null || params.subjectslug == null) return []
+
       const slug = z.coerce.string().parse(params.slug)
       const subjectslug = z.coerce.string().parse(params.subjectslug)
       const queryParam = queryParamsSections.professorSubject
