@@ -1,3 +1,4 @@
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 
 export interface NavBarItem {
@@ -5,10 +6,14 @@ export interface NavBarItem {
   getRoutes: (params: { params: Params }) => NavRoute[]
 }
 
+interface OnClickProps {
+  router: AppRouterInstance
+}
+
 export interface NavRoute {
   name: string
   href?: string
   ref?: string
   queryParam?: string
-  onClick?: () => void
+  onClick?: (props: OnClickProps) => void
 }

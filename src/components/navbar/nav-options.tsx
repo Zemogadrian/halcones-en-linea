@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams, usePathname, useSearchParams } from 'next/navigation'
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { v4 } from '@/utils/uuid'
 import { NavBarItem } from './types'
@@ -13,6 +13,7 @@ export const NavOptios = ({ options }: Props) => {
   const pathname = usePathname()
   const params = useParams()
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const routes = options.find(({ startWith }) => pathname.startsWith(startWith))?.getRoutes({ params })
 
@@ -30,7 +31,7 @@ export const NavOptios = ({ options }: Props) => {
             flex border-r-[#27316e] px-2 py-1
             ${i === (routes.length - 1) ? '' : 'border-r-2'} 
             `}
-              onClick={onClick}
+              onClick={() => onClick({ router })}
             >
               <span
                 className={`
