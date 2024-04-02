@@ -122,7 +122,7 @@ export const getMyActivies = async ({ careerId, educationPlanId, groupId, semest
   }
 
   const activities = await Promise.all(data.map(async a => {
-    const { data: studentActivity, error: errorResponses } = await supabase
+    const { data: studentActivity } = await supabase
       .from('student_activities')
       .select('id, created_at, is_sent, is_qualified, is_approved')
       .eq('activity', a.id)
@@ -134,11 +134,6 @@ export const getMyActivies = async ({ careerId, educationPlanId, groupId, semest
       .eq('is_approved', filters?.approved ?? true)
       .eq('is_approved', !(filters?.rejected ?? true))
       .single()
-
-    if (errorResponses != null || studentActivity == null) {
-      console.error('Error getting student activity:', errorResponses)
-      throw new Error('Error getting student activity')
-    }
 
     const { data: files } = await supabase.storage.from(`activities/${a.id}`).list()
 
