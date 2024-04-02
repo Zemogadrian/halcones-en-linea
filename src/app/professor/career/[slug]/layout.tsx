@@ -26,6 +26,13 @@ export default async function Layout ({ children, params }: Props) {
             sub: [{
               title: `${subject.name}`,
               href: `/professor/career/${params.slug}/${subject.slug ?? ''}`,
+              queryParams: {
+                groupId: group.id,
+                semesterId: semester.id,
+                educationPlanId: plan.id,
+                subjectId: subject.id,
+                careerId: career.id
+              },
               type: queryParamsSections.professorSubject,
               defaultRef: subjectRefs.schedule
             }]

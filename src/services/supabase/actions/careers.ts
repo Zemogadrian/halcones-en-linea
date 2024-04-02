@@ -26,3 +26,22 @@ export const getReducedCareers = async () => {
 
   return data
 }
+
+export const getCareerBySlug = async (slug: string) => {
+  const supabase = await createClient()
+
+  const safeSlug = decodeURIComponent(slug)
+
+  const { data, error } = await supabase
+    .from('careers')
+    .select('id, name')
+    .eq('slug', safeSlug)
+    .single()
+
+  if (error != null) {
+    console.error('Error getting career:', error)
+    throw new Error('Error getting career')
+  }
+
+  return data
+}

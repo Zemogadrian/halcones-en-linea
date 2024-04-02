@@ -1,7 +1,9 @@
 import Link from 'next/link'
 
-export default function Activities ({ params }) {
-  console.log(params)
+export default function Activities ({ params, searchParams }) {
+  console.log(params, searchParams)
+  const newSearchParams = new URLSearchParams(searchParams)
+
   return (
     <div className='flex flex-col gap-5'>
       <div className='flex flex-row gap-2'>
@@ -9,7 +11,7 @@ export default function Activities ({ params }) {
           Mis actividades
         </div>
         <Link
-          href={`/professor/career/${params.slug}/${params.subjectslug ?? ''}/activities/create`}
+          href={`/professor/career/${params.slug}/${params.subjectslug ?? ''}/activities/create?${newSearchParams.toString()}`}
         >
           <div className='text-white bg-[#1264ac] rounded-full justify-center items-center flex w-7 h-7'>+</div>
         </Link>
