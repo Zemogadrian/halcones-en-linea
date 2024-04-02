@@ -15,7 +15,7 @@ export const NavOptios = ({ options }: Props) => {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const routes = options.find(({ startWith }) => pathname.startsWith(startWith))?.getRoutes({ params })
+  const routes = options.find(({ startWith }) => pathname.startsWith(startWith))?.getRoutes({ params, queryParams: searchParams })
 
   if (routes == null) return null
 

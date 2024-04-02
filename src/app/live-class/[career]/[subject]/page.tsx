@@ -1,9 +1,16 @@
 import { getUser } from '@/services/supabase/actions/auth'
 
-export default async function LiveClassPage () {
+interface Props {
+  params: {
+    career: string
+    subject: string
+  }
+}
+
+export default async function LiveClassPage ({ params, searchParams }: Props) {
   const account = await getUser()
 
-  console.log(account)
+  console.log(params, searchParams)
 
   return (
     <div>

@@ -3,7 +3,7 @@ import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 
 export interface NavBarItem {
   startWith: string
-  getRoutes: (params: { params: Params }) => NavRoute[]
+  getRoutes: (params: { params: Params, queryParams: URLSearchParams }) => NavRoute[]
 }
 
 interface OnClickProps {

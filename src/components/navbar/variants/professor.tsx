@@ -9,7 +9,7 @@ import { queryParamsSections, subjectRefs } from '@/app/professor/career/[slug]/
 const options: NavBarItem[] = [
   {
     startWith: '/professor',
-    getRoutes: ({ params }) => {
+    getRoutes: ({ params, queryParams }) => {
       if (params.slug == null || params.subjectslug == null) return []
 
       const slug = z.coerce.string().parse(params.slug)
@@ -55,7 +55,7 @@ const options: NavBarItem[] = [
         },
         {
           name: 'Iniciar clase',
-          href: `/live-class/${slug}/${subjectslug}`
+          href: `https://meet.jit.si/${slug}-${subjectslug}-Group${queryParams.get('groupId') ?? ''}-educationPlan${queryParams.get('educationPlanId') ?? ''}-semester${queryParams.get('semesterId') ?? ''}`
         }
       ]
     }
