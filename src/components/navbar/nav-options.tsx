@@ -49,9 +49,12 @@ export const NavOptios = ({ options }: Props) => {
           )
         }
 
-        if (href != null && ref != null && queryParam != null) {
+        if (href != null) {
           const newSearch = new URLSearchParams(searchParams)
-          newSearch.set(queryParam, ref)
+
+          if (queryParam != null && ref != null) {
+            newSearch.set(queryParam, ref)
+          }
 
           return (
             <Link
