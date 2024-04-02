@@ -13,7 +13,7 @@ interface Props {
 
 export const Meet = ({ account, code, appName }: Props) => (
   <JitsiMeeting
-    domain='meet.jit.si'
+    domain='meet.zrh.init7.net'
     roomName={code}
     configOverwrite={{
       startWithAudioMuted: true,
