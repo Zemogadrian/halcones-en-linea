@@ -5,11 +5,11 @@ import { v4 } from '@/utils/uuid'
 import Link from 'next/link'
 
 export default function CreateWork ({ params, searchParams }) {
-  const files = searchParams?.activitydocumentation && searchParams.activitydocumentation !== ''
-    ? JSON.parse(searchParams.activitydocumentation)
+  const files = searchParams?.activitydocumentation && searchParams?.activitydocumentation !== ''
+    ? JSON.parse(searchParams?.activitydocumentation)
     : []
 
-  console.log(files)
+  // console.log(files)
   return (
     <div className='flex flex-col h-full w-full gap-20'>
       <div className='border-b-2 border-b-black px-10 py-5'>
