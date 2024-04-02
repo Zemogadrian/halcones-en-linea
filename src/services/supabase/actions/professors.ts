@@ -190,8 +190,6 @@ export async function createActivity <
   QT extends Enums<'question_type'>,
   AT extends Enums<'activity_type'>
 > (activity: CreateActivityProps<AT, QT>) {
-  console.log(activity)
-
   const supabase = await createClient()
 
   const { data: professorData, error: professorError } = await supabase.auth.getSession()
