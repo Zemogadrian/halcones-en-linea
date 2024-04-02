@@ -190,12 +190,14 @@ export async function createActivity <
   QT extends Enums<'question_type'>,
   AT extends Enums<'activity_type'>
 > (activity: CreateActivityProps<AT, QT>) {
+  console.log(activity)
+
   const supabase = await createClient()
 
   const { data: professorData, error: professorError } = await supabase.auth.getSession()
 
   if (professorError != null || professorData == null) {
-    console.error('Error getting session:', professorError)
+    console.log('Error getting session:', professorError)
     throw new Error('Error getting session')
   }
 
@@ -205,15 +207,15 @@ export async function createActivity <
   }).select('id').single()
 
   if (error != null || data == null) {
-    console.error('Error creating activity:', error)
+    console.log('Error creating activity:', error)
     throw new Error('Error creating activity')
   }
 
-  if (activity.files != null) {
-    const { data: bucket, error: errbBucket } = await supabase.storage.createBucket(`activities/${data.id}`)
+  if (activity.files != null && activity.files.length > 0) {
+    const { error: errbBucket } = await supabase.storage.createBucket(`activities/${data.id}`)
 
-    if (errbBucket != null || bucket == null) {
-      console.error('Error creating bucket:', error)
+    if (errbBucket != null) {
+      console.log('Error creating bucket:', errbBucket)
       throw new Error('Error creating bucket')
     }
 
@@ -234,7 +236,7 @@ export async function createActivity <
   const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions).select('id')
 
   if (errorQuestions != null || questionsData == null) {
-    console.error('Error creating questions:', error)
+    console.log('Error creating questions:', error)
     throw new Error('Error creating questions')
   }
 
@@ -249,7 +251,7 @@ export async function createActivity <
     await supabase.from('multiple_options_responses').insert(responses)
       .then(({ error: errorResponses }) => {
         if (errorResponses != null) {
-          console.error('Error creating responses:', error)
+          console.log('Error creating responses:', error)
           throw new Error('Error creating responses')
         }
       })
