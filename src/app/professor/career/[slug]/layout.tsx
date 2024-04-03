@@ -22,7 +22,7 @@ export default async function Layout ({ children, params }: Props) {
       const elements = plan.groups.reduce((acc, group) => {
         const elements = group.semesters.reduce((acc, semester) => {
           const elements: SideBarOptions = semester.subjects.map(subject => ({
-            title: `${semester.number}° SEMESTRE - GRUPO ${group.name} (PLAN - ${plan.id})`,
+            title: `${semester.number}° SEMESTRE - GRUPO ${group.name} - ${plan.name.toUpperCase()}`,
             sub: [{
               title: `${subject.name}`,
               href: `/professor/career/${params.slug}/${subject.slug ?? ''}`,
