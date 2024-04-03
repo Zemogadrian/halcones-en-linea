@@ -34,9 +34,6 @@ export const AnimatedDisplay = ({
         control.set({ zIndex: isSelected ? 1 : -20 })
       })
       .catch(err => console.log(err))
-
-    // if (isSelected) {
-    // }
   }, [position, currentPosition])
 
   return isLoaded && (
