@@ -13,9 +13,7 @@ export default function CreateActivities ({ params, searchParams }) {
         <H1 className='text-white underline'>Crea tu actividad</H1>
         <H2 className='text-white'>Selecciona la actividad a crear para tus alumnos</H2>
       </div>
-      {/* <button>
-          <img src='/arrow.svg' alt='' className='w-14 h-14 rotate-90' />
-        </button> */}
+
       <div className='flex flex-col gap-5 items-center justify-center'>
         {options.map((option, index) => (
           <Link
