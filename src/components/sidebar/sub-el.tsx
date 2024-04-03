@@ -10,12 +10,12 @@ export const SubEl = ({ title, href, type, defaultRef, queryParams }: SubElement
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const isActive = type != null
-    ? decodeURIComponent(pathname).includes(href)
-    : decodeURIComponent(pathname) === href
+    ? decodeURIComponent(pathname).includes(decodeURIComponent(href))
+    : decodeURIComponent(pathname) === decodeURIComponent(href)
+
   const [req, setReq] = useState('')
 
   const newParams = new URLSearchParams(searchParams)
-  console.log(queryParams)
 
   if (queryParams != null) {
     for (const [key, value] of Object.entries(queryParams)) {
