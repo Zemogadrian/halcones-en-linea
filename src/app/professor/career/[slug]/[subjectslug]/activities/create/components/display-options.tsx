@@ -38,7 +38,7 @@ export const DisplayOptions = ({ onNav, children, maxPosition, minPosition = 1 }
   }
 
   return (
-    <div className='flex flex-row gap-1 h-full justify-center items-center overflow-x-hidden'>
+    <section className='flex flex-row gap-1 h-full flex-1 justify-center items-center overflow-x-hidden border'>
       <button
         className={
           `transition-opacity ${getCurrentPosition() === minPosition ? 'opacity-20' : ''}`
@@ -48,7 +48,7 @@ export const DisplayOptions = ({ onNav, children, maxPosition, minPosition = 1 }
       >
         <img src='/arrow.svg' alt='' className='w-14 h-14 rotate-90' />
       </button>
-      <div className='relative aspect-[20/9] h-full'>
+      <div className='relative w-[50%] h-full'>
         {children}
         {/* <AskDocumentation direction={direction} currentPosition={position} position={3} />
           <DeadlineAct direction={direction} currentPosition={position} position={4} /> */}
@@ -62,6 +62,6 @@ export const DisplayOptions = ({ onNav, children, maxPosition, minPosition = 1 }
       >
         <img src='/arrow.svg' alt='' className='w-14 h-14 -rotate-90' />
       </button>
-    </div>
+    </section>
   )
 }
