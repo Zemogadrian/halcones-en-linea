@@ -10,15 +10,15 @@ interface Props {
     subjectslug: string
   }
   searchParams: {
-    activitydocumentation: string
-    activityname: string
-    activitydescription: string
-    activitydeadline: string
+    activitydocumentation?: string
+    activityname?: string
+    activitydescription?: string
+    activitydeadline?: string
   }
 
 }
 
-export default function CreateWork ({ params, searchParams }: Props) {
+export default function CreateWork ({ searchParams }: Props) {
   const files = searchParams?.activitydocumentation != null && searchParams?.activitydocumentation !== ''
     ? JSON.parse(searchParams?.activitydocumentation)
     : []
@@ -31,20 +31,31 @@ export default function CreateWork ({ params, searchParams }: Props) {
         <H2 className='text-white'>Sigue las instrucciones en cada apartado para completar y asignar la actividad a tus alumnos correctamente</H2>
       </header>
       <section className='text-center text-white font-bold text-2xl  flex flex-col gap-2'>
-        <h1 className='text-white font-bold text-xl'>
-          {searchParams?.activityname}
-        </h1>
-        <p className='text-[#c4ccd3] font-bold text-xl'>
-          {searchParams?.activitydescription}
-        </p>
-        <ul className='text-[#c4ccd3] font-bold text-xl'>
-          {files?.map(file => (
-            <Link href={file?.url} target='_blank' key={v4()} className='text-[#c4ccd3] font-bold text-xl'>{file?.name}</Link>
-          ))}
-        </ul>
-        <time className='text-[#c4ccd3] font-bold text-xl'>
-          {searchParams?.activitydeadline}
-        </time>
+        {searchParams?.activityname != null && (
+          <h1 className='text-white font-bold text-xl'>
+            {searchParams?.activityname}
+          </h1>
+        )}
+
+        {searchParams?.activitydescription != null && (
+          <p className='text-[#c4ccd3] font-bold text-xl'>
+            {searchParams?.activitydescription}
+          </p>
+        )}
+
+        {files.length > 0 && (
+          <ul className='text-[#c4ccd3] font-bold text-xl'>
+            {files?.map(file => (
+              <Link href={file?.url} target='_blank' key={v4()} className='text-[#c4ccd3] font-bold text-xl'>{file?.name}</Link>
+            ))}
+          </ul>
+        )}
+
+        {searchParams?.activitydeadline != null && (
+          <time className='text-[#c4ccd3] font-bold text-xl'>
+            {searchParams?.activitydeadline}
+          </time>
+        )}
       </section>
       <OptionsSection />
     </Main>
