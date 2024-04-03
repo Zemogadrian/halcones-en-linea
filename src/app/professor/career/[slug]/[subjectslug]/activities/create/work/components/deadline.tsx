@@ -16,11 +16,16 @@ export const DeadlineAct = () => {
   console.log(params.slug)
 
   const handleOnChange = (e) => {
+    const fileString = e?.target.value
+    const blob = new Blob([fileString], { type: 'text/plain' })
+    const file = new File([blob], 'filename', { type: 'text/plain' })
+
     const queryParams = new URLSearchParams(searchParams)
     queryParams.set('activitydeadline', e?.target.value)
 
     const URL = `${pathname}?${queryParams.toString()}`
     replace(URL)
+    console.log(file)
   }
 
   const uploadWork = () => {
