@@ -29,9 +29,9 @@ export const DisplayOptions = ({ onNav, children, maxPosition, minPosition = 1 }
 
     const newPosition = direction === '+'
       ? currentPosition + 1
-      : currentPosition > 1
+      : currentPosition > minPosition
         ? currentPosition - 1
-        : 1
+        : minPosition
 
     onNav?.(newPosition)
     setPosition(newPosition)
