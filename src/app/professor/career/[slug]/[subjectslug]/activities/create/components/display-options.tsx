@@ -38,7 +38,7 @@ export const DisplayOptions = ({ onNav, children, maxPosition, minPosition = 1 }
   }
 
   return (
-    <section className='flex flex-row gap-1 h-full flex-1 justify-center items-center overflow-x-hidden border'>
+    <section className='flex flex-row gap-1 h-full flex-1 justify-center items-center overflow-x-hidden'>
       <button
         className={
           `transition-opacity ${getCurrentPosition() === minPosition ? 'opacity-20' : ''}`
