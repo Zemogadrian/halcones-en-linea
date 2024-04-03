@@ -5,7 +5,7 @@ import { JitsiMeeting } from '@jitsi/react-sdk'
 interface Props {
   code: string
   account: {
-    first_name: string
+    name: string
     email: string
   }
   appName: string
@@ -25,7 +25,7 @@ export const Meet = ({ account, code, appName }: Props) => (
       HIDE_INVITE_MORE_HEADER: true
     }}
     userInfo={{
-      displayName: account.first_name,
+      displayName: account.name,
       email: account.email
     }}
     onApiReady={(externalApi) => {
