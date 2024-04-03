@@ -16,10 +16,7 @@ export const Meet = ({ account, code, appName }: Props) => (
     domain='meet.jit.si'
     roomName={code}
     configOverwrite={{
-      startWithAudioMuted: true,
-      disableModeratorIndicator: true,
-      startScreenSharing: true,
-      enableEmailInStats: false
+      disableModeratorIndicator: true
     }}
     lang='es'
     interfaceConfigOverwrite={{
