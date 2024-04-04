@@ -6,13 +6,22 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { SubElement } from './types'
 
-export const SubEl = ({ title, href, type, defaultRef }: SubElement) => {
+export const SubEl = ({ title, href, type, defaultRef, queryParams }: SubElement) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const isActive = type != null
     ? decodeURIComponent(pathname).includes(href)
     : decodeURIComponent(pathname) === href
   const [req, setReq] = useState('')
+
+  const newParams = new URLSearchParams(searchParams)
+  console.log(queryParams)
+
+  if (queryParams != null) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      newParams.set(key, value.toString())
+    }
+  }
 
   useEffect(() => {
     if (type != null) {
@@ -24,7 +33,7 @@ export const SubEl = ({ title, href, type, defaultRef }: SubElement) => {
 
   return (
     <Link
-      href={type != null ? `${href}/${req}?${searchParams.toString()}` : `${href}?${searchParams.toString()}`}
+      href={type != null ? `${href}/${req}?${newParams.toString()}` : `${href}?${newParams.toString()}`}
     >
       <li
         className={

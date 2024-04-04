@@ -10,4 +10,5 @@ export interface SubElement {
   href: string
   type?: string
   defaultRef?: string
+  queryParams?: Record<string, string | number>
 }

@@ -195,7 +195,7 @@ export async function createActivity <
   const { data: professorData, error: professorError } = await supabase.auth.getSession()
 
   if (professorError != null || professorData == null) {
-    console.error('Error getting session:', professorError)
+    console.log('Error getting session:', professorError)
     throw new Error('Error getting session')
   }
 
@@ -205,8 +205,23 @@ export async function createActivity <
   }).select('id').single()
 
   if (error != null || data == null) {
-    console.error('Error creating activity:', error)
+    console.log('Error creating activity:', error)
     throw new Error('Error creating activity')
+  }
+
+  if (activity.files != null && activity.files.length > 0) {
+    const { error: errbBucket } = await supabase.storage.createBucket(`activities/${data.id}`)
+
+    if (errbBucket != null) {
+      console.log('Error creating bucket:', errbBucket)
+      throw new Error('Error creating bucket')
+    }
+
+    activity.files?.forEach(async f => {
+      const path = `activities/${data.id}/${f.name}`
+
+      return await supabase.storage.from(`activities/${data.id}`).upload(path, f)
+    })
   }
 
   if (activity.questions == null) return
@@ -219,7 +234,7 @@ export async function createActivity <
   const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions).select('id')
 
   if (errorQuestions != null || questionsData == null) {
-    console.error('Error creating questions:', error)
+    console.log('Error creating questions:', error)
     throw new Error('Error creating questions')
   }
 
@@ -234,7 +249,7 @@ export async function createActivity <
     await supabase.from('multiple_options_responses').insert(responses)
       .then(({ error: errorResponses }) => {
         if (errorResponses != null) {
-          console.error('Error creating responses:', error)
+          console.log('Error creating responses:', error)
           throw new Error('Error creating responses')
         }
       })
@@ -271,7 +286,7 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
 
   const { data: activities, error: errorActivities } = await supabase
     .from('activities')
-    .select('id, name, desc, type, created_at, deadline, questions(id, question, type, created_at, responses(id, option, is_correct))')
+    .select('id, name, desc, type, created_at, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct))')
     .eq('professor', data.session?.user.id ?? '')
     .eq('careers.id', careerId)
     .eq('education_plans.id', educationPlanId)
@@ -284,5 +299,50 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
     throw new Error('Error getting activities')
   }
 
-  return activities
+  const activitiesWithFiles = await Promise.all(
+    activities.map(async a => {
+      const { data: files } = await supabase.storage.from(`activities/${a.id}`).list()
+
+      return {
+        ...a,
+        files: files ?? []
+      }
+    })
+  )
+
+  return activitiesWithFiles
+}
+
+interface StartClassProps {
+  groupId: number
+  semesterId: number
+  subjectId: number
+  educationPlanId: number
+  careerId: number
+  rtc: {
+    id: string
+    token: string
+  }
+}
+
+export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, rtc }: StartClassProps) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error != null || data == null) {
+    console.error('Error getting session:', error)
+    throw new Error('Error getting session')
+  }
+
+  await supabase.from('classes').insert({
+    career: careerId,
+    education_plan: educationPlanId,
+    group: groupId,
+    semester: semesterId,
+    subject: subjectId,
+    professor: data.session?.user.id ?? '',
+    rtcId: rtc.id,
+    rtcToken: rtc.token
+  })
 }

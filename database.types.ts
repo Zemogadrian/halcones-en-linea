@@ -18,6 +18,7 @@ export type Database = {
           education_plan: number
           group: number
           id: number
+          is_open: boolean | null
           name: string
           professor: string
           semester: number
@@ -32,6 +33,7 @@ export type Database = {
           education_plan: number
           group: number
           id?: number
+          is_open?: boolean | null
           name: string
           professor: string
           semester: number
@@ -46,6 +48,7 @@ export type Database = {
           education_plan?: number
           group?: number
           id?: number
+          is_open?: boolean | null
           name?: string
           professor?: string
           semester?: number
@@ -408,6 +411,51 @@ export type Database = {
             columns: ["education_plan"]
             isOneToOne: false
             referencedRelation: "education_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_activities: {
+        Row: {
+          activity: number
+          created_at: string
+          id: number
+          is_approved: boolean
+          is_qualified: boolean
+          is_sent: boolean
+          student: string
+        }
+        Insert: {
+          activity: number
+          created_at?: string
+          id?: number
+          is_approved?: boolean
+          is_qualified?: boolean
+          is_sent?: boolean
+          student: string
+        }
+        Update: {
+          activity?: number
+          created_at?: string
+          id?: number
+          is_approved?: boolean
+          is_qualified?: boolean
+          is_sent?: boolean
+          student?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_student_activities_activity_fkey"
+            columns: ["activity"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_student_activities_student_fkey"
+            columns: ["student"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
