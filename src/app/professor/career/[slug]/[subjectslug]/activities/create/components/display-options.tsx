@@ -34,14 +34,12 @@ export const DisplayOptions = ({ onNav, children }: Props) => {
   }
 
   return (
-    <div className='flex flex-row gap-1 h-full justify-center items-center overflow-x-hidden'>
+    <div className='flex flex-row gap-1 h-full justify-center items-center '>
       <button onClick={handleNav('-')}>
         <img src='/arrow.svg' alt='' className='w-14 h-14 rotate-90' />
       </button>
-      <div className='relative aspect-[20/9] h-full'>
+      <div className='relative aspect-[20/6] h-full overflow-x-hidden '>
         {children}
-        {/* <AskDocumentation direction={direction} currentPosition={position} position={3} />
-          <DeadlineAct direction={direction} currentPosition={position} position={4} /> */}
       </div>
       <button onClick={handleNav('+')}>
         <img src='/arrow.svg' alt='' className='w-14 h-14 -rotate-90' />
