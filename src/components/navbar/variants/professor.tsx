@@ -30,12 +30,6 @@ const options: NavBarItem[] = [
           queryParam
         },
         {
-          name: 'Examenes',
-          href: `/professor/career/${slug}/${subjectslug}/tests`,
-          ref: subjectRefs.tests,
-          queryParam
-        },
-        {
           name: 'Foros',
           href: `/professor/career/${slug}/${subjectslug}/forums`,
           ref: subjectRefs.forums,
