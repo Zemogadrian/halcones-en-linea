@@ -34,10 +34,10 @@ export const useAnimatedSubmenuController = () => {
      * @returns {() => void} - Function to remove the event listener.
      */
   const deployEvents = () => {
-    window.addEventListener('mousedown', close)
+    window.addEventListener('mouseup', close)
 
     return () => {
-      window.removeEventListener('mousedown', close)
+      window.removeEventListener('mouseup', close)
     }
   }
 

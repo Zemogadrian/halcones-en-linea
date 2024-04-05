@@ -24,7 +24,7 @@ export default async function LiveClassPage ({ params, searchParams }: Props) {
       code={code}
       account={{
         email: account?.email ?? '',
-        first_name: account?.first_name ?? ''
+        name: `${account?.first_name ?? ''} ${account?.last_name ?? ''}`
       }}
     />
   )

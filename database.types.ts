@@ -265,6 +265,72 @@ export type Database = {
           },
         ]
       }
+      "live-class": {
+        Row: {
+          career: number | null
+          created_at: string
+          group: number | null
+          id: number
+          plan: number | null
+          semester: number | null
+          subject: number | null
+        }
+        Insert: {
+          career?: number | null
+          created_at?: string
+          group?: number | null
+          id?: number
+          plan?: number | null
+          semester?: number | null
+          subject?: number | null
+        }
+        Update: {
+          career?: number | null
+          created_at?: string
+          group?: number | null
+          id?: number
+          plan?: number | null
+          semester?: number | null
+          subject?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_live-class_career_fkey"
+            columns: ["career"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_live-class_group_fkey"
+            columns: ["group"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_live-class_plan_fkey"
+            columns: ["plan"]
+            isOneToOne: false
+            referencedRelation: "education_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_live-class_semester_fkey"
+            columns: ["semester"]
+            isOneToOne: false
+            referencedRelation: "semesters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_live-class_subject_fkey"
+            columns: ["subject"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       questions: {
         Row: {
           accept_file: boolean

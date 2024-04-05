@@ -7,22 +7,36 @@ export const AskDocumentation = () => {
   const params = useSearchParams()
   const pathname = usePathname()
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const queryParams = new URLSearchParams(params)
 
-    queryParams.set('activitydocumentation', e.target.value)
+    const files: Array<{
+      name: string
+      url: string
+    }> = []
 
-    const URL = `${pathname}?${queryParams.toString()}`
-    replace(URL)
+    for (let i = 0; i < (e.target?.files ?? [])?.length; i++) {
+      const file = (e.target.files ?? [])[i]
+
+      if (file == null) return
+
+      const fileUrl = URL.createObjectURL(file)
+      const fileName = file.name
+
+      files.push({ name: fileName, url: fileUrl })
+    }
+
+    queryParams.set('activitydocumentation', JSON.stringify(files))
+
+    const url = `${pathname}?${queryParams.toString()}`
+    replace(url)
   }
 
   const handleDragOver = (e) => {
     e.preventDefault()
   }
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-
+  const handleDrop = (e: React.DragEvent<HTMLInputElement>) => {
     const files: Array<{
       name: string
       url: string
@@ -60,6 +74,7 @@ export const AskDocumentation = () => {
       onChange={handleOnChange}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
+      multiple
       required
       placeholder='Arrastra tu documentación requerida para la actividad Ej: Archivo .pdf | .doc | .jpg | .ppt | .xls'
       className='underline-offset-auto text-white bg-transparent border-2 w-[30rem] h-40 text-center font-bold border-slate-500'

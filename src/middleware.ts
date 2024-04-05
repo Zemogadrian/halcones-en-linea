@@ -19,7 +19,7 @@ export async function middleware (request: NextRequest) {
     return NextResponse.redirect(new URL(LOGIN_PATHNAME, request.url))
   }
 
-  if (pathname === LOGIN_PATHNAME) {
+  if (pathname === LOGIN_PATHNAME && !isLogged) {
     return response
   }
 
