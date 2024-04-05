@@ -1,6 +1,13 @@
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 
-export const Answer = ({ value, onChange, className, onCorrectAnswer }) => {
+interface Props {
+  value: string
+  onChange: (value: string) => void
+  className?: string
+  onCorrectAnswer: (value: string) => void
+}
+
+export const Answer = ({ value, onChange, className, onCorrectAnswer }: Props) => {
   const { replace } = useRouter()
   const params = useSearchParams()
   const pathname = usePathname()
@@ -9,9 +16,9 @@ export const Answer = ({ value, onChange, className, onCorrectAnswer }) => {
     onChange(e.target.value)
 
     const queryParams = new URLSearchParams(params)
-    const existingAnswers = queryParams?.get('triviaanswer') ? queryParams?.get('triviaanswer')?.split(',') : []
-    existingAnswers?.push(e.target.value)
-    queryParams.set('triviaanswer', existingAnswers.join(','))
+    // const existingAnswers = (queryParams?.get('triviaanswer') ?? '') ? queryParams?.get('triviaanswer')?.split(',') : []
+    // existingAnswers?.push(e.target.value)
+    // queryParams.set('triviaanswer', existingAnswers.join(','))
     const URL = `${pathname}?${queryParams.toString()}`
     replace(URL)
   }
