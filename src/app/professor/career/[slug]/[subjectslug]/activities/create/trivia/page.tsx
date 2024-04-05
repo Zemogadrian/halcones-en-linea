@@ -2,7 +2,15 @@
 import { H1, H2 } from '@/components/utils'
 import { OptionsSection } from './components/options-section'
 
-export default function CreateTrivia ({ searchParams, isButtonClicked }) {
+interface Props {
+  searchParams: {
+    trivianame: string
+    triviaquestion: string
+    triviaanswer: string
+    correctAnswer: string
+  }
+}
+export default function CreateTrivia ({ searchParams }: Props) {
   const answers: string[] = searchParams?.triviaanswer?.split(',')
 
   const correctAnswer = searchParams?.correctAnswer
