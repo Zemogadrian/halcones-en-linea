@@ -1,19 +1,17 @@
 'use client'
 import { createActivity } from '@/services/supabase/actions/professors'
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useRef } from 'react'
 
 export const DeadlineAct = () => {
   const { replace } = useRouter()
   const pathname = usePathname()
-  const params = useParams()
   const searchParams = useSearchParams()
   const newSearchParams = new URLSearchParams(searchParams)
 
   const $inputDate = useRef<HTMLInputElement>(null)
 
   const defaultValue = searchParams?.get('activitydeadline') ?? ''
-  console.log(params.slug)
 
   const handleOnChange = (e) => {
     const fileString = e?.target.value

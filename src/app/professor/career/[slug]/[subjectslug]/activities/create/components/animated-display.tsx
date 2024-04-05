@@ -23,23 +23,17 @@ export const AnimatedDisplay = ({
 
   const control = useAnimation()
 
-  console.log({ isSelected, isLeft, isRight, isLoaded, position })
-
   useEffect(() => {
+    control.set({ zIndex: -20 })
+
     control.start({
-      zIndex: 1,
       x: isSelected ? 0 : isLeft ? -500 : 500,
       opacity: isSelected ? 1 : 0
     })
       .finally(() => {
-        if (!isSelected) {
-          control.set({ zIndex: -20 })
-        }
+        control.set({ zIndex: isSelected ? 1 : -20 })
       })
       .catch(err => console.log(err))
-
-    // if (isSelected) {
-    // }
   }, [position, currentPosition])
 
   return isLoaded && (

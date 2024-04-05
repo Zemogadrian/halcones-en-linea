@@ -12,7 +12,7 @@ export const OptionsSection = () => {
 //   const [options] = useState([])
 
   return (
-    <DisplayOptions>
+    <DisplayOptions maxPosition={4}>
       <AnimatedDisplay position={1}>
         <AssignActName />
       </AnimatedDisplay>

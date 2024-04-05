@@ -1,5 +1,6 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
+import { HTMLAttributeAnchorTarget } from 'react'
 
 export interface NavBarItem {
   startWith: string
@@ -16,4 +17,5 @@ export interface NavRoute {
   ref?: string
   queryParam?: string
   onClick?: (props: OnClickProps) => void
+  target?: HTMLAttributeAnchorTarget
 }
