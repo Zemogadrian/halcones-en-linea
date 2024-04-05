@@ -16,11 +16,18 @@ export default function Activities ({ params, searchParams }) {
           <div className='text-white bg-[#1264ac] rounded-full justify-center items-center flex w-7 h-7'>+</div>
         </Link>
       </div>
-      <div>
-        <h2>Activity 1</h2>
-        <p>Activity description</p>
-        <p>Activity deadline</p>
-      </div>
+      <section className='grid grid-cols-2 grid-flow-row h-full w-full gap-10 px-20'>
+        <button className='gap-5 flex flex-row h-[10rem] w-[30rem]'>
+          <div className='bg-[#ccccca] rounded-lg p-2'>
+            <img src='https://via.placeholder.com/50' alt='activity' className='' />
+          </div>
+          <div className='bg-[#ccccca] flex w-full h-full flex-col text-start gap-5 rounded-lg p-3'>
+            <h2 className='text-[#1e244b] underline text-xl'>Fotografía publitaria</h2>
+            <span className='text-[#1e244b] text-lg'>Realizar 5 fotos con elemento humano, destacando el producto o servicio</span>
+            <span className='text-[#1e244b] underline text-end'>Trabajo- 30 de abril de 2024</span>
+          </div>
+        </button>
+      </section>
     </div>
   )
 }

@@ -246,7 +246,7 @@ export async function createActivity <
       question: questionsData[i].id
     }))
 
-    await supabase.from('multiple_options_responses').insert(responses)
+    await supabase.from('responses').insert(responses)
       .then(({ error: errorResponses }) => {
         if (errorResponses != null) {
           console.log('Error creating responses:', error)

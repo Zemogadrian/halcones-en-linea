@@ -17,18 +17,13 @@ export const NavProfOptions = () => {
         return [
           {
             name: 'Horario',
-            href: `/professor/${subject}/schedule`,
+            href: `/professor/${subject}/schedules`,
             ref: 'Horario'
           },
           {
             name: 'Actividades',
             href: `/professor/${subject}/Activities`,
             ref: 'Actividades'
-          },
-          {
-            name: 'Examenes',
-            href: `/professor/${subject}/tests`,
-            ref: 'Examenes'
           },
           {
             name: 'Foros',

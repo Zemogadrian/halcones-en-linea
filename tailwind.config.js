@@ -9,6 +9,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      listStyleType: {
+        'lower-alpha': 'lower-alpha',
+        'upper-alpha': 'upper-alpha'
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

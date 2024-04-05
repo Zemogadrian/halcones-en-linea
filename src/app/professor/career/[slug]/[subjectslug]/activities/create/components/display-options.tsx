@@ -50,8 +50,6 @@ export const DisplayOptions = ({ onNav, children, maxPosition, minPosition = 1 }
       </button>
       <div className='relative w-[50%] h-full'>
         {children}
-        {/* <AskDocumentation direction={direction} currentPosition={position} position={3} />
-          <DeadlineAct direction={direction} currentPosition={position} position={4} /> */}
       </div>
       <button
         className={
