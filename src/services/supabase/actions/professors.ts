@@ -319,13 +319,9 @@ interface StartClassProps {
   subjectId: number
   educationPlanId: number
   careerId: number
-  rtc: {
-    id: string
-    token: string
-  }
 }
 
-export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, rtc }: StartClassProps) => {
+export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId }: StartClassProps) => {
   const supabase = await createClient()
 
   const { data, error } = await supabase.auth.getSession()
@@ -335,14 +331,28 @@ export const startClass = async ({ careerId, educationPlanId, groupId, semesterI
     throw new Error('Error getting session')
   }
 
-  await supabase.from('classes').insert({
+  const { error: errorLive } = await supabase.from('live-class').insert({
     career: careerId,
-    education_plan: educationPlanId,
     group: groupId,
+    plan: educationPlanId,
     semester: semesterId,
-    subject: subjectId,
-    professor: data.session?.user.id ?? '',
-    rtcId: rtc.id,
-    rtcToken: rtc.token
+    subject: subjectId
+  })
+
+  if (errorLive != null) {
+    console.error('Error starting class:', error)
+    throw new Error('Error starting class')
+  }
+
+  await supabase.channel('live-class').send({
+    event: 'start-class',
+    type: 'broadcast',
+    payload: {
+      career: careerId,
+      group: groupId,
+      plan: educationPlanId,
+      semester: semesterId,
+      subject: subjectId
+    }
   })
 }

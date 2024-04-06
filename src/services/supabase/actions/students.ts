@@ -148,3 +148,20 @@ export const getMyActivies = async ({ careerId, educationPlanId, groupId, semest
 
   return activities
 }
+
+interface Event {
+  [key: string]: any
+  type: 'broadcast'
+  event: string
+}
+
+export const listenStartLiveClass = async (cb: (e: Event) => void) => {
+  const supabase = await createClient()
+
+  supabase.channel('live-class').on('broadcast', {
+    event: 'start-class'
+  }, (e) => {
+    cb(e)
+  })
+    .subscribe()
+}

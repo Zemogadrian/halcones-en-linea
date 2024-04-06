@@ -5,6 +5,7 @@ import { NavBarItem } from '../types'
 import { NavBar } from '../navbar'
 import { UserWithRoles } from '@/services/supabase/types'
 import { queryParamsSections, subjectRefs } from '@/app/professor/career/[slug]/enums'
+import { startClass } from '@/services/supabase/actions/professors'
 
 const options: NavBarItem[] = [
   {
@@ -50,7 +51,21 @@ const options: NavBarItem[] = [
         {
           name: 'Iniciar clase',
           href: `/live-class/${slug}/${subjectslug}`,
-          target: '_blank'
+          target: '_blank',
+          onClick: () => {
+            const convertToNumber = (value: string | null) => parseInt(value ?? '0')
+
+            startClass({
+              careerId: convertToNumber(queryParams.get('careerId')),
+              educationPlanId: convertToNumber(queryParams.get('educationPlanId')),
+              groupId: convertToNumber(queryParams.get('groupId')),
+              semesterId: convertToNumber(queryParams.get('semesterId')),
+              subjectId: convertToNumber(queryParams.get('subjectId'))
+            })
+              .catch((error) => {
+                console.log('Error starting class', error)
+              })
+          }
         }
       ]
     }

@@ -267,31 +267,31 @@ export type Database = {
       }
       "live-class": {
         Row: {
-          career: number | null
+          career: number
           created_at: string
-          group: number | null
+          group: number
           id: number
-          plan: number | null
-          semester: number | null
-          subject: number | null
+          plan: number
+          semester: number
+          subject: number
         }
         Insert: {
-          career?: number | null
+          career: number
           created_at?: string
-          group?: number | null
+          group: number
           id?: number
-          plan?: number | null
-          semester?: number | null
-          subject?: number | null
+          plan: number
+          semester: number
+          subject: number
         }
         Update: {
-          career?: number | null
+          career?: number
           created_at?: string
-          group?: number | null
+          group?: number
           id?: number
-          plan?: number | null
-          semester?: number | null
-          subject?: number | null
+          plan?: number
+          semester?: number
+          subject?: number
         }
         Relationships: [
           {
