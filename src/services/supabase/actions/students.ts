@@ -51,6 +51,26 @@ export const getClasses = async (id: string) => {
   return careers
 }
 
+export const getMyReducedCareers = async () => {
+  const supabase = await createClient()
+
+  const { data: userData, error: userError } = await supabase.auth.getSession()
+
+  if (userError != null || userData == null) {
+    console.error('Error getting session:', userError)
+    throw new Error('Error getting session')
+  }
+
+  const { data, error } = await supabase.from('student_config').select('careers(id, name, slug)').eq('owner', userData?.session?.user.id ?? '')
+
+  if (error != null) {
+    console.error('Error getting student careers:', error)
+    throw new Error('Error getting student careers')
+  }
+
+  return data.map(c => c.careers)
+}
+
 export const getMySubjects = async () => {
   const supabase = await createClient()
 
