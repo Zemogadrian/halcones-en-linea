@@ -19,7 +19,7 @@ export default async function StudentPage ({ searchParams }: Props) {
 
   if (careers.length === 1) {
     const newSearchParams = new URLSearchParams(searchParams)
-    newSearchParams.set('careerId', careers[0]?.slug ?? '')
+    newSearchParams.set('careerId', careers[0]?.id.toString() ?? '')
     redirect(`/student/${careers[0]?.slug ?? ''}?${newSearchParams.toString()}`)
   }
 
@@ -61,7 +61,7 @@ export default async function StudentPage ({ searchParams }: Props) {
         >
           {careers.map((career) => {
             const newSearchParams = new URLSearchParams(searchParams)
-            newSearchParams.set('careerId', career?.slug ?? '')
+            newSearchParams.set('careerId', career?.id.toString() ?? '')
 
             return (
               <Link
