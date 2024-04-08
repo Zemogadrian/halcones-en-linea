@@ -1,5 +1,5 @@
 import { options } from './components/sidebar/data'
-import { DistroNavASide } from '../layouts/distro-nav-aside'
+import { DistroNavASide } from '@/app/layouts/distro-nav-aside'
 import { getMySubjects } from '@/services/supabase/actions/students'
 import { SideBarOption } from '@/components/sidebar/types'
 import { addSideBarOption } from '@/components/sidebar/utils/add-side-bar-option'
