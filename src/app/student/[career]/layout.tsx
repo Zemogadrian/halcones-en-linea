@@ -7,8 +7,15 @@ import { getUser } from '@/services/supabase/actions/auth'
 import { queryParamsSections, subjectRefs } from './enums'
 import { NavBarStudent } from '@/components/navbar/variants/alumn'
 
-export default async function AlumnLayout ({ children }) {
-  const subjects = await getMySubjects()
+interface Props {
+  children: React.ReactNode
+  params: {
+    career: string
+  }
+}
+
+export default async function AlumnLayout ({ children, params }: Props) {
+  const subjects = await getMySubjects(decodeURIComponent(params.career))
   const user = await getUser()
 
   const materiasOption: SideBarOption = {

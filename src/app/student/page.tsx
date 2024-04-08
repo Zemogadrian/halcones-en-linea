@@ -13,7 +13,7 @@ interface Props {
   }
 }
 
-export default async function ProfessorPage ({ searchParams }: Props) {
+export default async function StudentPage ({ searchParams }: Props) {
   const user = await getUser()
   const careers = await getMyReducedCareers()
 

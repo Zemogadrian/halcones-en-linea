@@ -71,7 +71,7 @@ export const getMyReducedCareers = async () => {
   return data.map(c => c.careers)
 }
 
-export const getMySubjects = async () => {
+export const getMySubjects = async (careerSlug: string) => {
   const supabase = await createClient()
 
   const { data, error } = await supabase.auth.getSession()
@@ -83,15 +83,19 @@ export const getMySubjects = async () => {
 
   const userId = data.session.user.id
 
-  const { data: studentData, error: studentError } = await supabase.from('student_config').select('semesters(semester_subjects(subjects(*)))').eq('owner', userId)
+  const { data: studentData, error: studentError } = await supabase.from('student_config').select('semesters(semester_subjects(subjects(*))), careers(id, name, slug)').eq('owner', userId).eq('careers.slug', careerSlug)
+
+  const filteredStudentData = studentData?.filter(sc => sc.careers)
+
+  console.log('filteredStudentData:', filteredStudentData)
 
   if (studentError != null) {
-    console.error('Error getting student subjects:', studentError)
+    console.log('Error getting student subjects:', studentError)
     throw new Error('Error getting student subjects')
   }
 
   const subjects = SubjectWithCreatedDate.array().parse(
-    (studentData?.map(s => s.semesters?.semester_subjects.map(ss => ss.subjects)) ?? []).flat()
+    (filteredStudentData?.map(s => s.semesters?.semester_subjects.map(ss => ss.subjects)) ?? []).flat()
   )
 
   return subjects

@@ -1,7 +1,7 @@
 import { H1, Main } from '@/components/utils'
 import { getUser } from '@/services/supabase/actions/auth'
 
-export default async function StudentPage () {
+export default async function StudentCareerPage () {
   const account = await getUser()
 
   return (
