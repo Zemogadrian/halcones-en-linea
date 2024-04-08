@@ -54,4 +54,6 @@ interface Props {
   user?: UserWithRoles | null
 }
 
-export const NavBarStudent = (props: Props) => <NavBar {...props} options={navOptions} />
+export const NavBarStudent = (props: Props) => {
+  return <NavBar {...props} options={navOptions} />
+}

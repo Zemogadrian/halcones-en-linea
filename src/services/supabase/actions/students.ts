@@ -2,6 +2,7 @@
 import { z } from 'zod'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
+import { RedirectType, redirect } from 'next/navigation'
 
 const SubjectScheme = z.object({
   id: z.number(),
@@ -149,19 +150,23 @@ export const getMyActivies = async ({ careerId, educationPlanId, groupId, semest
   return activities
 }
 
-interface Event {
-  [key: string]: any
-  type: 'broadcast'
-  event: string
+interface Props {
+  url: string
 }
 
-export const listenStartLiveClass = async (cb: (e: Event) => void) => {
+export const listenStartLiveClass = async ({
+  url
+}: Props) => {
   const supabase = await createClient()
+
+  const newUrl = new URL(url)
 
   supabase.channel('live-class').on('broadcast', {
     event: 'start-class'
   }, (e) => {
-    cb(e)
+    newUrl.searchParams.set('active-class', 'true')
+
+    redirect(url.toString(), RedirectType.replace)
   })
     .subscribe()
 }

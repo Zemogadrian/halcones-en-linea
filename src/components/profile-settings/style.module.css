@@ -1,0 +1,14 @@
+.menu {
+    opacity: 0;
+    height: 0%;
+    width: 0%;
+    overflow: hidden;
+
+    transition: width 0.3s, height 0.3s, opacity 0.5s;
+}
+
+.menu-open {
+    opacity: 1;
+    height: auto;
+    width: auto;
+}
