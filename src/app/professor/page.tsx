@@ -5,10 +5,15 @@ import Link from 'next/link'
 import { DistroNav } from '../layouts/distro-nav'
 import { ProfileSettingsButton } from '@/components/profile-settings/profile-settings-button'
 import { getUser } from '@/services/supabase/actions/auth'
+import { redirect } from 'next/navigation'
 
 export default async function ProfessorPage () {
   const careers = await getMyReducedCareers()
   const user = await getUser()
+
+  if (careers.length === 1) {
+    redirect(`/professor/career/${careers[0]?.slug ?? ''}`)
+  }
 
   return (
     <DistroNav
