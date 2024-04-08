@@ -4,18 +4,26 @@ import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigat
 import Link from 'next/link'
 import { v4 } from '@/utils/uuid'
 import { NavBarItem } from './types'
+import { pathnameFormatter } from '@/utils/formatters'
 
 interface Props {
   options: NavBarItem[]
 }
 
-export const NavOptios = ({ options }: Props) => {
+export const NavOptions = ({ options }: Props) => {
   const pathname = usePathname()
   const params = useParams()
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const routes = options.find(({ startWith }) => pathname.startsWith(startWith))?.getRoutes({ params, queryParams: searchParams })
+  // pathname /student/[career]/subject
+  // replace [career] with params.career
+
+  const routes = options.find(({ startWith }) => {
+    const formattedStartWith = decodeURIComponent(pathnameFormatter(startWith, params))
+
+    return decodeURIComponent(pathname).startsWith(formattedStartWith)
+  })?.getRoutes({ params, queryParams: searchParams })
 
   if (routes == null) return null
 
@@ -24,6 +32,7 @@ export const NavOptios = ({ options }: Props) => {
       {/* <div className='flex flex-row text-xl h-full justify-center items-center'> */}
       {routes.map(({ name, href, ref, queryParam, onClick, target }, i) => {
         if (href != null) {
+          const newHref = pathnameFormatter(href, params)
           const newSearch = new URLSearchParams(searchParams)
 
           if (queryParam != null && ref != null) {
@@ -39,13 +48,13 @@ export const NavOptios = ({ options }: Props) => {
             `}
               target={target}
               onClick={() => { onClick?.({ router }) }}
-              href={`${href}?${newSearch.toString()}`}
+              href={`${newHref}?${newSearch.toString()}`}
             >
               <span
                 className={`
               px-2 hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg
             ${
-              pathname === href
+              pathname === newHref
               ? 'text-[#fff] bg-gradient-to-tr from-[#1f5186] to-[#131a2d] rounded-lg'
               : 'text-[#27316e]'
             }
@@ -70,11 +79,6 @@ export const NavOptios = ({ options }: Props) => {
               <span
                 className={`
               px-2 hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg
-            ${
-              pathname === href
-              ? 'text-[#fff] bg-gradient-to-tr from-[#1f5186] to-[#131a2d] rounded-lg'
-              : 'text-[#27316e]'
-            }
           `}
               >
                 {name}

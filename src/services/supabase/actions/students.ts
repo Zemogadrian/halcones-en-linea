@@ -83,7 +83,7 @@ export const getMySubjects = async (careerSlug: string) => {
 
   const userId = data.session.user.id
 
-  const { data: studentData, error: studentError } = await supabase.from('student_config').select('semesters(semester_subjects(subjects(*))), careers(id, name, slug)').eq('owner', userId).eq('careers.slug', careerSlug)
+  const { data: studentData, error: studentError } = await supabase.from('student_config').select('semesters(id, number, semester_subjects(subjects(*))), careers(id, name, slug), groups(id, name), education_plans(id, name)').eq('owner', userId).eq('careers.slug', careerSlug)
 
   const filteredStudentData = studentData?.filter(sc => sc.careers)
 
@@ -98,7 +98,13 @@ export const getMySubjects = async (careerSlug: string) => {
     (filteredStudentData?.map(s => s.semesters?.semester_subjects.map(ss => ss.subjects)) ?? []).flat()
   )
 
-  return subjects
+  return {
+    group: filteredStudentData?.[0].groups,
+    career: filteredStudentData?.[0].careers,
+    educationPlan: filteredStudentData?.[0].education_plans,
+    semester: filteredStudentData?.[0].semesters,
+    subjects
+  }
 }
 
 interface GetNyActivities {

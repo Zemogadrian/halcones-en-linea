@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 
 const navOptions: NavBarItem[] = [
   {
-    startWith: '/student/subject',
+    startWith: '/student/[career]/subject',
     getRoutes: ({ params }) => {
       const slug = z.coerce.string().parse(params.slug)
 
@@ -21,31 +21,31 @@ const navOptions: NavBarItem[] = [
       return [
         {
           name: 'Temas',
-          href: `/student/subject/${slug}/topics`,
+          href: `/student/[career]/subject/${slug}/topics`,
           ref: subjectRefs.topics,
           queryParam
         },
         {
           name: 'Documentación',
-          href: `/student/subject/${slug}/documents`,
+          href: `/student/[career]/subject/${slug}/documents`,
           ref: subjectRefs.documents,
           queryParam
         },
         {
           name: 'Actividades',
-          href: `/student/subject/${slug}/activities`,
+          href: `/student/[career]/subject/${slug}/activities`,
           ref: subjectRefs.activities,
           queryParam
         },
         {
           name: 'Examen',
-          href: `/student/subject/${slug}/exam`,
+          href: `/student/[career]/subject/${slug}/exam`,
           ref: subjectRefs.exam,
           queryParam
         },
         {
           name: 'Clases grabadas',
-          href: `/student/subject/${slug}/recordedclasses`,
+          href: `/student/[career]/subject/${slug}/recordedclasses`,
           ref: subjectRefs.recordedclasses,
           queryParam
         }

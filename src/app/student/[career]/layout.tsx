@@ -15,25 +15,31 @@ interface Props {
 }
 
 export default async function AlumnLayout ({ children, params }: Props) {
-  const subjects = await getMySubjects(decodeURIComponent(params.career))
+  const mySubjects = await getMySubjects(decodeURIComponent(params.career))
   const user = await getUser()
 
   const materiasOption: SideBarOption = {
     title: 'Materias',
-    sub: subjects.map(subject => ({
+    sub: mySubjects.subjects.map(subject => ({
       title: subject.name,
-      href: `/student/subject/${subject.slug}`,
+      href: `/student/${params.career}/subject/${subject.slug}`,
       type: queryParamsSections.subjectSection,
-      defaultRef: subjectRefs.topics
+      defaultRef: subjectRefs.topics,
+      queryParams: {
+        subjectId: subject.id.toString() ?? '',
+        semesterId: mySubjects.semester?.id.toString() ?? '',
+        groupId: mySubjects.group?.id.toString() ?? '',
+        educationPlan: mySubjects.educationPlan?.id.toString() ?? ''
+      }
     }))
   }
 
-  const newOptios = addSideBarOption(options, 0, materiasOption)
+  const newOptions = addSideBarOption(options, 0, materiasOption)
 
   return (
     <DistroNavASide
       navbar={<NavBarStudent user={user} />}
-      options={newOptios}
+      options={newOptions}
     >
       {children}
     </DistroNavASide>

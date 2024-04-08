@@ -1,4 +1,4 @@
-import { SideBarOptions } from '../../../../components/sidebar/types'
+import { SideBarOptions } from '@/components/sidebar/types'
 
 export const options: SideBarOptions = [
   {
@@ -6,23 +6,23 @@ export const options: SideBarOptions = [
     sub: [
       {
         title: 'Clases',
-        href: '/student/calendar/classes'
+        href: '/student/[career]/calendar/classes'
       },
       {
         title: 'Dias inhabiles',
-        href: '/student/calendar/nonworkingdays'
+        href: '/student/[career]/calendar/nonworkingdays'
       },
       {
         title: 'Evaluaciones',
-        href: '/student/calendar/exams'
+        href: '/student/[career]/calendar/exams'
       },
       {
         title: 'Vacaciones',
-        href: '/student/calendar/vacations'
+        href: '/student/[career]/calendar/vacations'
       },
       {
         title: 'Eventos',
-        href: '/student/calendar/events'
+        href: '/student/[career]/calendar/events'
       }
 
     ]
@@ -32,7 +32,7 @@ export const options: SideBarOptions = [
     sub: [
       {
         title: 'Cursos',
-        href: '/student/courses/cursos'
+        href: '/student/[career]/courses/cursos'
       }
     ]
   },
@@ -41,19 +41,19 @@ export const options: SideBarOptions = [
     sub: [
       {
         title: 'Becas',
-        href: '/student/servadmin/becas'
+        href: '/student/[career]/servadmin/becas'
       },
       {
         title: 'Kárdex',
-        href: '/student/servadmin/kardex'
+        href: '/student/[career]/servadmin/kardex'
       },
       {
         title: 'Constancia de estudios',
-        href: '/student/servadmin/constancia'
+        href: '/student/[career]/servadmin/constancia'
       },
       {
         title: 'Métodos de pago',
-        href: '/student/servadmin/metodospago'
+        href: '/student/[career]/servadmin/metodospago'
       }
 
     ]
@@ -63,7 +63,7 @@ export const options: SideBarOptions = [
     sub: [
       {
         title: 'Foros',
-        href: '/student/forums'
+        href: '/student/[career]/forums'
       }
     ]
   }

@@ -2,16 +2,21 @@
 
 import { ArrowIcon, SquareIcon } from '@/assets/icons'
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useParams, usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { SubElement } from './types'
+import { pathnameFormatter } from '@/utils/formatters'
 
 export const SubEl = ({ title, href, type, defaultRef, queryParams }: SubElement) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const params = useParams()
+
+  const newHref = pathnameFormatter(href, params)
+
   const isActive = type != null
-    ? decodeURIComponent(pathname).includes(decodeURIComponent(href))
-    : decodeURIComponent(pathname) === decodeURIComponent(href)
+    ? decodeURIComponent(pathname).includes(decodeURIComponent(newHref))
+    : decodeURIComponent(pathname) === decodeURIComponent(newHref)
 
   const [req, setReq] = useState('')
 
@@ -33,7 +38,7 @@ export const SubEl = ({ title, href, type, defaultRef, queryParams }: SubElement
 
   return (
     <Link
-      href={type != null ? `${href}/${req}?${newParams.toString()}` : `${href}?${newParams.toString()}`}
+      href={type != null ? `${newHref}/${req}?${newParams.toString()}` : `${newHref}?${newParams.toString()}`}
     >
       <li
         className={

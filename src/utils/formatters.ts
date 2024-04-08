@@ -1,3 +1,6 @@
+import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
+import { z } from 'zod'
+
 type Locales = 'es-ES' | 'en-US' | 'pt-BR' | 'fr-FR' | 'es-MX'
 
 export const priceFormatter = (price: number, currency: Intl.NumberFormatOptions['currency'], locale: Locales) => {
@@ -13,4 +16,16 @@ export const dateFormatter = (date: Date, locale: Locales) => {
     month: 'long',
     day: 'numeric'
   }).format(new Date(date))
+}
+
+export const pathnameFormatter = (pathname: string, params: Params) => {
+  return pathname.replace(/\/\[(.*?)\]\//g, (match, p1) => {
+    const param = params[p1]
+
+    if (param == null) {
+      return match
+    }
+
+    return `/${z.string().parse(param)}/`
+  })
 }
