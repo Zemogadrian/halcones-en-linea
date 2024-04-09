@@ -1,4 +1,4 @@
-import { ActivityDisplay } from '@/app/student/components/students/display-activities'
+import { ActivityDisplay } from '../../../components/students/display-activities'
 
 export default async function StudentPage () {
   return (
