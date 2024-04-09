@@ -54,10 +54,10 @@ export default async function StudentCareerPage ({ params, searchParams }: Props
               <Link
                 key={v4()}
                 href={`/student/${params.career}/subject/${subject.slug}/topics?${newSearchParams.toString()}`}
-                className='bg-itesus-tertiary px-4 py-2 rounded-md hover:bg-itesus-primary transition-colors duration-300 ease-in-out'
+                className='bg-itesus-tertiary px-4 py-2 rounded-md hover:bg-itesus-primary transition-colors duration-300 ease-in-out group'
               >
                 <H4
-                  className='text-black'
+                  className='text-black group-hover:text-white transition-colors duration-300 ease-in-out'
                 >
                   {subject.name}
                 </H4>
