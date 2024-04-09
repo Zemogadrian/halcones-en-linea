@@ -5,11 +5,12 @@ import { NavBar } from '../navbar'
 import { UserWithRoles } from '@/services/supabase/types'
 import { queryParamsSections, subjectRefs } from '@/app/professor/career/[slug]/enums'
 import { startClass } from '@/services/supabase/actions/professors'
+import { pathnameFormatter } from '@/utils/formatters'
 
 const options: NavBarItem[] = [
   {
     startWith: '/professor/career/[slug]/[subjectslug]',
-    getRoutes: ({ queryParams }) => {
+    getRoutes: ({ queryParams, params }) => {
       const queryParam = queryParamsSections.professorSubject
 
       return [
@@ -55,7 +56,10 @@ const options: NavBarItem[] = [
               educationPlanId: convertToNumber(queryParams.get('educationPlanId')),
               groupId: convertToNumber(queryParams.get('groupId')),
               semesterId: convertToNumber(queryParams.get('semesterId')),
-              subjectId: convertToNumber(queryParams.get('subjectId'))
+              subjectId: convertToNumber(queryParams.get('subjectId')),
+              subjectSlug: decodeURIComponent(
+                pathnameFormatter('[subjectslug]', params)
+              )
             })
               .catch((error) => {
                 console.log('Error starting class', error)

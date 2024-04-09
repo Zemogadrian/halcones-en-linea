@@ -61,14 +61,22 @@ export const getMyReducedCareers = async () => {
     throw new Error('Error getting session')
   }
 
-  const { data, error } = await supabase.from('student_config').select('careers(id, name, slug)').eq('owner', userData?.session?.user.id ?? '')
+  const { data, error } = await supabase.from('student_config').select('careers(id, name, slug), education_plans(id, name), semesters(id, number), groups(id, name)').eq('owner', userData?.session?.user.id ?? '')
 
   if (error != null) {
     console.error('Error getting student careers:', error)
     throw new Error('Error getting student careers')
   }
 
-  return data.map(c => c.careers)
+  return data.map(c => ({
+    ...c.careers,
+    educationPlan: c.education_plans,
+    actualSemester: {
+      id: c.semesters?.id,
+      number: c.semesters?.number
+    },
+    group: c.groups
+  }))
 }
 
 export const getMySubjects = async (careerSlug: string) => {
@@ -180,9 +188,16 @@ export const getMyActivies = async ({ careerId, educationPlanId, groupId, semest
 }
 
 interface Event {
-  [key: string]: any
   type: 'broadcast'
   event: string
+  payload: {
+    career: number
+    plan: number
+    group: number
+    semester: number
+    subject: number
+    subjectSlug: string
+  }
 }
 
 export const listenStartLiveClass = async () => {
@@ -194,7 +209,7 @@ export const listenStartLiveClass = async () => {
     supabase.channel('live-class').on('broadcast', {
       event: 'start-class'
     }, (e) => {
-      resolve(e)
+      resolve(e as Event)
     })
       .subscribe()
   })

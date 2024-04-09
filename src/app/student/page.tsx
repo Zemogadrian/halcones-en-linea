@@ -18,9 +18,23 @@ export default async function StudentPage ({ searchParams }: Props) {
   const careers = await getMyReducedCareers()
 
   if (careers.length === 1) {
+    const [career] = careers
+
     const newSearchParams = new URLSearchParams(searchParams)
-    newSearchParams.set('careerId', careers[0]?.id.toString() ?? '')
-    redirect(`/student/${careers[0]?.slug ?? ''}?${newSearchParams.toString()}`)
+    newSearchParams.set('careerId', career.id?.toString() ?? '')
+
+    const searchParamsToAdd = {
+      careerId: career.id?.toString() ?? '',
+      educationPlanId: career.educationPlan?.id?.toString() ?? '',
+      semesterId: career.actualSemester?.id?.toString() ?? '',
+      groupId: career.group?.id?.toString() ?? ''
+    }
+
+    Object.entries(searchParamsToAdd).forEach(([key, value]) => {
+      newSearchParams.set(key, value)
+    })
+
+    redirect(`/student/${career?.slug ?? ''}?${newSearchParams.toString()}`)
   }
 
   return (
@@ -61,7 +75,18 @@ export default async function StudentPage ({ searchParams }: Props) {
         >
           {careers.map((career) => {
             const newSearchParams = new URLSearchParams(searchParams)
-            newSearchParams.set('careerId', career?.id.toString() ?? '')
+            newSearchParams.set('careerId', career?.id?.toString() ?? '')
+
+            const searchParamsToAdd = {
+              careerId: career.id?.toString() ?? '',
+              educationPlanId: career.educationPlan?.id?.toString() ?? '',
+              semesterId: career.actualSemester?.id?.toString() ?? '',
+              groupId: career.group?.id?.toString() ?? ''
+            }
+
+            Object.entries(searchParamsToAdd).forEach(([key, value]) => {
+              newSearchParams.set(key, value)
+            })
 
             return (
               <Link

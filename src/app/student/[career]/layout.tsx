@@ -29,7 +29,7 @@ export default async function AlumnLayout ({ children, params }: Props) {
         subjectId: subject.id.toString() ?? '',
         semesterId: mySubjects.semester?.id.toString() ?? '',
         groupId: mySubjects.group?.id.toString() ?? '',
-        educationPlan: mySubjects.educationPlan?.id.toString() ?? ''
+        educationPlanId: mySubjects.educationPlan?.id.toString() ?? ''
       }
     }))
   }

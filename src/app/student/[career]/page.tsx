@@ -43,7 +43,7 @@ export default async function StudentCareerPage ({ params, searchParams }: Props
               subjectId: subject.id.toString() ?? '',
               semesterId: mySubjects.semester?.id.toString() ?? '',
               groupId: mySubjects.group?.id.toString() ?? '',
-              educationPlan: mySubjects.educationPlan?.id.toString() ?? ''
+              educationPlanId: mySubjects.educationPlan?.id.toString() ?? ''
             }
 
             Object.entries(searchParamsToAdd).forEach(([key, value]) => {

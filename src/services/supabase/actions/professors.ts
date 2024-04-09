@@ -319,9 +319,10 @@ interface StartClassProps {
   subjectId: number
   educationPlanId: number
   careerId: number
+  subjectSlug: string
 }
 
-export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId }: StartClassProps) => {
+export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, subjectSlug }: StartClassProps) => {
   const supabase = await createClient()
 
   const { data, error } = await supabase.auth.getSession()
@@ -352,7 +353,8 @@ export const startClass = async ({ careerId, educationPlanId, groupId, semesterI
       group: groupId,
       plan: educationPlanId,
       semester: semesterId,
-      subject: subjectId
+      subject: subjectId,
+      subjectSlug
     }
   })
 }
