@@ -67,7 +67,6 @@ export const NavBarStudent = (props: Props) => {
   console.log(
   )
 
-  // TODO: finalizar la función de redirección para adquirir los parámetros necesarios de forma dinámica
   useEffect(() => {
     listenStartLiveClass()
       .then(e => {
