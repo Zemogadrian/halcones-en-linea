@@ -82,7 +82,7 @@ export const NavBarStudent = (props: Props) => {
 
         toast.info('El profesor ha iniciado la clase', {
           action: {
-            label: 'Ir a la clase',
+            label: 'Unirse',
             onClick () {
               const searchParamsToAdd = {
                 subjectId: subject.toString()
