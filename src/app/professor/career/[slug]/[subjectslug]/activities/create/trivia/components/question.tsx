@@ -45,7 +45,7 @@ export const CreateQuestion = () => {
 
   return (
     <div className='flex flex-col  gap-3 h-full'>
-      <input defaultValue={defaultValueQ} type='text' onChange={handleOnChangeQuestion} placeholder='Escribe tu pregunta' required className='placeholder-[#1f1f3d] font-bold text-lg p-2 rounded-xl w-full' />
+      <input defaultValue={defaultValueQ} type='text' onChange={handleOnChangeQuestion} placeholder='Escribe tu pregunta' required className='placeholder-[#1f1f3d] font-bold text-lg text-black p-2 rounded-xl w-full' />
       <div className='flex flex-row gap-5'>
         <label className='text-center items-center flex gap-2  p-2 rounded-xl bg-[#ccccca]'>
           <span className='text-[#1f1f3d] text-lg font-bold'> Abierta </span>
