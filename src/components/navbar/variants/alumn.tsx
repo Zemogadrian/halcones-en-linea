@@ -6,7 +6,7 @@ import { NavBar } from '../navbar'
 import { UserWithRoles } from '@/services/supabase/types'
 import { queryParamsSections, subjectRefs } from '@/app/student/[career]/enums'
 import { useEffect } from 'react'
-import { listenStartLiveClass } from '@/services/supabase/actions/students'
+import { isClassOnline, listenStartLiveClass } from '@/services/supabase/actions/students'
 import { toast } from 'sonner'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { pathnameFormatter } from '@/utils/formatters'
@@ -64,10 +64,18 @@ export const NavBarStudent = (props: Props) => {
   const params = useParams()
   const searchParams = useSearchParams()
 
-  console.log(
-  )
-
   useEffect(() => {
+    isClassOnline({
+      carrerId: parseInt(searchParams.get('careerId') ?? ''),
+      educationPlanId: parseInt(searchParams.get('educationPlanId') ?? ''),
+      groupId: parseInt(searchParams.get('groupId') ?? ''),
+      semesterId: parseInt(searchParams.get('semesterId') ?? '')
+    })
+      .then(subject => {
+        console.log('Subject:', subject)
+      })
+      .catch(err => console.log('Error checking if class is online:', err))
+
     listenStartLiveClass()
       .then(e => {
         const search = Object.fromEntries(searchParams.entries())

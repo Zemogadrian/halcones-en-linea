@@ -13,6 +13,40 @@ const SubjectWithCreatedDate = SubjectScheme.extend({
   slug: z.string()
 })
 
+interface IsClassOnlineProps {
+  carrerId: number
+  educationPlanId: number
+  groupId: number
+  semesterId: number
+}
+
+export const isClassOnline = async ({ carrerId, educationPlanId, groupId, semesterId }: IsClassOnlineProps) => {
+  const supabase = await createClient()
+
+  const twoHoursAgo = new Date()
+  twoHoursAgo.setHours(twoHoursAgo.getHours() - 2)
+
+  const { data, error } = await supabase
+    .from('live-class')
+    .select('subject')
+    .eq('career', carrerId)
+    .eq('plan', educationPlanId)
+    .eq('group', groupId)
+    .eq('semester', semesterId)
+    .gte('created_at', twoHoursAgo.toISOString())
+    .order('created_at', { ascending: false })
+    .single()
+
+  console.log('Data:', data)
+
+  if (error != null) {
+    console.log('Error getting live class:', error)
+    throw new Error('Error getting live class')
+  }
+
+  return data
+}
+
 export const getStudents = async () => {
   const supabase = await createClient()
 
