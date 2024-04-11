@@ -11,7 +11,7 @@ export default function Activities ({ params, searchParams }) {
           Mis actividades
         </div>
         <Link
-          href={`/professor/career/${params.slug}/${params.subjectslug ?? ''}/activities/create?${newSearchParams.toString()}`}
+          href={`/professor/create-activity?${newSearchParams.toString()}`}
         >
           <div className='text-white bg-[#1264ac] rounded-full justify-center items-center flex w-7 h-7'>+</div>
         </Link>
