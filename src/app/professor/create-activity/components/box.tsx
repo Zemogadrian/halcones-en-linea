@@ -3,6 +3,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { AnimateContainer } from './animate-container'
 
 export type OptionTypes = 'button' | 'input' | 'select'
 
@@ -29,10 +30,13 @@ export interface Option {
   }>
   children?: React.ReactNode
   onlyElement?: boolean
+  value?: string
 }
 
 interface Props {
   options: Option[]
+  currentPosition: number
+  position: number
 }
 
 interface OptionComponentProps extends Option {
@@ -44,6 +48,7 @@ interface OptionComponentProps extends Option {
     value: Record<string, any>
     setStore: (store: Record<string, any>) => void
   }
+  unique: boolean
 }
 
 const OptionComponents: {
@@ -57,13 +62,14 @@ const OptionComponents: {
       {placeholder ?? children}
     </button>
   ),
-  input: ({ onChange, placeholder, router, params, searchParams, pathname, state }) => (
+  input: ({ onChange, placeholder, router, params, searchParams, pathname, state, unique, value }) => (
     <input
       onChange={(e) => {
         onChange?.({ event: e, router, params, searchParams, pathname, state })
       }}
+      value={value}
       placeholder={placeholder}
-      className='bg-[#cdcccb] w-full text-itesus-secondary px-4 py-2 rounded-lg'
+      className={`${unique ? 'bg-transparent text-white text-center' : 'bg-[#cdcccb] text-itesus-secondary'} w-full h-full px-4 py-2 rounded-lg outline-none`}
     />
   ),
   select: ({ onChange, options, router, params, searchParams, pathname, state }) => (
@@ -82,7 +88,9 @@ const OptionComponents: {
 }
 
 export function InteractiveBox ({
-  options
+  options,
+  currentPosition,
+  position
 }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -92,13 +100,17 @@ export function InteractiveBox ({
   const [store, setStore] = useState({})
 
   return (
-    <div className='absolute w-full h-full flex flex-col justify-center items-center'>
-      <ul className='space-y-2 w-full'>
+    <AnimateContainer
+      currentPosition={currentPosition}
+      position={position}
+    >
+      <ul className='flex w-full h-full justify-center items-center border border-[#cdcccb8e] rounded-md focus:border-white hover:border-white transition-colors'>
         {options.map((option) => {
           const OptionComponent = OptionComponents[option.type]
+          const isUniqueOption = options.length === 1
 
           return (
-            <li key={v4()}>
+            <li key={v4()} className={`${isUniqueOption ? 'h-full' : ''} w-full`}>
               <OptionComponent
                 {...option}
                 router={router}
@@ -106,11 +118,12 @@ export function InteractiveBox ({
                 params={params}
                 pathname={pathname}
                 state={{ value: store, setStore }}
+                unique={isUniqueOption}
               />
             </li>
           )
         })}
       </ul>
-    </div>
+    </AnimateContainer>
   )
 }

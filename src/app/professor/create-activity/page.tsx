@@ -3,6 +3,7 @@ import { ProfileSettingsButton } from '@/components/profile-settings/profile-set
 import { H1, Main } from '@/components/utils'
 import { getUser } from '@/services/supabase/actions/auth'
 import { SliderBox } from './components/slider-box'
+import { ActivitySection } from './components/activity-section'
 
 export default async function CreateActivityPage () {
   const user = await getUser()
@@ -39,6 +40,8 @@ export default async function CreateActivityPage () {
             Selecciona la actividad a crear para la trivia
           </span>
         </header>
+
+        <ActivitySection />
 
         <SliderBox />
 
