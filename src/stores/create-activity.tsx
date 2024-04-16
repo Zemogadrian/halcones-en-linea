@@ -25,6 +25,7 @@ AT extends Enums<'activity_type'>
   setType: (type: AT) => void
   setIsOpen: (isOpen: boolean) => void
   addFile: (file: File) => void
+  setQuestionsQuantity: (quantity: number) => void
 }
 
 export const createActivityStore = create<CreateActivityStore<Enums<'question_type'>, Enums<'activity_type'>>>((set) => ({
@@ -54,5 +55,14 @@ export const createActivityStore = create<CreateActivityStore<Enums<'question_ty
   setSubject: (subject) => set((state) => ({ config: { ...state.config, subject } })),
   setType: (type) => set((state) => ({ config: { ...state.config, type } })),
   addFile: (file) => set((state) => ({ files: [...(state.files ?? []), file] })),
-  setSection: (section) => set({ section })
+  setSection: (section) => set({ section }),
+  setQuestionsQuantity: (quantity) => set(state => ({
+    ...state,
+    questions: new Array(quantity).fill({
+      accept_file: false,
+      question: '',
+      type: 'multiple_option',
+      responses: []
+    })
+  }))
 }))
