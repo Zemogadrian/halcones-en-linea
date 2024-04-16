@@ -29,7 +29,7 @@ export default function CreateTrivia ({ searchParams }: Props) {
         <h2 className='text-[#c4ccd3] font-bold text-xl mb-5'>
           {searchParams?.triviaquestion}
         </h2>
-        <ol className='text-[#c4ccd3] font-bold text-xl list-upper-alpha'>
+        <ol className='text-[#c4ccd3] font-bold text-xl list-upper-alpha '>
           {answers?.map((answer: string, index: number) => (
             <li key={index} className={answer === correctAnswer ? 'text-green-500' : ''}>
               {answer}
