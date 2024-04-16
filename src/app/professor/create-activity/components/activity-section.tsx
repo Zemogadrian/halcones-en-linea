@@ -1,12 +1,22 @@
 'use client'
+import { H1 } from '@/components/utils'
 import { createActivityStore } from '@/stores/create-activity'
 
 export function ActivitySection () {
-  const activityInfo = createActivityStore(state => state)
+  const { name, section } = createActivityStore(state => ({
+    name: state.config.name,
+    section: state.section
+  }))
+
+  console.log(section)
 
   return (
     <section>
-      {activityInfo.config.name}
+      {section === 'activity-name' && (
+        <H1>
+          {name}
+        </H1>
+      )}
     </section>
   )
 }

@@ -1,9 +1,10 @@
 import { DistroNav } from '@/app/layouts/distro-nav'
 import { ProfileSettingsButton } from '@/components/profile-settings/profile-settings-button'
-import { H1, Main } from '@/components/utils'
+import { Main } from '@/components/utils'
 import { getUser } from '@/services/supabase/actions/auth'
 import { SliderBox } from './components/slider-box'
 import { ActivitySection } from './components/activity-section'
+import { ActivityHeader } from './components/activity-header'
 
 export default async function CreateActivityPage () {
   const user = await getUser()
@@ -27,19 +28,7 @@ export default async function CreateActivityPage () {
         className='w-full flex flex-col max-w-6xl mx-auto px-4'
       >
 
-        <header
-          className='border-b pb-4 px-14 mb-10'
-        >
-          <H1
-            className='text-[#cdcccb] border-b w-fit'
-          >
-            Crea tu actividad
-          </H1>
-
-          <span className='text-white font-bold text-lg'>
-            Selecciona la actividad a crear para la trivia
-          </span>
-        </header>
+        <ActivityHeader />
 
         <ActivitySection />
 
