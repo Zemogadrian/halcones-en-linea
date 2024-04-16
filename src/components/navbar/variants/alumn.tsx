@@ -6,9 +6,10 @@ import { NavBar } from '../navbar'
 import { UserWithRoles } from '@/services/supabase/types'
 import { queryParamsSections, subjectRefs } from '@/app/student/[career]/enums'
 import { useEffect } from 'react'
-import { listenStartLiveClass } from '@/services/supabase/actions/students'
+import { isClassOnline, listenStartLiveClass } from '@/services/supabase/actions/students'
 import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { pathnameFormatter } from '@/utils/formatters'
 
 const navOptions: NavBarItem[] = [
   {
@@ -60,19 +61,52 @@ interface Props {
 
 export const NavBarStudent = (props: Props) => {
   const { push } = useRouter()
+  const params = useParams()
+  const searchParams = useSearchParams()
 
-  // TODO: finalizar la función de redirección para adquirir los parámetros necesarios de forma dinámica
   useEffect(() => {
+    isClassOnline({
+      carrerId: parseInt(searchParams.get('careerId') ?? ''),
+      educationPlanId: parseInt(searchParams.get('educationPlanId') ?? ''),
+      groupId: parseInt(searchParams.get('groupId') ?? ''),
+      semesterId: parseInt(searchParams.get('semesterId') ?? '')
+    })
+      .then(subject => {
+        console.log('Subject:', subject)
+      })
+      .catch(err => console.log('Error checking if class is online:', err))
+
     listenStartLiveClass()
       .then(e => {
-        console.log('Listening to start live class:', e)
+        const search = Object.fromEntries(searchParams.entries())
+        const { subjectSlug, subject, career, plan, group, semester } = e.payload
+
+        if (
+          career !== parseInt(search.careerId ?? '') ||
+          plan !== parseInt(search.educationPlanId ?? '') ||
+          group !== parseInt(search.groupId ?? '') ||
+          semester !== parseInt(search.semesterId ?? '')
+        ) return console.log('No match')
+
         toast.info('El profesor ha iniciado la clase', {
           action: {
-            label: 'Ir a la clase',
-            onClick (event) {
-              console.log('Clicked on toast action:', event)
+            label: 'Unirse',
+            onClick () {
+              const searchParamsToAdd = {
+                subjectId: subject.toString()
+              }
+
+              const newSearchParams = new URLSearchParams(searchParams.toString())
+
+              Object.entries(searchParamsToAdd).forEach(([key, value]) => {
+                newSearchParams.set(key, value)
+              })
+
               push(
-                '/live-class/licenciatura-en-psicolog%C3%ADa-educativa/ingenier%C3%ADa-civil?groupId=6&semesterId=29&educationPlanId=75&subjectId=2&careerId=4'
+                pathnameFormatter(
+                  `/live-class/[career]/${subjectSlug}?${newSearchParams.toString()}`,
+                  params
+                )
               )
             }
           },

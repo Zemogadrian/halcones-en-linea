@@ -21,8 +21,9 @@ export const NavOptions = ({ options }: Props) => {
 
   const routes = options.find(({ startWith }) => {
     const formattedStartWith = decodeURIComponent(pathnameFormatter(startWith, params))
+    const formattedPathname = decodeURIComponent(pathname)
 
-    return decodeURIComponent(pathname).startsWith(formattedStartWith)
+    return formattedPathname.startsWith(formattedStartWith)
   })?.getRoutes({ params, queryParams: searchParams })
 
   if (routes == null) return null
@@ -33,6 +34,8 @@ export const NavOptions = ({ options }: Props) => {
       {routes.map(({ name, href, ref, queryParam, onClick, target }, i) => {
         if (href != null) {
           const newHref = pathnameFormatter(href, params)
+          const isSelected = pathname === newHref
+
           const newSearch = new URLSearchParams(searchParams)
 
           if (queryParam != null && ref != null) {
@@ -54,7 +57,7 @@ export const NavOptions = ({ options }: Props) => {
                 className={`
               px-2 hover:text-[#fff] hover:bg-gradient-to-tr from-[#1f5186] to-[#131a2d] hover:rounded-lg
             ${
-              pathname === newHref
+              isSelected
               ? 'text-[#fff] bg-gradient-to-tr from-[#1f5186] to-[#131a2d] rounded-lg'
               : 'text-[#27316e]'
             }

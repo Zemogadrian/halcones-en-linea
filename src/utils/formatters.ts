@@ -19,13 +19,13 @@ export const dateFormatter = (date: Date, locale: Locales) => {
 }
 
 export const pathnameFormatter = (pathname: string, params: Params) => {
-  return pathname.replace(/\/\[(.*?)\]\//g, (match, p1) => {
+  return pathname.replaceAll(/\[(.*?)\]/g, (match, p1) => {
     const param = params[p1]
 
     if (param == null) {
       return match
     }
 
-    return `/${z.string().parse(param)}/`
+    return `${z.string().parse(param)}`
   })
 }

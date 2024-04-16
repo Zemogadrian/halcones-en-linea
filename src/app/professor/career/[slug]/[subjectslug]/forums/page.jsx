@@ -1,10 +1,10 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import '../../../../../../styles/custom.css'
+import styles from '../../../../../../styles/custom.module.css'
 
 function Maestro () {
   return (
-    <div className='maestro bg-green-200 p-2 rounded-xl justify-end flex self-end max-w-96'>
+    <div className={`${styles.maestro} bg-green-200 p-2 rounded-xl justify-end flex self-end max-w-96`}>
       Hola alumnogap-10
       Hola alumnogap-10
       Hola alumnogap-10
@@ -20,7 +20,7 @@ function Maestro () {
 
 function Alumno () {
   return (
-    <div className='alumno bg-white p-2 rounded-xl max-w-96 flex flex-col justify-start self-start'>
+    <div className={`${styles.alumno} bg-white p-2 rounded-xl max-w-96 flex flex-col justify-start self-start`}>
       <span>
         Hola maestro
       </span>
@@ -64,7 +64,7 @@ function ScrollToBottomButton ({ scrollContainerRef }) {
     </button>
   )
 }
-export default function ForumsTeacher () {
+export default function Forums () {
   const scrollContainerRef = useRef(null)
   return (
     <main className='h-full w-full flex flex-col gap-10'>
