@@ -3,10 +3,7 @@
 import { Question } from '@/services/supabase/actions/professor.types'
 
 interface Props {
-  defaultValue: {
-    index: number
-    question: Question<'multiple_option' | 'open'>
-  }
+  defaultValue: Question<'multiple_option' | 'open'>
 }
 
 export const DisplayQuestion = ({ defaultValue }: Props) => {
@@ -24,7 +21,7 @@ export const DisplayQuestion = ({ defaultValue }: Props) => {
         <ButtonInput
           type='radio'
           name='type_question'
-          defaultChecked={defaultValue?.question.type === 'open'}
+          defaultChecked={defaultValue?.type === 'open'}
         >
           Abierta
         </ButtonInput>
@@ -32,14 +29,14 @@ export const DisplayQuestion = ({ defaultValue }: Props) => {
         <ButtonInput
           type='radio'
           name='type_question'
-          defaultChecked={defaultValue?.question.type === 'multiple_option'}
+          defaultChecked={defaultValue?.type === 'multiple_option'}
         >
           Cerrada
         </ButtonInput>
 
         <ButtonInput
           type='checkbox'
-          defaultChecked={defaultValue?.question.accept_file}
+          defaultChecked={defaultValue?.accept_file}
         >
           Permitir archivo
         </ButtonInput>
@@ -65,7 +62,7 @@ export const DisplayQuestion = ({ defaultValue }: Props) => {
       </div>
 
       <div className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'>
-        {defaultValue?.index + 1}
+        Indice de la pregunta
       </div>
     </div>
   )
