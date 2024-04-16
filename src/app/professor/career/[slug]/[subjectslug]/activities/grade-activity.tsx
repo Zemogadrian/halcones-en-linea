@@ -1,6 +1,7 @@
 'use client'
 import { H1 } from '@/components/utils'
 import { useState } from 'react'
+import ShowImage from './show-image'
 
 export const GradeActivity = () => {
   const [selectedValue, setSelectedValue] = useState('1')
@@ -22,12 +23,13 @@ export const GradeActivity = () => {
       setSelectedValue(newValue.toString())
     }
   }
+
   return (
     <main className='flex flex-col gap-5 w-full h-full '>
       <H1 className='text-center text-[#1a3b62] bg-white items-center justify-center flex'>Titulo de la actividad </H1>
       <section className=' w-full border-b-[2px] p-5'>
         <div className='flex flex-row gap-10'>
-          <select className='bg-transparent text-[#6d798f]' value={selectedValue} onChange={handleSelectChange}>
+          <select className='bg-transparent text-[#8f8992]' value={selectedValue} onChange={handleSelectChange}>
             <option value='1'>Nombre del alumno</option>
             <option value='2'>alumno 1</option>
             <option value='3'>alumno 2</option>
@@ -42,17 +44,12 @@ export const GradeActivity = () => {
         </div>
       </section>
       <section className='flex flex-row gap-10'>
-        <div className='flex flex-col w-3/4  gap-2'>
-          <span>
-            nombre del archivo
-          </span>
-          <img src='/imgs.png' alt='imgs' className='aspect-[16:9] w-96' />
-        </div>
-        <div className='flex flex-col w-1/4  gap-2 '>
+        <ShowImage />
+        <div className='flex flex-col w-1/4  gap-2 border'>
           <span className='underline text-xl font-black text-[#cfd0d2] px-5 text-center'>Trabajo</span>
           <section className='flex flex-col p-5'>
-            <span className='p-2 text-[#cfd0d2] border-[1px]'>Calificación</span>
-            <input type='text' className='p-2 text-[#cfd0d2] border-[1px] bg-transparent' placeholder='Comentario' />
+            <span className='p-2 text-[#cfd0d2] border'>Calificación</span>
+            <input type='text' className='p-2 text-[#cfd0d2] border bg-transparent' placeholder='Comentario' />
             <button className='rounded-md bg-[#1664a6] text-white w-24 self-center mt-10'>
               Enviar
             </button>
