@@ -1,16 +1,19 @@
 'use client'
 
-// import { useQuestionsStore } from '@/stores/create-activity'
+import { useQuestionsStore } from '@/stores/create-activity'
 import { AnimateContainer } from './animate-container'
+import { AnimateQuesionConatiner } from './animate-question-container'
 import { SelectorType } from './selector-type'
-// import { DisplayQuestion } from './display-question'
+import { DisplayQuestion } from './display-question'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export const SliderBox = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { type, name = '', questionIndex = '0', currentPosition = '0' } = Object.fromEntries(searchParams)
+  const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0' } = Object.fromEntries(searchParams)
+
+  const getQuestion = useQuestionsStore(state => state.getQuestion)
 
   const setQuerys = (querys: { [key: string]: string }) => {
     const newSearchParams = new URLSearchParams(searchParams)
@@ -53,7 +56,8 @@ export const SliderBox = () => {
     const newIndex = cb(Number(questionIndex)).toString()
 
     setQuerys({
-      questionIndex: newIndex
+      questionIndex: newIndex,
+      lastQuestionIndex: questionIndex
     })
   }
 
@@ -65,7 +69,10 @@ export const SliderBox = () => {
           : prev - 1
 
         return newPosition
-      }, setQuerys)
+      }, {
+        ...setQuerys,
+        lastQuestionIndex: '0'
+      })
     }
 
     if (Number(currentPosition) >= 2) {
@@ -133,12 +140,16 @@ export const SliderBox = () => {
             : (
               <>
                 {Number(currentPosition) === 2 && (
-                  <AnimateContainer
-                    currentPosition={Number(questionIndex)}
-                    position={1}
+                  <AnimateQuesionConatiner
+                    index={Number(questionIndex)}
+                    lastIndex={Number(lastQuestionIndex)}
                   >
-                    a
-                  </AnimateContainer>
+                    <DisplayQuestion
+                      defaultValue={
+                        getQuestion(Number(questionIndex))
+                      }
+                    />
+                  </AnimateQuesionConatiner>
                 )}
               </>
               )
