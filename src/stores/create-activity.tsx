@@ -12,6 +12,8 @@ interface QuestionStore {
 
   setQuestion: (index: number, question: Question<Enums<'question_type'>>) => void
   reset: () => void
+
+  removeResponse: (index: number, responseIndex: number) => void
 }
 
 export const useQuestionsStore = create(devtools<QuestionStore>((set, get) => ({
@@ -29,6 +31,23 @@ export const useQuestionsStore = create(devtools<QuestionStore>((set, get) => ({
     }
 
     return question
+  },
+  removeResponse: (index, responseIndex) => {
+    const question = get().questions[index]
+
+    if (question == null) {
+      return
+    }
+
+    set((state) => ({
+      questions: {
+        ...state.questions,
+        [index]: {
+          ...question,
+          responses: (question.responses ?? []).filter((_, i) => i !== responseIndex)
+        }
+      }
+    }))
   },
   setQuestion: (index, question) => set((state) => ({ questions: { ...state.questions, [index]: question } })),
   reset: () => set(() => ({ questions: {} }))
