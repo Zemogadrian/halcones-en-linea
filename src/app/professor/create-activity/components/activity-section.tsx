@@ -8,7 +8,7 @@ export function ActivitySection () {
   const searchParams = useSearchParams()
   const questions = useQuestionsStore(state => state.questions)
 
-  const { section, name, questionIndex } = Object.fromEntries(searchParams)
+  const { section, name, questionIndex = '0' } = Object.fromEntries(searchParams)
 
   return (
     <section className='text-itesus-tertiary flex flex-col items-center w-full h-[20%]'>
