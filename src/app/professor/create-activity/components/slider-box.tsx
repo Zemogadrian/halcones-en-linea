@@ -132,7 +132,14 @@ export const SliderBox = () => {
               )
             : (
               <>
-
+                {Number(currentPosition) === 2 && (
+                  <AnimateContainer
+                    currentPosition={Number(questionIndex)}
+                    position={1}
+                  >
+                    a
+                  </AnimateContainer>
+                )}
               </>
               )
         }
