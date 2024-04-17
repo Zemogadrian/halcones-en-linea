@@ -9,14 +9,30 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 const sections = {
   0: () => 'activity-type',
   1: () => 'activity-name',
-  2: (type) => type === 'work' ? 'work' : 'questions'
+  2: (type: string) => type === 'work' ? 'desc' : 'questions',
+  3: (type: string) => type === 'work' ? 'file' : 'questions'
+}
+
+const names = {
+  trivia: 'trivia',
+  exam: 'examen',
+  questionary: 'cuestionario',
+  work: 'actividad'
 }
 
 export const SliderBox = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0', section } = Object.fromEntries(searchParams)
+  const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0', section, desc } = Object.fromEntries(searchParams) as {
+    type: 'trivia' | 'exam' | 'questionary' | 'work'
+    name: string
+    questionIndex: string
+    currentPosition: string
+    lastQuestionIndex: string
+    section: string
+    desc: string
+  }
 
   const setQuerys = (querys: { [key: string]: string }) => {
     const newSearchParams = new URLSearchParams(searchParams)
@@ -83,7 +99,7 @@ export const SliderBox = () => {
       })
     }
 
-    if (Number(currentPosition) >= 2) {
+    if (Number(currentPosition) >= 2 && type !== 'work') {
       Number(questionIndex) === 0 && direction === '-'
         ? subProccess()
         : setQuestionIndex(prev => {
@@ -127,7 +143,7 @@ export const SliderBox = () => {
         <AnimateContainer currentPosition={Number(currentPosition)} position={1}>
           <input
             className='text-center w-full h-full bg-transparent border rounded-md text-white'
-            placeholder='Escribe el nombre de la trivia'
+            placeholder={`Escribe el nombre de tu ${names[type]}`}
             defaultValue={name}
             onChange={(e) => {
               setQueryParams('name', e.target.value)
@@ -138,12 +154,50 @@ export const SliderBox = () => {
         {
           type === 'work'
             ? (
-              <AnimateContainer
-                currentPosition={Number(currentPosition)}
-                position={2}
-              >
-                Trabajo
-              </AnimateContainer>
+              <>
+                <AnimateContainer
+                  currentPosition={Number(currentPosition)}
+                  position={2}
+                >
+                  <input
+                    className='text-center w-full h-full bg-transparent border rounded-md text-white'
+                    placeholder='Describe tu actividad'
+                    defaultValue={desc}
+                    onChange={(e) => {
+                      setQueryParams('desc', e.target.value)
+                    }}
+                  />
+                </AnimateContainer>
+                <AnimateContainer
+                  currentPosition={Number(currentPosition)}
+                  position={3}
+                >
+                  <div
+                    className='w-full relative h-full flex justify-center items-center bg-transparent border rounded-md text-center'
+                  >
+
+                    <p
+                      className='text-itesus-tertiary/20 italic leading-none'
+                    >
+                      <span className='border-b border-itesus-tertiary/20'>Arrastra tu documentación requerida para la actividad</span><br />
+                      <span className='border-b border-itesus-tertiary/20'>Ej: Archivo .pdf | .doc | .jpg | .ppt | .xls</span>
+                    </p>
+
+                    <input
+                      className=' w-full h-full absolute inset-0 opacity-0 '
+                      type='file'
+                      multiple
+                      draggable
+                      onDrag={e => {
+                        console.log(e)
+                      }}
+                      onChange={e => {
+                        console.log(e)
+                      }}
+                    />
+                  </div>
+                </AnimateContainer>
+              </>
               )
             : (
               <>
