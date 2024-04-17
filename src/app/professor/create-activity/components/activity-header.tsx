@@ -1,7 +1,7 @@
 'use client'
 
 import { H1 } from '@/components/utils'
-import { createActivityStore } from '@/stores/create-activity'
+import { useSearchParams } from 'next/navigation'
 
 const Headers = {
   trivia: () => (
@@ -82,7 +82,7 @@ const Headers = {
 }
 
 export const ActivityHeader = () => {
-  const type = createActivityStore(state => state.config.type)
+  const type = useSearchParams().get('type')
 
   const Header = type == null ? Headers.default : Headers[type]
 

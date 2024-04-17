@@ -1,7 +1,8 @@
 'use client'
 
+import { Response } from '@/services/supabase/actions/professor.types'
 import { useQuestionsStore } from '@/stores/create-activity'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface Props {
   index: number
@@ -11,6 +12,23 @@ export const DisplayQuestion = ({ index }: Props) => {
   const setQuestion = useQuestionsStore(state => state.setQuestion)
   const getQuestion = useQuestionsStore(state => state.getQuestion)
   const [data, setData] = useState(getQuestion(index))
+
+  const $answerInput = useRef<HTMLInputElement>(null)
+
+  const addResponse = (isCorrect: boolean) => {
+    const newResponse: Response = {
+      is_correct: isCorrect,
+      option: $answerInput.current?.value ?? ''
+    }
+
+    setData(prev => ({
+      ...prev,
+      responses: [...(prev.responses ?? []), newResponse]
+    }))
+
+    if ($answerInput.current != null) $answerInput.current.value = ''
+    $answerInput.current?.focus()
+  }
 
   useEffect(() => {
     setQuestion(index, data)
@@ -78,24 +96,29 @@ export const DisplayQuestion = ({ index }: Props) => {
         </ButtonInput>
       </div>
 
-      <div className='bg-itesus-tertiary w-full flex rounded-md px-3 py-1 gap-1'>
-        <input
-          placeholder='Escribe tu respuesta'
-          className='flex-1 bg-transparent outline-none placeholder:text-itesus-secondary/80 text-itesus-secondary font-semibold text-lg'
-        />
+      {data.type === 'multiple_option' && (
+        <div className='bg-itesus-tertiary w-full flex rounded-md px-3 py-1 gap-1'>
+          <input
+            ref={$answerInput}
+            placeholder='Escribe tu respuesta'
+            className='flex-1 bg-transparent outline-none placeholder:text-itesus-secondary/80 text-itesus-secondary font-semibold text-lg'
+          />
 
-        <button
-          className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'
-        >
-          Respuesta correcta
-        </button>
+          <button
+            onClick={() => addResponse(true)}
+            className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'
+          >
+            Respuesta correcta
+          </button>
 
-        <button
-          className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'
-        >
-          +
-        </button>
-      </div>
+          <button
+            onClick={() => addResponse(false)}
+            className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'
+          >
+            +
+          </button>
+        </div>
+      )}
 
       {/* <div className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'>
         Indice de la pregunta

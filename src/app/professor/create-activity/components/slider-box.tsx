@@ -6,16 +6,27 @@ import { SelectorType } from './selector-type'
 import { DisplayQuestion } from './display-question'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
+const sections = {
+  0: () => 'activity-type',
+  1: () => 'activity-name',
+  2: (type) => type === 'work' ? 'work' : 'questions'
+}
+
 export const SliderBox = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0' } = Object.fromEntries(searchParams)
+  const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0', section } = Object.fromEntries(searchParams)
 
   const setQuerys = (querys: { [key: string]: string }) => {
     const newSearchParams = new URLSearchParams(searchParams)
 
-    Object.entries(querys).forEach(([key, value]) => {
+    const newQuerys = {
+      ...querys,
+      section: sections[Number(querys.currentPosition)]?.(type) ?? section
+    }
+
+    Object.entries(newQuerys).forEach(([key, value]) => {
       value === ''
         ? newSearchParams.delete(key)
         : newSearchParams.set(key, value)
