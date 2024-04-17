@@ -1,19 +1,37 @@
 'use client'
 
-import { Question } from '@/services/supabase/actions/professor.types'
+import { useQuestionsStore } from '@/stores/create-activity'
+import { useEffect, useState } from 'react'
 
 interface Props {
-  defaultValue: Question<'multiple_option' | 'open'>
+  index: number
 }
 
-export const DisplayQuestion = ({ defaultValue }: Props) => {
-  console.log(defaultValue)
+export const DisplayQuestion = ({ index }: Props) => {
+  const setQuestion = useQuestionsStore(state => state.setQuestion)
+  const getQuestion = useQuestionsStore(state => state.getQuestion)
+  const [data, setData] = useState(getQuestion(index))
+
+  useEffect(() => {
+    setQuestion(index, data)
+  }, [data])
+
+  useEffect(() => {
+    setData(getQuestion(index))
+  }, [index])
 
   return (
     <div className='flex flex-col w-full h-full justify-center items-center gap-2'>
       <input
         className='bg-itesus-tertiary py-1 w-full rounded-md text-itesus-secondary font-semibold text-lg px-2 outline-none placeholder:text-itesus-secondary/80'
         placeholder='Escribe tu pregunta'
+        value={data.question}
+        onChange={(e) => {
+          setData(prev => ({
+            ...prev,
+            question: e.target.value
+          }))
+        }}
       />
 
       <div className='flex w-full justify-between gap-2'>
@@ -21,7 +39,13 @@ export const DisplayQuestion = ({ defaultValue }: Props) => {
         <ButtonInput
           type='radio'
           name='type_question'
-          defaultChecked={defaultValue?.type === 'open'}
+          checked={data?.type === 'open'}
+          onChange={() => {
+            setData(prev => ({
+              ...prev,
+              type: 'open'
+            }))
+          }}
         >
           Abierta
         </ButtonInput>
@@ -29,14 +53,26 @@ export const DisplayQuestion = ({ defaultValue }: Props) => {
         <ButtonInput
           type='radio'
           name='type_question'
-          defaultChecked={defaultValue?.type === 'multiple_option'}
+          checked={data?.type === 'multiple_option'}
+          onChange={() => {
+            setData(prev => ({
+              ...prev,
+              type: 'multiple_option'
+            }))
+          }}
         >
           Cerrada
         </ButtonInput>
 
         <ButtonInput
           type='checkbox'
-          defaultChecked={defaultValue?.accept_file}
+          checked={data.accept_file}
+          onChange={() => {
+            setData(prev => ({
+              ...prev,
+              accept_file: !prev.accept_file
+            }))
+          }}
         >
           Permitir archivo
         </ButtonInput>
@@ -61,9 +97,9 @@ export const DisplayQuestion = ({ defaultValue }: Props) => {
         </button>
       </div>
 
-      <div className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'>
+      {/* <div className='bg-itesus-primary text-itesus-tertiary font-semibold px-3 py-1 rounded-md'>
         Indice de la pregunta
-      </div>
+      </div> */}
     </div>
   )
 }

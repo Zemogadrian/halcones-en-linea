@@ -1,6 +1,5 @@
 'use client'
 
-import { useQuestionsStore } from '@/stores/create-activity'
 import { AnimateContainer } from './animate-container'
 import { AnimateQuesionConatiner } from './animate-question-container'
 import { SelectorType } from './selector-type'
@@ -12,8 +11,6 @@ export const SliderBox = () => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0' } = Object.fromEntries(searchParams)
-
-  const getQuestion = useQuestionsStore(state => state.getQuestion)
 
   const setQuerys = (querys: { [key: string]: string }) => {
     const newSearchParams = new URLSearchParams(searchParams)
@@ -145,9 +142,7 @@ export const SliderBox = () => {
                     lastIndex={Number(lastQuestionIndex)}
                   >
                     <DisplayQuestion
-                      defaultValue={
-                        getQuestion(Number(questionIndex))
-                      }
+                      index={Number(questionIndex)}
                     />
                   </AnimateQuesionConatiner>
                 )}
