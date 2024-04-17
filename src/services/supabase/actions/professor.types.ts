@@ -1,6 +1,6 @@
 import { Enums, TablesInsert } from 'database.types'
 
-interface Config<
+export interface Config<
   AT extends Enums<'activity_type'>
 > extends Omit<TablesInsert<'activities'>, 'id' | 'created_at' | 'type' | 'professor'> {
   type: AT
@@ -8,7 +8,7 @@ interface Config<
 
 type Response = Omit<TablesInsert<'responses'>, 'id' | 'created_at'>
 
-interface Question<
+export interface Question<
   QT extends Enums<'question_type'>
 > extends Omit<TablesInsert<'questions'>, 'id' | 'created_at' | 'type' | 'activity'> {
   type: QT
