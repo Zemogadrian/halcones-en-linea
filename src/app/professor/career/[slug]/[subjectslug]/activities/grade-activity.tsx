@@ -48,7 +48,8 @@ export const GradeActivity = () => {
         <div className='flex flex-col w-1/4  gap-2 border'>
           <span className='underline text-xl font-black text-[#cfd0d2] px-5 text-center'>Trabajo</span>
           <section className='flex flex-col p-5'>
-            <span className='p-2 text-[#cfd0d2] border'>Calificación</span>
+            {/* <span className='p-2 text-[#cfd0d2] border'>Calificación</span> */}
+            <input type='text' className='p-2 text-[#cfd0d2] border bg-transparent' placeholder='Calificación' />
             <input type='text' className='p-2 text-[#cfd0d2] border bg-transparent' placeholder='Comentario' />
             <button className='rounded-md bg-[#1664a6] text-white w-24 self-center mt-10'>
               Enviar
