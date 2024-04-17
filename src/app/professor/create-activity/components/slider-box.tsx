@@ -5,6 +5,7 @@ import { AnimateQuesionConatiner } from './animate-question-container'
 import { SelectorType } from './selector-type'
 import { DisplayQuestion } from './display-question'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
 
 const sections = {
   0: () => 'activity-type',
@@ -33,13 +34,17 @@ export const SliderBox = () => {
     section: string
     desc: string
   }
+  const addFiles = useFileStore(state => state.addFiles)
+  const resetFiles = useFileStore(state => state.reset)
+  const resetQuestions = useQuestionsStore(state => state.reset)
 
   const setQuerys = (querys: { [key: string]: string }) => {
     const newSearchParams = new URLSearchParams(searchParams)
 
     const newQuerys = {
       ...querys,
-      section: sections[Number(querys.currentPosition)]?.(type) ?? section
+      section: sections[Number(querys.currentPosition)]?.(type) ?? section,
+      type: Number(querys.currentPosition) === 0 ? '' : querys.type ?? type
     }
 
     Object.entries(newQuerys).forEach(([key, value]) => {
@@ -134,8 +139,13 @@ export const SliderBox = () => {
           <SelectorType
             onSelect={(type) => {
               handleSlidePosition('+', {
-                type
+                type,
+                desc: '',
+                questionIndex: '0'
               })
+
+              resetFiles()
+              resetQuestions()
             }}
           />
         </AnimateContainer>
@@ -188,11 +198,12 @@ export const SliderBox = () => {
                       type='file'
                       multiple
                       draggable
-                      onDrag={e => {
-                        console.log(e)
-                      }}
                       onChange={e => {
-                        console.log(e)
+                        if (e.target.files == null) return
+
+                        const files = Array.from(e.target.files)
+
+                        addFiles(files)
                       }}
                     />
                   </div>

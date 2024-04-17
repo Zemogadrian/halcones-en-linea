@@ -11,6 +11,7 @@ interface QuestionStore {
   getQuestion: (index: number) => Question<Enums<'question_type'>>
 
   setQuestion: (index: number, question: Question<Enums<'question_type'>>) => void
+  reset: () => void
 }
 
 export const useQuestionsStore = create(devtools<QuestionStore>((set, get) => ({
@@ -29,5 +30,22 @@ export const useQuestionsStore = create(devtools<QuestionStore>((set, get) => ({
 
     return question
   },
-  setQuestion: (index, question) => set((state) => ({ questions: { ...state.questions, [index]: question } }))
+  setQuestion: (index, question) => set((state) => ({ questions: { ...state.questions, [index]: question } })),
+  reset: () => set(() => ({ questions: {} }))
+})))
+
+interface FileStore {
+  files: File[]
+  addFiles: (files: File[]) => void
+  getUrlFile: (index) => string
+  removeFile: (index: number) => void
+  reset: () => void
+}
+
+export const useFileStore = create(devtools<FileStore>((set, get) => ({
+  files: [],
+  addFiles: (files) => set((state) => ({ files: [...state.files, ...files] })),
+  removeFile: (index) => set((state) => ({ files: state.files.filter((_, i) => i !== index) })),
+  getUrlFile: (index) => URL.createObjectURL(get().files[index]),
+  reset: () => set(() => ({ files: [] }))
 })))
