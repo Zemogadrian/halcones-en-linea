@@ -1,6 +1,6 @@
-// import Link from 'next/link'
+
 import Link from 'next/link'
-// import { GradeActivity } from './grade-activity'
+import { GradeActivity } from './grade-activity'
 
 export default function Activities ({ params, searchParams }) {
   console.log(params, searchParams)
@@ -30,7 +30,7 @@ export default function Activities ({ params, searchParams }) {
           </div>
         </Link>
       </section>
-      {/* <GradeActivity /> */}
+      <GradeActivity />
     </div>
   )
 }
