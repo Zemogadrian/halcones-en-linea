@@ -56,7 +56,7 @@ export const useQuestionsStore = create(devtools<QuestionStore>((set, get) => ({
 interface FileStore {
   files: File[]
   addFiles: (files: File[]) => void
-  getUrlFile: (index) => string
+  getUrlFile: (index: number) => string
   removeFile: (index: number) => void
   reset: () => void
 }

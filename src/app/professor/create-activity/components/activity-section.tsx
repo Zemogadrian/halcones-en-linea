@@ -1,17 +1,27 @@
 'use client'
 import { H2, H3, ShyScrollbar } from '@/components/utils'
+import { Response } from '@/services/supabase/actions/professor.types'
 import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
 import { v4 } from '@/utils/uuid'
-import { IconFileSpreadsheet, IconFileText, IconFileTypePdf } from '@tabler/icons-react'
+import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconFileUnknown, IconPresentation, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+
+const ICONS = {
+  pdf: () => <IconFileTypePdf size={20} />,
+  document: () => <IconFileText size={20} />,
+  presentation: () => <IconPresentation size={20} />,
+  sheet: () => <IconFileSpreadsheet size={20} />,
+  default: () => <IconFileUnknown size={20} />
+}
 
 export function ActivitySection () {
   const searchParams = useSearchParams()
   const questions = useQuestionsStore(state => state.questions)
   const files = useFileStore(state => state.files)
-
+  const deleteFile = useFileStore(state => state.removeFile)
   const { section, name, questionIndex = '0', desc } = Object.fromEntries(searchParams)
+  const deleteResponse = useQuestionsStore(state => state.removeResponse)
 
   return (
     <section
@@ -28,38 +38,31 @@ export function ActivitySection () {
           </p>
 
           <ul className='list-decimal'>
-            {files.map((file) => {
+            {files.map((file, i) => {
               const url = URL.createObjectURL(file)
               const type = file.type
+              const Icon = ICONS[type.split('.').pop()?.split('/').pop() ?? ''] ?? ICONS.default
 
               return (
                 <li key={v4()}>
                   <figure>
-                    <Link
-                      target='_blank'
-                      href={url}
-                      className='flex gap-1 items-center'
-                    >
-                      {type.endsWith('sheet') && (
-                        <IconFileSpreadsheet
+                    <div className='flex gap-3'>
+                      <Link
+                        target='_blank'
+                        href={url}
+                        className='flex gap-1 items-center'
+                      >
+                        {Icon != null && <Icon />}
+                        {file.name}
+                      </Link>
+                      <button
+                        onClick={() => deleteFile(i)}
+                      >
+                        <IconTrash
                           size={20}
                         />
-                      )}
-
-                      {type.endsWith('pdf') && (
-                        <IconFileTypePdf
-                          size={20}
-                        />
-                      )}
-
-                      {type.endsWith('document') && (
-                        <IconFileText
-                          size={20}
-                        />
-                      )}
-
-                      {file.name}
-                    </Link>
+                      </button>
+                    </div>
 
                     {type.startsWith('image') && (
                       <img
@@ -69,6 +72,7 @@ export function ActivitySection () {
                       />
                     )}
                   </figure>
+
                 </li>
               )
             })}
@@ -83,13 +87,20 @@ export function ActivitySection () {
           <ul
             className='list-upper-alpha'
           >
-            {questions[questionIndex]?.responses?.map((response) => (
+            {questions[questionIndex]?.responses?.map((response: Response, i: number) => (
               <li
                 key={v4()}
               >
                 <span
-                  className={`${response.is_correct === true ? 'text-green-400' : ''}`}
+                  className={`${response.is_correct ? 'text-green-400' : ''}`}
                 >{response.option}
+                  <button
+                    onClick={() => deleteResponse(Number(questionIndex), i)}
+                  >
+                    <IconTrash
+                      size={20}
+                    />
+                  </button>
                 </span>
               </li>
             ))}

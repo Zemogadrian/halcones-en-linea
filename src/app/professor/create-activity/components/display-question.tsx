@@ -2,7 +2,7 @@
 
 import { Response } from '@/services/supabase/actions/professor.types'
 import { useQuestionsStore } from '@/stores/create-activity'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 
 interface Props {
   index: number
@@ -10,8 +10,9 @@ interface Props {
 
 export const DisplayQuestion = ({ index }: Props) => {
   const setQuestion = useQuestionsStore(state => state.setQuestion)
-  const getQuestion = useQuestionsStore(state => state.getQuestion)
-  const [data, setData] = useState(getQuestion(index))
+  const questions = useQuestionsStore(state => state.questions)
+
+  const selectedQuestion = questions[index]
 
   const $answerInput = useRef<HTMLInputElement>(null)
 
@@ -21,34 +22,26 @@ export const DisplayQuestion = ({ index }: Props) => {
       option: $answerInput.current?.value ?? ''
     }
 
-    setData(prev => ({
-      ...prev,
-      responses: [...(prev.responses ?? []), newResponse]
-    }))
+    setQuestion(index, {
+      ...selectedQuestion,
+      responses: [...(selectedQuestion.responses ?? []), newResponse]
+    })
 
     if ($answerInput.current != null) $answerInput.current.value = ''
     $answerInput.current?.focus()
   }
-
-  useEffect(() => {
-    setQuestion(index, data)
-  }, [data])
-
-  useEffect(() => {
-    setData(getQuestion(index))
-  }, [index])
 
   return (
     <div className='flex flex-col w-full h-full justify-center items-center gap-2'>
       <input
         className='bg-itesus-tertiary py-1 w-full rounded-md text-itesus-secondary font-semibold text-lg px-2 outline-none placeholder:text-itesus-secondary/80'
         placeholder='Escribe tu pregunta'
-        value={data.question}
+        value={selectedQuestion?.question ?? ''}
         onChange={(e) => {
-          setData(prev => ({
-            ...prev,
+          setQuestion(index, {
+            ...selectedQuestion,
             question: e.target.value
-          }))
+          })
         }}
       />
 
@@ -57,12 +50,12 @@ export const DisplayQuestion = ({ index }: Props) => {
         <ButtonInput
           type='radio'
           name='type_question'
-          checked={data?.type === 'open'}
+          checked={(selectedQuestion?.type ?? 'multiple_option') === 'open'}
           onChange={() => {
-            setData(prev => ({
-              ...prev,
+            setQuestion(index, {
+              ...selectedQuestion,
               type: 'open'
-            }))
+            })
           }}
         >
           Abierta
@@ -71,12 +64,12 @@ export const DisplayQuestion = ({ index }: Props) => {
         <ButtonInput
           type='radio'
           name='type_question'
-          checked={data?.type === 'multiple_option'}
+          checked={(selectedQuestion?.type ?? 'multiple_option') === 'multiple_option'}
           onChange={() => {
-            setData(prev => ({
-              ...prev,
+            setQuestion(index, {
+              ...selectedQuestion,
               type: 'multiple_option'
-            }))
+            })
           }}
         >
           Cerrada
@@ -84,19 +77,19 @@ export const DisplayQuestion = ({ index }: Props) => {
 
         <ButtonInput
           type='checkbox'
-          checked={data.accept_file}
+          checked={selectedQuestion?.accept_file ?? false}
           onChange={() => {
-            setData(prev => ({
-              ...prev,
-              accept_file: !prev.accept_file
-            }))
+            setQuestion(index, {
+              ...selectedQuestion,
+              accept_file: !selectedQuestion.accept_file
+            })
           }}
         >
           Permitir archivo
         </ButtonInput>
       </div>
 
-      {data.type === 'multiple_option' && (
+      {(selectedQuestion?.type ?? 'multiple_option') === 'multiple_option' && (
         <div className='bg-itesus-tertiary w-full flex rounded-md px-3 py-1 gap-1'>
           <input
             ref={$answerInput}
