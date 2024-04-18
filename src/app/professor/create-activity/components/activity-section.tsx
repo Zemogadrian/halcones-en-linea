@@ -2,7 +2,7 @@
 import { H2, H3, ShyScrollbar } from '@/components/utils'
 import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
 import { v4 } from '@/utils/uuid'
-import { IconFileSpreadsheet, IconFileText, IconFileTypePdf } from '@tabler/icons-react'
+import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
@@ -10,7 +10,7 @@ export function ActivitySection () {
   const searchParams = useSearchParams()
   const questions = useQuestionsStore(state => state.questions)
   const files = useFileStore(state => state.files)
-
+  const deleteFile = useFileStore(state => state.removeFile)
   const { section, name, questionIndex = '0', desc } = Object.fromEntries(searchParams)
 
   return (
@@ -35,31 +35,41 @@ export function ActivitySection () {
               return (
                 <li key={v4()}>
                   <figure>
-                    <Link
-                      target='_blank'
-                      href={url}
-                      className='flex gap-1 items-center'
-                    >
-                      {type.endsWith('sheet') && (
-                        <IconFileSpreadsheet
+                    <div className='flex gap-3'>
+                      <Link
+                        target='_blank'
+                        href={url}
+                        className='flex gap-1 items-center'
+                      >
+                        {type.endsWith('sheet') && (
+                          <IconFileSpreadsheet
+                            size={20}
+                          />
+                        )}
+
+                        {type.endsWith('pdf') && (
+                          <IconFileTypePdf
+                            size={20}
+                          />
+                        )}
+
+                        {type.endsWith('document') && (
+                          <IconFileText
+                            size={20}
+                          />
+                        )}
+
+                        {file.name}
+                      </Link>
+                      <button onClick={
+                      () => deleteFile(files.indexOf(file))
+                    }
+                      >
+                        <IconTrash
                           size={20}
                         />
-                      )}
-
-                      {type.endsWith('pdf') && (
-                        <IconFileTypePdf
-                          size={20}
-                        />
-                      )}
-
-                      {type.endsWith('document') && (
-                        <IconFileText
-                          size={20}
-                        />
-                      )}
-
-                      {file.name}
-                    </Link>
+                      </button>
+                    </div>
 
                     {type.startsWith('image') && (
                       <img
@@ -69,6 +79,7 @@ export function ActivitySection () {
                       />
                     )}
                   </figure>
+
                 </li>
               )
             })}
