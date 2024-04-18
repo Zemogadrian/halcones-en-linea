@@ -56,11 +56,11 @@ const Headers = {
       <H1
         className='text-[#cdcccb] border-b w-fit'
       >
-        Crea tu trabajo
+        Asigna trabajo o actividad
       </H1>
 
       <span className='text-white font-bold text-lg'>
-        Selecciona el trabajo a crear
+        Sigue las instrucciones en cada apartado para completar y asignar la actividad a tus alumnos correctamente.
       </span>
     </header>
   ),
