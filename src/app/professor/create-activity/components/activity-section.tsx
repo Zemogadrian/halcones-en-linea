@@ -2,9 +2,16 @@
 import { H2, H3, ShyScrollbar } from '@/components/utils'
 import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
 import { v4 } from '@/utils/uuid'
-import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconTrash } from '@tabler/icons-react'
+import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconPresentation, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+
+const ICONS = {
+  pdf: () => <IconFileTypePdf size={20} />,
+  document: () => <IconFileText size={20} />,
+  presentation: () => <IconPresentation size={20} />,
+  sheet: () => <IconFileSpreadsheet size={20} />
+}
 
 export function ActivitySection () {
   const searchParams = useSearchParams()
@@ -13,6 +20,8 @@ export function ActivitySection () {
   const deleteFile = useFileStore(state => state.removeFile)
   const { section, name, questionIndex = '0', desc } = Object.fromEntries(searchParams)
   const deleteResponse = useQuestionsStore(state => state.removeResponse)
+
+  console.log(files)
 
   return (
     <section
@@ -32,6 +41,7 @@ export function ActivitySection () {
             {files.map((file) => {
               const url = URL.createObjectURL(file)
               const type = file.type
+              const Icon = ICONS[type.split('.').pop()?.split('/').pop() ?? '']
 
               return (
                 <li key={v4()}>
@@ -42,24 +52,7 @@ export function ActivitySection () {
                         href={url}
                         className='flex gap-1 items-center'
                       >
-                        {type.endsWith('sheet') && (
-                          <IconFileSpreadsheet
-                            size={20}
-                          />
-                        )}
-
-                        {type.endsWith('pdf') && (
-                          <IconFileTypePdf
-                            size={20}
-                          />
-                        )}
-
-                        {type.endsWith('document') && (
-                          <IconFileText
-                            size={20}
-                          />
-                        )}
-
+                        {Icon != null && <Icon />}
                         {file.name}
                       </Link>
                       <button onClick={
