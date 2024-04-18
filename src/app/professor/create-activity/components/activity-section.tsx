@@ -12,6 +12,7 @@ export function ActivitySection () {
   const files = useFileStore(state => state.files)
   const deleteFile = useFileStore(state => state.removeFile)
   const { section, name, questionIndex = '0', desc } = Object.fromEntries(searchParams)
+  const deleteResponse = useQuestionsStore(state => state.removeResponse)
 
   return (
     <section
@@ -101,6 +102,13 @@ export function ActivitySection () {
                 <span
                   className={`${response.is_correct === true ? 'text-green-400' : ''}`}
                 >{response.option}
+                  <button
+                    onClick={() => deleteResponse(Number(questionIndex), questions[questionIndex].responses.indexOf(response))}
+                  >
+                    <IconTrash
+                      size={20}
+                    />
+                  </button>
                 </span>
               </li>
             ))}
