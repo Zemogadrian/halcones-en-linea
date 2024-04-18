@@ -41,7 +41,7 @@ export function ActivitySection () {
             {files.map((file, i) => {
               const url = URL.createObjectURL(file)
               const type = file.type
-              const Icon = ICONS[type.split('.').pop()?.split('/').pop() ?? ''] ?? ICONS.default
+              const Icon: () => JSX.Element = ICONS[type.split('.').pop()?.split('/').pop() ?? ''] ?? ICONS.default
 
               return (
                 <li key={v4()}>
@@ -52,7 +52,7 @@ export function ActivitySection () {
                         href={url}
                         className='flex gap-1 items-center'
                       >
-                        {Icon != null && <Icon />}
+                        <Icon />
                         {file.name}
                       </Link>
                       <button
