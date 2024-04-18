@@ -5,8 +5,15 @@ import { getUser } from '@/services/supabase/actions/auth'
 import { SliderBox } from './components/slider-box'
 import { ActivitySection } from './components/activity-section'
 import { ActivityHeader } from './components/activity-header'
+import { AssignActivityButton } from './components/assign-activity-button'
 
-export default async function CreateActivityPage () {
+interface Props {
+  searchParams: {
+    [key: string]: string
+  }
+}
+
+export default async function CreateActivityPage ({ searchParams }: Props) {
   const user = await getUser()
 
   return (
@@ -33,6 +40,16 @@ export default async function CreateActivityPage () {
         <ActivitySection />
 
         <SliderBox />
+
+        {
+          searchParams.section === 'deadline' && (
+            <section
+              className='w-full flex justify-center'
+            >
+              <AssignActivityButton searchParams={searchParams} />
+            </section>
+          )
+        }
 
       </Main>
     </DistroNav>

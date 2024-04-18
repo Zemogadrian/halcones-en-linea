@@ -14,7 +14,7 @@ export type Database = {
           career: number
           created_at: string
           deadline: string
-          desc: string
+          desc: string | null
           education_plan: number
           group: number
           id: number
@@ -29,7 +29,7 @@ export type Database = {
           career: number
           created_at?: string
           deadline: string
-          desc: string
+          desc?: string | null
           education_plan: number
           group: number
           id?: number
@@ -44,7 +44,7 @@ export type Database = {
           career?: number
           created_at?: string
           deadline?: string
-          desc?: string
+          desc?: string | null
           education_plan?: number
           group?: number
           id?: number

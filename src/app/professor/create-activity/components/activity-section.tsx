@@ -1,9 +1,10 @@
 'use client'
-import { H2, H3, ShyScrollbar } from '@/components/utils'
+import { H2, H3, H4, ShyScrollbar } from '@/components/utils'
 import { Response } from '@/services/supabase/actions/professor.types'
 import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
+import { dateTimeFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
-import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconFileUnknown, IconPresentation, IconTrash } from '@tabler/icons-react'
+import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconFileUnknown, IconPhoto, IconPresentation, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
@@ -12,6 +13,7 @@ const ICONS = {
   document: () => <IconFileText size={20} />,
   presentation: () => <IconPresentation size={20} />,
   sheet: () => <IconFileSpreadsheet size={20} />,
+  image: () => <IconPhoto size={20} />,
   default: () => <IconFileUnknown size={20} />
 }
 
@@ -20,7 +22,7 @@ export function ActivitySection () {
   const questions = useQuestionsStore(state => state.questions)
   const files = useFileStore(state => state.files)
   const deleteFile = useFileStore(state => state.removeFile)
-  const { section, name, questionIndex = '0', desc } = Object.fromEntries(searchParams)
+  const { section, name, questionIndex = '0', desc, deadline = new Date().toISOString(), type } = Object.fromEntries(searchParams)
   const deleteResponse = useQuestionsStore(state => state.removeResponse)
 
   return (
@@ -28,7 +30,7 @@ export function ActivitySection () {
       style={ShyScrollbar}
       className='text-itesus-tertiary flex flex-col items-center w-full h-[25%] overflow-y-auto'
     >
-      {['activity-name', 'desc', 'file'].includes(section) && (
+      {['activity-name', 'desc', 'file', 'deadline'].includes(section) && (
         <div className='w-full max-w-2xl'>
           <H3>
             {name}
@@ -37,46 +39,63 @@ export function ActivitySection () {
             {desc}
           </p>
 
-          <ul className='list-decimal'>
-            {files.map((file, i) => {
-              const url = URL.createObjectURL(file)
-              const type = file.type
-              const Icon: () => JSX.Element = ICONS[type.split('.').pop()?.split('/').pop() ?? ''] ?? ICONS.default
+          <time>
+            Entrega: {dateTimeFormatter(
+            new Date(deadline),
+            'es-MX'
+          )}
+          </time>
 
-              return (
-                <li key={v4()}>
-                  <figure>
-                    <div className='flex gap-3'>
-                      <Link
-                        target='_blank'
-                        href={url}
-                        className='flex gap-1 items-center'
-                      >
-                        <Icon />
-                        {file.name}
-                      </Link>
-                      <button
-                        onClick={() => deleteFile(i)}
-                      >
-                        <IconTrash
-                          size={20}
-                        />
-                      </button>
-                    </div>
+          {type === 'work' && (
+            <section>
+              <H4>Documentacion</H4>
+              <ul className='list-decimal'>
+                {files.map((file, i) => {
+                  const url = URL.createObjectURL(file)
+                  const type = file.type
+                  const Icon: () => JSX.Element =
+                ICONS[type.split('/')[0]] ??
+                ICONS[type.split('.')[0]] ??
+                ICONS[type.split('.').pop()?.split('/').pop() ?? ''] ??
+                ICONS.default
 
-                    {type.startsWith('image') && (
-                      <img
-                        src={url}
-                        alt={file.name}
-                        className='w-10'
-                      />
-                    )}
-                  </figure>
+                  return (
+                    <li key={v4()}>
+                      <figure>
+                        <div className='flex gap-3'>
+                          <Link
+                            target='_blank'
+                            href={url}
+                            className='flex gap-1 items-center'
+                          >
+                            <Icon />
+                            {file.name}
+                          </Link>
+                          <button
+                            onClick={() => deleteFile(i)}
+                          >
+                            <IconTrash
+                              size={20}
+                            />
+                          </button>
+                        </div>
 
-                </li>
-              )
-            })}
-          </ul>
+                        {type.startsWith('image') && (
+                          <img
+                            src={url}
+                            alt={file.name}
+                            className='w-10'
+                          />
+                        )}
+                      </figure>
+
+                    </li>
+                  )
+                })}
+              </ul>
+
+            </section>
+          )}
         </div>
       )}
 
