@@ -1,8 +1,9 @@
 'use client'
 import { H2, H3, ShyScrollbar } from '@/components/utils'
+import { Response } from '@/services/supabase/actions/professor.types'
 import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
 import { v4 } from '@/utils/uuid'
-import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconPresentation, IconTrash } from '@tabler/icons-react'
+import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconFileUnknown, IconPresentation, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
@@ -10,7 +11,8 @@ const ICONS = {
   pdf: () => <IconFileTypePdf size={20} />,
   document: () => <IconFileText size={20} />,
   presentation: () => <IconPresentation size={20} />,
-  sheet: () => <IconFileSpreadsheet size={20} />
+  sheet: () => <IconFileSpreadsheet size={20} />,
+  default: () => <IconFileUnknown size={20} />
 }
 
 export function ActivitySection () {
@@ -20,8 +22,6 @@ export function ActivitySection () {
   const deleteFile = useFileStore(state => state.removeFile)
   const { section, name, questionIndex = '0', desc } = Object.fromEntries(searchParams)
   const deleteResponse = useQuestionsStore(state => state.removeResponse)
-
-  console.log(files)
 
   return (
     <section
@@ -38,10 +38,10 @@ export function ActivitySection () {
           </p>
 
           <ul className='list-decimal'>
-            {files.map((file) => {
+            {files.map((file, i) => {
               const url = URL.createObjectURL(file)
               const type = file.type
-              const Icon = ICONS[type.split('.').pop()?.split('/').pop() ?? '']
+              const Icon = ICONS[type.split('.').pop()?.split('/').pop() ?? ''] ?? ICONS.default
 
               return (
                 <li key={v4()}>
@@ -55,9 +55,8 @@ export function ActivitySection () {
                         {Icon != null && <Icon />}
                         {file.name}
                       </Link>
-                      <button onClick={
-                      () => deleteFile(files.indexOf(file))
-                    }
+                      <button
+                        onClick={() => deleteFile(i)}
                       >
                         <IconTrash
                           size={20}
@@ -88,15 +87,15 @@ export function ActivitySection () {
           <ul
             className='list-upper-alpha'
           >
-            {questions[questionIndex]?.responses?.map((response) => (
+            {questions[questionIndex]?.responses?.map((response: Response, i: number) => (
               <li
                 key={v4()}
               >
                 <span
-                  className={`${response.is_correct === true ? 'text-green-400' : ''}`}
+                  className={`${response.is_correct ? 'text-green-400' : ''}`}
                 >{response.option}
                   <button
-                    onClick={() => deleteResponse(Number(questionIndex), questions[questionIndex].responses.indexOf(response))}
+                    onClick={() => deleteResponse(Number(questionIndex), i)}
                   >
                     <IconTrash
                       size={20}
