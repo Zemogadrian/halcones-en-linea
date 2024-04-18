@@ -1,24 +1,36 @@
 'use client'
-import { H2, H3, ShyScrollbar } from '@/components/utils'
+import { H2, H3, H4, ShyScrollbar } from '@/components/utils'
+import { Response } from '@/services/supabase/actions/professor.types'
 import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
+import { dateTimeFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
-import { IconFileSpreadsheet, IconFileText, IconFileTypePdf } from '@tabler/icons-react'
+import { IconFileSpreadsheet, IconFileText, IconFileTypePdf, IconFileUnknown, IconPhoto, IconPresentation, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+
+const ICONS = {
+  pdf: () => <IconFileTypePdf size={20} />,
+  document: () => <IconFileText size={20} />,
+  presentation: () => <IconPresentation size={20} />,
+  sheet: () => <IconFileSpreadsheet size={20} />,
+  image: () => <IconPhoto size={20} />,
+  default: () => <IconFileUnknown size={20} />
+}
 
 export function ActivitySection () {
   const searchParams = useSearchParams()
   const questions = useQuestionsStore(state => state.questions)
   const files = useFileStore(state => state.files)
-
-  const { section, name, questionIndex = '0', desc } = Object.fromEntries(searchParams)
+  const deleteFile = useFileStore(state => state.removeFile)
+  const { section, name, questionIndex = '0', desc, deadline = new Date().toISOString(), type } = Object.fromEntries(searchParams)
+  const deleteResponse = useQuestionsStore(state => state.removeResponse)
 
   return (
     <section
       style={ShyScrollbar}
       className='text-itesus-tertiary flex flex-col items-center w-full h-[25%] overflow-y-auto'
     >
-      {['activity-name', 'desc', 'file'].includes(section) && (
+      {['activity-name', 'desc', 'file', 'deadline'].includes(section) && (
         <div className='w-full max-w-2xl'>
           <H3>
             {name}
@@ -27,52 +39,63 @@ export function ActivitySection () {
             {desc}
           </p>
 
-          <ul className='list-decimal'>
-            {files.map((file) => {
-              const url = URL.createObjectURL(file)
-              const type = file.type
+          <time>
+            Entrega: {dateTimeFormatter(
+            new Date(deadline),
+            'es-MX'
+          )}
+          </time>
 
-              return (
-                <li key={v4()}>
-                  <figure>
-                    <Link
-                      target='_blank'
-                      href={url}
-                      className='flex gap-1 items-center'
-                    >
-                      {type.endsWith('sheet') && (
-                        <IconFileSpreadsheet
-                          size={20}
-                        />
-                      )}
+          {type === 'work' && (
+            <section>
+              <H4>Documentacion</H4>
+              <ul className='list-decimal'>
+                {files.map((file, i) => {
+                  const url = URL.createObjectURL(file)
+                  const type = file.type
+                  const Icon: () => JSX.Element =
+                ICONS[type.split('/')[0]] ??
+                ICONS[type.split('.')[0]] ??
+                ICONS[type.split('.').pop()?.split('/').pop() ?? ''] ??
+                ICONS.default
 
-                      {type.endsWith('pdf') && (
-                        <IconFileTypePdf
-                          size={20}
-                        />
-                      )}
+                  return (
+                    <li key={v4()}>
+                      <figure>
+                        <div className='flex gap-3'>
+                          <Link
+                            target='_blank'
+                            href={url}
+                            className='flex gap-1 items-center'
+                          >
+                            <Icon />
+                            {file.name}
+                          </Link>
+                          <button
+                            onClick={() => deleteFile(i)}
+                          >
+                            <IconTrash
+                              size={20}
+                            />
+                          </button>
+                        </div>
 
-                      {type.endsWith('document') && (
-                        <IconFileText
-                          size={20}
-                        />
-                      )}
+                        {type.startsWith('image') && (
+                          <img
+                            src={url}
+                            alt={file.name}
+                            className='w-10'
+                          />
+                        )}
+                      </figure>
 
-                      {file.name}
-                    </Link>
+                    </li>
+                  )
+                })}
+              </ul>
 
-                    {type.startsWith('image') && (
-                      <img
-                        src={url}
-                        alt={file.name}
-                        className='w-10'
-                      />
-                    )}
-                  </figure>
-                </li>
-              )
-            })}
-          </ul>
+            </section>
+          )}
         </div>
       )}
 
@@ -83,13 +106,20 @@ export function ActivitySection () {
           <ul
             className='list-upper-alpha'
           >
-            {questions[questionIndex]?.responses?.map((response) => (
+            {questions[questionIndex]?.responses?.map((response: Response, i: number) => (
               <li
                 key={v4()}
               >
                 <span
-                  className={`${response.is_correct === true ? 'text-green-400' : ''}`}
+                  className={`${response.is_correct ? 'text-green-400' : ''}`}
                 >{response.option}
+                  <button
+                    onClick={() => deleteResponse(Number(questionIndex), i)}
+                  >
+                    <IconTrash
+                      size={20}
+                    />
+                  </button>
                 </span>
               </li>
             ))}

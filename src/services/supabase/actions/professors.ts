@@ -210,31 +210,50 @@ export async function createActivity <
   }
 
   if (activity.files != null && activity.files.length > 0) {
-    const { error: errbBucket } = await supabase.storage.createBucket(`activities/${data.id}`)
+    const bufferFilesArray = activity.files.map((base64File) => Buffer.from(base64File.bytes, 'base64'))
 
-    if (errbBucket != null) {
-      console.log('Error creating bucket:', errbBucket)
-      throw new Error('Error creating bucket')
-    }
+    const bucketName = 'activities'
 
-    activity.files?.forEach(async f => {
-      const path = `activities/${data.id}/${f.name}`
+    bufferFilesArray?.forEach(async (b, i) => {
+      const name = (activity.files ?? [])[i].name ?? ''
 
-      return await supabase.storage.from(`activities/${data.id}`).upload(path, f)
+      console.log('Uploading file:', name)
+
+      const path = `/${data.id}/${name}`
+
+      const { data: bucketData, error: bucketError } = await supabase.storage.from(bucketName).upload(path, b)
+
+      console.log({
+        bucketData, bucketError
+      })
     })
   }
 
   if (activity.questions == null) return
 
   const questions = activity.questions.map(q => ({
-    ...q,
-    activity: data.id
+    question: q.question ?? '',
+    type: q.type ?? 'multiple_option',
+    accept_file: q.accept_file ?? false,
+    activity: data.id,
+    responses: q.responses ?? []
   }))
 
-  const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions).select('id')
+  console.log(questions)
+
+  const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions.map(q => ({
+    question: q.question,
+    type: q.type,
+    accept_file: q.accept_file,
+    activity: q.activity
+  }))).select('id')
+
+  console.log({
+    errorQuestions, questionsData
+  })
 
   if (errorQuestions != null || questionsData == null) {
-    console.log('Error creating questions:', error)
+    console.log('Error creating questions:', errorQuestions)
     throw new Error('Error creating questions')
   }
 

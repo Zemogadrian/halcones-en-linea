@@ -11,7 +11,8 @@ const sections = {
   0: () => 'activity-type',
   1: () => 'activity-name',
   2: (type: string) => type === 'work' ? 'desc' : 'questions',
-  3: (type: string) => type === 'work' ? 'file' : 'questions'
+  3: (type: string) => type === 'work' ? 'file' : 'deadline',
+  4: () => 'deadline'
 }
 
 const names = {
@@ -25,7 +26,7 @@ export const SliderBox = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0', section, desc } = Object.fromEntries(searchParams) as {
+  const { type, name = '', questionIndex = '0', currentPosition = '0', lastQuestionIndex = '0', section, desc, deadline = new Date().toISOString().slice(0, 19) } = Object.fromEntries(searchParams) as {
     type: 'trivia' | 'exam' | 'questionary' | 'work'
     name: string
     questionIndex: string
@@ -33,6 +34,7 @@ export const SliderBox = () => {
     lastQuestionIndex: string
     section: string
     desc: string
+    deadline: string
   }
   const addFiles = useFileStore(state => state.addFiles)
   const resetFiles = useFileStore(state => state.reset)
@@ -58,7 +60,7 @@ export const SliderBox = () => {
     )
   }
 
-  const setQueryParams = (key: string, value: string) => {
+  const setQueryParam = (key: string, value: string) => {
     const newSearchParams = new URLSearchParams(searchParams)
 
     value === ''
@@ -122,46 +124,48 @@ export const SliderBox = () => {
   }
 
   return (
-    <section className='flex justify-center items-center flex-1 gap-5 overflow-hidden'>
-      <button
-        disabled={Number(currentPosition) === 0}
-        className='bg-[#cdcccb] p-3 rounded-lg'
-        onClick={() => {
-          handleSlidePosition('-')
-        }}
-      >
-        Izquierda
-      </button>
-      <div
-        className='h-72 aspect-[16/9] relative'
-      >
-        <AnimateContainer currentPosition={Number(currentPosition)} position={0}>
-          <SelectorType
-            onSelect={(type) => {
-              handleSlidePosition('+', {
-                type,
-                desc: '',
-                questionIndex: '0'
-              })
+    <section className='flex justify-center items-center flex-1 flex-col overflow-hidden'>
+      <div className='flex justify-center items-center gap-5 overflow-hidden'>
 
-              resetFiles()
-              resetQuestions()
-            }}
-          />
-        </AnimateContainer>
+        <button
+          disabled={Number(currentPosition) === 0}
+          className='bg-[#cdcccb] p-3 rounded-lg'
+          onClick={() => {
+            handleSlidePosition('-')
+          }}
+        >
+          Izquierda
+        </button>
+        <div
+          className='h-72 aspect-[16/9] relative'
+        >
+          <AnimateContainer currentPosition={Number(currentPosition)} position={0}>
+            <SelectorType
+              onSelect={(type) => {
+                handleSlidePosition('+', {
+                  type,
+                  desc: '',
+                  questionIndex: '0'
+                })
 
-        <AnimateContainer currentPosition={Number(currentPosition)} position={1}>
-          <input
-            className='text-center w-full h-full bg-transparent border rounded-md text-white'
-            placeholder={`Escribe el nombre de tu ${names[type]}`}
-            defaultValue={name}
-            onChange={(e) => {
-              setQueryParams('name', e.target.value)
-            }}
-          />
-        </AnimateContainer>
+                resetFiles()
+                resetQuestions()
+              }}
+            />
+          </AnimateContainer>
 
-        {
+          <AnimateContainer currentPosition={Number(currentPosition)} position={1}>
+            <input
+              className='text-center w-full h-full bg-transparent border rounded-md text-white'
+              placeholder={`Escribe el nombre de tu ${names[type]}`}
+              defaultValue={name}
+              onChange={(e) => {
+                setQueryParam('name', e.target.value)
+              }}
+            />
+          </AnimateContainer>
+
+          {
           type === 'work'
             ? (
               <>
@@ -174,7 +178,7 @@ export const SliderBox = () => {
                     placeholder='Describe tu actividad'
                     defaultValue={desc}
                     onChange={(e) => {
-                      setQueryParams('desc', e.target.value)
+                      setQueryParam('desc', e.target.value)
                     }}
                   />
                 </AnimateContainer>
@@ -222,19 +226,58 @@ export const SliderBox = () => {
                     />
                   </AnimateQuesionConatiner>
                 )}
+
               </>
               )
         }
+
+          <AnimateContainer
+            currentPosition={Number(currentPosition)} position={
+          type === 'work'
+            ? 4
+            : 3
+        }
+          >
+            <div
+              className='w-full h-full bg-transparent border rounded-md flex justify-center items-center'
+            >
+              <input
+                className='p-1'
+                placeholder='Fecha de entrega'
+                type='datetime-local'
+                defaultValue={deadline}
+                onChange={(e) => {
+                  setQueryParam('deadline', e.target.value)
+                }}
+              />
+            </div>
+          </AnimateContainer>
+
+        </div>
+        <button
+          disabled={
+            Number(currentPosition) === (type === 'work' ? 4 : 3) ||
+            type == null
+          }
+          className='bg-[#cdcccb] p-3 rounded-lg'
+          onClick={() => {
+            handleSlidePosition('+')
+          }}
+        >
+          Derecha
+        </button>
       </div>
-      <button
-        disabled={type == null}
-        className='bg-[#cdcccb] p-3 rounded-lg'
-        onClick={() => {
-          handleSlidePosition('+')
-        }}
-      >
-        Derecha
-      </button>
+
+      {section === 'questions' && (
+        <button
+          className='bg-itesus-primary p-3 rounded-lg text-white'
+          onClick={() => {
+            setCurrentPosition(() => 3)
+          }}
+        >
+          Finalizar preguntas
+        </button>
+      )}
     </section>
   )
 }

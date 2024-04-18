@@ -18,6 +18,16 @@ export const dateFormatter = (date: Date, locale: Locales) => {
   }).format(new Date(date))
 }
 
+export const dateTimeFormatter = (date: Date, locale: Locales) => {
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  }).format(new Date(date))
+}
+
 export const pathnameFormatter = (pathname: string, params: Params) => {
   return pathname.replaceAll(/\[(.*?)\]/g, (match, p1) => {
     const param = params[p1]
