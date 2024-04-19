@@ -1,7 +1,7 @@
 'use client'
 import { H1 } from '@/components/utils'
 import { useState } from 'react'
-import ShowImage from './show-image'
+// import ShowImage from './show-image'
 
 export const GradeActivity = () => {
   const [selectedValue, setSelectedValue] = useState('1')
@@ -27,7 +27,7 @@ export const GradeActivity = () => {
   return (
     <main className='flex flex-col gap-5 w-full h-full '>
       <H1 className='text-center text-[#1a3b62] bg-white items-center justify-center flex'>Titulo de la actividad </H1>
-      <section className=' w-full border-b-[2px] p-5'>
+      <section className=' w-full border-b-[2px] py-2'>
         <div className='flex flex-row gap-10'>
           <select className='bg-transparent text-[#8f8992]' value={selectedValue} onChange={handleSelectChange}>
             <option value='1'>Nombre del alumno</option>
@@ -44,7 +44,7 @@ export const GradeActivity = () => {
         </div>
       </section>
       <section className='flex flex-row gap-10'>
-        <ShowImage />
+        {/* <ShowImage /> */}
         <div className='flex flex-col w-1/4  gap-2 border'>
           <span className='underline text-xl font-black text-[#cfd0d2] px-5 text-center'>Trabajo</span>
           <section className='flex flex-col p-5'>
