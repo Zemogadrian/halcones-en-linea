@@ -2,7 +2,7 @@
 import { Enums, Tables } from 'database.types'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
-import { CreateActivityProps, GetMyActivitiesProps } from './professor.types'
+import { CreateActivityProps, GetMyActivitiesProps, StartClassProps } from './professor.types'
 import { revalidatePath } from 'next/cache'
 
 export const getProfessors = async () => {
@@ -349,15 +349,6 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
   )
 
   return activitiesWithFiles
-}
-
-interface StartClassProps {
-  groupId: number
-  semesterId: number
-  subjectId: number
-  educationPlanId: number
-  careerId: number
-  subjectSlug: string
 }
 
 export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, subjectSlug }: StartClassProps) => {

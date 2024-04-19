@@ -31,3 +31,12 @@ export interface GetMyActivitiesProps {
   subjectId: number
   educationPlanId: number
 }
+
+export interface StartClassProps {
+  groupId: number
+  semesterId: number
+  subjectId: number
+  educationPlanId: number
+  careerId: number
+  subjectSlug: string
+}
