@@ -351,6 +351,29 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
   return activitiesWithFiles
 }
 
+export const getActivityById = async (activityId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('activities').select('id, name, desc, type, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct))').eq('id', activityId).single()
+
+  if (error != null) {
+    console.error('Error getting activity:', error)
+    throw new Error('Error getting activity')
+  }
+
+  const { data: files } = await supabase.storage.from('activities').list(activityId.toString())
+
+  const formattedFiles = files?.map(f => ({
+    ...f,
+    url: supabase.storage.from('activities').getPublicUrl(`${activityId}/${f.name}`).data.publicUrl
+  }))
+
+  return {
+    ...data,
+    files: formattedFiles ?? []
+  }
+}
+
 export const getMyStudents = async ({ careerId, educationPlanId, groupId, semesterId }: GetMyAlumnsProps) => {
   const supabase = await createClient()
 
