@@ -3,6 +3,7 @@ import { Enums, Tables } from 'database.types'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
 import { CreateActivityProps, GetMyActivitiesProps } from './professor.types'
+import { revalidatePath } from 'next/cache'
 
 export const getProfessors = async () => {
   const supabase = await createClient()
@@ -189,7 +190,12 @@ export const getMyReducedCareers = async () => {
 export async function createActivity <
   QT extends Enums<'question_type'>,
   AT extends Enums<'activity_type'>
-> (activity: CreateActivityProps<AT, QT>) {
+> (
+  activity: CreateActivityProps<AT, QT>,
+  searchParams: {
+    [key: string]: string
+  }
+) {
   const supabase = await createClient()
 
   const { data: professorData, error: professorError } = await supabase.auth.getSession()
@@ -257,40 +263,48 @@ export async function createActivity <
     throw new Error('Error creating questions')
   }
 
-  questions.forEach(async (q, i) => {
-    if (q.type !== 'multiple_option' || q.responses == null) return
+  await Promise.all(
+    questions.map(async (q, i) => {
+      if (q.type !== 'multiple_option' || q.responses == null) return
 
-    const responses = q.responses.map(r => ({
-      ...r,
-      question: questionsData[i].id
-    }))
+      const responses = q.responses.map(r => ({
+        ...r,
+        question: questionsData[i].id
+      }))
 
-    await supabase.from('responses').insert(responses)
-      .then(({ error: errorResponses }) => {
-        if (errorResponses != null) {
-          console.log('Error creating responses:', error)
-          throw new Error('Error creating responses')
-        }
-      })
-  })
+      await supabase.from('responses').insert(responses)
+        .then(({ error: errorResponses }) => {
+          if (errorResponses != null) {
+            console.log('Error creating responses:', error)
+            throw new Error('Error creating responses')
+          }
+        })
+    })
+  )
 
-  // for (let i = 0; i < questions.length; i++) {
-  //   const q = questions[i]
+  const newSearchParams = new URLSearchParams(searchParams)
 
-  //   if (q.type !== 'multiple_option' || q.responses == null) continue
+  newSearchParams.delete('section')
+  newSearchParams.delete('type')
+  newSearchParams.delete('currentPosition')
+  newSearchParams.delete('name')
+  newSearchParams.delete('desc')
+  newSearchParams.delete('questionIndex')
+  newSearchParams.delete('deadline')
+  newSearchParams.delete('lastQuestionIndex')
 
-  //   const responses = q.responses.map(r => ({
-  //     ...r,
-  //     question: questionsData[i].id
-  //   }))
+  const { data: careerData } = await supabase.from('careers').select('slug').eq('id', activity.config.career).single()
+  const { data: subjectData } = await supabase.from('subjects').select('slug').eq('id', activity.config.subject).single()
 
-  //   const { error: errorResponses } = await supabase.from('multiple_options_responses').insert(responses)
+  const newPathname = decodeURIComponent(`/professor/career/${careerData?.slug ?? ''}/${subjectData?.slug ?? ''}/activities?${newSearchParams.toString()}`)
 
-  //   if (errorResponses != null) {
-  //     console.error('Error creating responses:', error)
-  //     throw new Error('Error creating responses')
-  //   }
-  // }
+  revalidatePath(newPathname)
+
+  return {
+    careerSlug: careerData?.slug ?? '',
+    subjectSlug: subjectData?.slug ?? '',
+    searchParams: newSearchParams.toString()
+  }
 }
 
 export const getMyActivities = async ({ careerId, educationPlanId, groupId, semesterId, subjectId }: GetMyActivitiesProps) => {

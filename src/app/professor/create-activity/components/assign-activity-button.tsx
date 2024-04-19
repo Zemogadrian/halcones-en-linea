@@ -2,6 +2,7 @@
 
 import { createActivity } from '@/services/supabase/actions/professors'
 import { useFileStore, useQuestionsStore } from '@/stores/create-activity'
+import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 
 interface Props {
@@ -15,6 +16,7 @@ const ActivityTypeEnum = z.enum(['trivia', 'exam', 'questionary', 'work'])
 export const AssignActivityButton = ({ searchParams }: Props) => {
   const files = useFileStore(state => state.files)
   const questions = useQuestionsStore(state => state.questions)
+  const { push } = useRouter()
 
   return (
     <button
@@ -31,22 +33,32 @@ export const AssignActivityButton = ({ searchParams }: Props) => {
             }
           }))
 
-          await createActivity({
-            config: {
-              career: Number(searchParams.careerId),
-              deadline: searchParams.deadline ?? new Date().toISOString().slice(0, 19),
-              desc: searchParams.desc,
-              education_plan: Number(searchParams.educationPlanId),
-              name: searchParams.name,
-              group: Number(searchParams.groupId),
-              semester: Number(searchParams.semesterId),
-              subject: Number(searchParams.subjectId),
-              type,
-              is_open: true
+          await createActivity(
+            {
+              config: {
+                career: Number(searchParams.careerId),
+                deadline: searchParams.deadline ?? new Date().toISOString().slice(0, 19),
+                desc: searchParams.desc,
+                education_plan: Number(searchParams.educationPlanId),
+                name: searchParams.name,
+                group: Number(searchParams.groupId),
+                semester: Number(searchParams.semesterId),
+                subject: Number(searchParams.subjectId),
+                type,
+                is_open: true
+              },
+              files: type === 'work' ? base64FilesArray : null,
+              questions: type === 'work' ? null : Object.values(questions).filter(q => q.question !== '' && q.responses != null && q.responses.length > 0)
             },
-            files: type === 'work' ? base64FilesArray : null,
-            questions: type === 'work' ? null : Object.values(questions).filter(q => q.question !== '' && q.responses != null && q.responses.length > 0)
-          })
+            searchParams
+          )
+            .then((res) => {
+              if (res == null) return
+
+              const { careerSlug, searchParams, subjectSlug } = res
+
+              push(`/professor/career/${careerSlug}/${subjectSlug}/activities?${searchParams}`)
+            })
         })().catch(err => console.log(err))
       }}
       className='bg-itesus-primary px-2 rounded-lg text-white'
