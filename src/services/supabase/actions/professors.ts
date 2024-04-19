@@ -374,7 +374,6 @@ export const getActivityById = async (activityId: number) => {
   }
 }
 
-
 export const getMyStudents = async ({ careerId, educationPlanId, groupId, semesterId }: GetMyAlumnsProps) => {
   const supabase = await createClient()
 
