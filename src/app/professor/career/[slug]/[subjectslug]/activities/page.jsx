@@ -1,10 +1,9 @@
-// import Link from 'next/link'
-import { Main } from '@/components/utils'
-import { getMyActivities } from '@/services/supabase/actions/professors'
 import Link from 'next/link'
 // import { GradeActivity } from './grade-activity'
+import { getMyActivities } from '@/services/supabase/actions/professors'
 
 export default async function Activities ({ params, searchParams }) {
+  console.log(params, searchParams)
   const newSearchParams = new URLSearchParams(searchParams)
 
   const activities = await getMyActivities({
@@ -18,7 +17,7 @@ export default async function Activities ({ params, searchParams }) {
   console.log(activities)
 
   return (
-    <Main className='flex flex-col gap-5'>
+    <main className='flex flex-col gap-5'>
       <header className='flex flex-row gap-2'>
         <div className='bg-white text-[#21264a] rounded-md px-2'>
           Mis actividades
@@ -42,6 +41,6 @@ export default async function Activities ({ params, searchParams }) {
         </Link>
       </section>
       {/* <GradeActivity /> */}
-    </Main>
+    </main>
   )
 }

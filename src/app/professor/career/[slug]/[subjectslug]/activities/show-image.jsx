@@ -48,16 +48,9 @@ export default function ShowImage () {
       <span className='text-[#8f8992]'>
         nombre del archivo
       </span>
-      <img src='/imgs.png' alt='imgs' className='aspect-[16:9] w-96' />
-      {/* <button className='' onClick={handleCloseModal}>
-        <img src='/minus.svg' alt='plus' className=' w-14 ' />
-      </button> */}
-      <div className='bg-[#1564a6] rounded-xl justify-center items-center flex p-2'>
-        <button className='' onClick={handleIncreaseWidth}>
-          <img src='/magnifier-plus.svg' alt='imgs' className=' w-7 color-white' />
-          {/* <img src='/plus.svg' alt='minus' className=' w-14 ' /> */}
-        </button>
-      </div>
+      <button className='' onClick={handleIncreaseWidth}>
+        <img src='/imgs.png' alt='imgs' className='aspect-[16:9] w-96' />
+      </button>
       {isModalOpen && (
         <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50' onClick={handleCloseModal}>
           <div className='bg-white p-4'>
