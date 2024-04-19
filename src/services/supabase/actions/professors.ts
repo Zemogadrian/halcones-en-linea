@@ -319,7 +319,7 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
 
   const { data: activities, error: errorActivities } = await supabase
     .from('activities')
-    .select('id, name, desc, type, created_at, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct))')
+    .select('id, name, desc, careers(id), education_plans(id), groups(id), semesters(id), type, created_at, deadline, is_open, subjects(id), questions(id, question, type, created_at, responses(id, option, is_correct))')
     .eq('professor', data.session?.user.id ?? '')
     .eq('careers.id', careerId)
     .eq('education_plans.id', educationPlanId)
@@ -327,18 +327,23 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
     .eq('semesters.id', semesterId)
     .eq('subjects.id', subjectId)
 
-  if (errorActivities != null || activities == null) {
-    console.error('Error getting activities:', error)
+  if (errorActivities != null) {
+    console.log('Error getting activities:', errorActivities)
     throw new Error('Error getting activities')
   }
 
   const activitiesWithFiles = await Promise.all(
     activities.map(async a => {
-      const { data: files } = await supabase.storage.from(`activities/${a.id}`).list()
+      const { data: files } = await supabase.storage.from('activities').list(a.id.toString())
+
+      const formattedFiles = files?.map(f => ({
+        ...f,
+        url: supabase.storage.from('activities').getPublicUrl(`${a.id}/${f.name}`).data.publicUrl
+      }))
 
       return {
         ...a,
-        files: files ?? []
+        files: formattedFiles ?? []
       }
     })
   )
