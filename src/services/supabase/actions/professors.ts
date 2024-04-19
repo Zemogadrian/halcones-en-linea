@@ -235,52 +235,52 @@ export async function createActivity <
     })
   }
 
-  if (activity.questions == null) return
+  if (activity.questions != null) {
+    const questions = activity.questions.map(q => ({
+      question: q.question ?? '',
+      type: q.type ?? 'multiple_option',
+      accept_file: q.accept_file ?? false,
+      activity: data.id,
+      responses: q.responses ?? []
+    }))
 
-  const questions = activity.questions.map(q => ({
-    question: q.question ?? '',
-    type: q.type ?? 'multiple_option',
-    accept_file: q.accept_file ?? false,
-    activity: data.id,
-    responses: q.responses ?? []
-  }))
+    console.log(questions)
 
-  console.log(questions)
+    const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions.map(q => ({
+      question: q.question,
+      type: q.type,
+      accept_file: q.accept_file,
+      activity: q.activity
+    }))).select('id')
 
-  const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions.map(q => ({
-    question: q.question,
-    type: q.type,
-    accept_file: q.accept_file,
-    activity: q.activity
-  }))).select('id')
-
-  console.log({
-    errorQuestions, questionsData
-  })
-
-  if (errorQuestions != null || questionsData == null) {
-    console.log('Error creating questions:', errorQuestions)
-    throw new Error('Error creating questions')
-  }
-
-  await Promise.all(
-    questions.map(async (q, i) => {
-      if (q.type !== 'multiple_option' || q.responses == null) return
-
-      const responses = q.responses.map(r => ({
-        ...r,
-        question: questionsData[i].id
-      }))
-
-      await supabase.from('responses').insert(responses)
-        .then(({ error: errorResponses }) => {
-          if (errorResponses != null) {
-            console.log('Error creating responses:', error)
-            throw new Error('Error creating responses')
-          }
-        })
+    console.log({
+      errorQuestions, questionsData
     })
-  )
+
+    if (errorQuestions != null || questionsData == null) {
+      console.log('Error creating questions:', errorQuestions)
+      throw new Error('Error creating questions')
+    }
+
+    await Promise.all(
+      questions.map(async (q, i) => {
+        if (q.type !== 'multiple_option' || q.responses == null) return
+
+        const responses = q.responses.map(r => ({
+          ...r,
+          question: questionsData[i].id
+        }))
+
+        await supabase.from('responses').insert(responses)
+          .then(({ error: errorResponses }) => {
+            if (errorResponses != null) {
+              console.log('Error creating responses:', error)
+              throw new Error('Error creating responses')
+            }
+          })
+      })
+    )
+  }
 
   const newSearchParams = new URLSearchParams(searchParams)
 

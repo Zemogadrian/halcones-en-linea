@@ -48,11 +48,20 @@ export const AssignActivityButton = ({ searchParams }: Props) => {
                 is_open: true
               },
               files: type === 'work' ? base64FilesArray : null,
-              questions: type === 'work' ? null : Object.values(questions).filter(q => q.question !== '' && q.responses != null && q.responses.length > 0)
+              questions: type === 'work'
+                ? null
+                : Object.values(questions).filter(q =>
+                  q.question !== '' &&
+                  q.type === 'open'
+                    ? true
+                    : (q.responses ?? []).length > 0
+                )
             },
             searchParams
           )
             .then((res) => {
+              console.log(res)
+
               if (res == null) return
 
               const { careerSlug, searchParams, subjectSlug } = res
