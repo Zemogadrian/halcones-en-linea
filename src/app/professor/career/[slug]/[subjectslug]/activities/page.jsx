@@ -1,10 +1,19 @@
 import Link from 'next/link'
 import { GetActivities } from './get-activities'
-import { getMyActivities } from '@/services/supabase/actions/professors'
+import { getMyActivities, getMyStudents } from '@/services/supabase/actions/professors'
 
 export default async function Activities ({ params, searchParams, selectedActivity, setSelectedActivity }) {
   console.log(params, searchParams)
   const newSearchParams = new URLSearchParams(searchParams)
+
+  const myStudents = await getMyStudents({
+    careerId: searchParams.careerId,
+    educationPlanId: searchParams.educationPlanId,
+    groupId: searchParams.groupId,
+    semesterId: searchParams.semesterId
+  })
+
+  console.log(myStudents)
 
   const activities = await getMyActivities({
     careerId: searchParams?.careerId,
