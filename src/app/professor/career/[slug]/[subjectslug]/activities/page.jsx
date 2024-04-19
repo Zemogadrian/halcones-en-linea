@@ -1,10 +1,20 @@
-
 import Link from 'next/link'
 import { GradeActivity } from './grade-activity'
+import { getMyActivities } from '@/services/supabase/actions/professors'
 
-export default function Activities ({ params, searchParams }) {
+export default async function Activities ({ params, searchParams }) {
   console.log(params, searchParams)
   const newSearchParams = new URLSearchParams(searchParams)
+
+  const activities = await getMyActivities({
+    careerId: searchParams.careerId,
+    subjectId: searchParams.subjectId,
+    educationPlanId: searchParams.educationPlanId,
+    groupId: searchParams.groupId,
+    semesterId: searchParams.semesterId
+  })
+
+  console.log(activities)
 
   return (
     <div className='flex flex-col gap-5'>
