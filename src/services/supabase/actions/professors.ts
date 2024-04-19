@@ -351,6 +351,10 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
   return activitiesWithFiles
 }
 
+export const getMyAlumns = async () => {
+
+}
+
 export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, subjectSlug }: StartClassProps) => {
   const supabase = await createClient()
 
