@@ -24,10 +24,18 @@ export interface CreateActivityProps<
   files: AT extends 'work' ? Array<{ bytes: string, name: string }> : null
 }
 
-export interface GetMyActivitiesProps {
+export interface CommonDefaultProps {
   careerId: number
   semesterId: number
   groupId: number
   subjectId: number
   educationPlanId: number
 }
+
+export type GetMyActivitiesProps = CommonDefaultProps
+
+export interface StartClassProps extends CommonDefaultProps {
+  subjectSlug: string
+}
+
+export type GetMyAlumnsProps = Omit<CommonDefaultProps, 'subjectId'>
