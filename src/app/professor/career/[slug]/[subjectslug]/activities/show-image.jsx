@@ -1,4 +1,5 @@
 'use client'
+import { v4 } from '@/utils/uuid'
 import { useState } from 'react'
 
 export default function ShowImage ({ selectedActivity }) {
@@ -49,9 +50,11 @@ export default function ShowImage ({ selectedActivity }) {
       <span className='text-[#8f8992]'>
         {selectedActivity?.name}
       </span>
-      <button className='' onClick={handleIncreaseWidth}>
-        <img src={selectedActivity?.files[0]?.url} alt='imgs' className='aspect-[16:9] w-96' />
-      </button>
+      {selectedActivity?.files?.map(file => (
+        <button className='' onClick={handleIncreaseWidth} key={v4()}>
+          <img src={file.url} alt='imgs' className='aspect-[16:9] w-96' />
+        </button>
+      ))}
       {isModalOpen && (
         <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50' onClick={handleCloseModal}>
           <div className='bg-white p-4'>
