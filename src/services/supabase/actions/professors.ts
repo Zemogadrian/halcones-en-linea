@@ -2,7 +2,7 @@
 import { Enums, Tables } from 'database.types'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
-import { CreateActivityProps, GetMyActivitiesProps, StartClassProps } from './professor.types'
+import { CreateActivityProps, GetMyActivitiesProps, GetMyAlumnsProps, StartClassProps } from './professor.types'
 import { revalidatePath } from 'next/cache'
 
 export const getProfessors = async () => {
@@ -351,8 +351,30 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
   return activitiesWithFiles
 }
 
-export const getMyAlumns = async () => {
+export const getMyStudents = async ({ careerId, educationPlanId, groupId, semesterId }: GetMyAlumnsProps) => {
+  const supabase = await createClient()
 
+  const { data, error } = await supabase.from('student_config')
+    .select('owner')
+    .eq('career', careerId)
+    .eq('education_plan', educationPlanId)
+    .eq('group', groupId)
+    .eq('semester', semesterId)
+
+  if (error != null) {
+    console.log('Error getting students:', error)
+    throw new Error('Error getting students')
+  }
+
+  const students = await Promise.all(
+    (data ?? []).map(async o => {
+      const { data: studentData } = await supabase.from('user_data').select('*').eq('owner', o.owner).single()
+
+      return studentData
+    })
+  )
+
+  return students
 }
 
 export const startClass = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, subjectSlug }: StartClassProps) => {

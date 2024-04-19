@@ -30,16 +30,12 @@ export interface CommonDefaultProps {
   groupId: number
   subjectId: number
   educationPlanId: number
+}
+
+export type GetMyActivitiesProps = CommonDefaultProps
+
+export interface StartClassProps extends CommonDefaultProps {
   subjectSlug: string
 }
 
-export type GetMyActivitiesProps = Omit<CommonDefaultProps, 'subjectSlug'>
-
-export interface StartClassProps {
-  groupId: number
-  semesterId: number
-  subjectId: number
-  educationPlanId: number
-  careerId: number
-  subjectSlug: string
-}
+export type GetMyAlumnsProps = Omit<CommonDefaultProps, 'subjectId'>
