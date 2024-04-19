@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export const GetActivities = ({ params, searchParams, activities, selectedActivity, setSelectedActivity }) => {
+export const GetActivities = ({ params, searchParams, activities }) => {
   console.log(params, searchParams)
 
   return (
