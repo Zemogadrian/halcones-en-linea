@@ -1,24 +1,7 @@
 'use server'
-import { z } from 'zod'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
-
-const SubjectScheme = z.object({
-  id: z.number(),
-  name: z.string()
-})
-
-const SubjectWithCreatedDate = SubjectScheme.extend({
-  created_at: z.string(),
-  slug: z.string()
-})
-
-interface IsClassOnlineProps {
-  carrerId: number
-  educationPlanId: number
-  groupId: number
-  semesterId: number
-}
+import { IsClassOnlineProps, SubjectScheme, SubjectWithCreatedDate } from './students.types'
 
 export const isClassOnline = async ({ carrerId, educationPlanId, groupId, semesterId }: IsClassOnlineProps) => {
   const supabase = await createClient()
