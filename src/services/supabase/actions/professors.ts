@@ -319,13 +319,13 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
 
   const { data: activities, error: errorActivities } = await supabase
     .from('activities')
-    .select('id, name, desc, careers(id), education_plans(id), groups(id), semesters(id), type, created_at, deadline, is_open, subjects(id), questions(id, question, type, created_at, responses(id, option, is_correct))')
+    .select('id, name, desc, type, created_at, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct))')
     .eq('professor', data.session?.user.id ?? '')
-    .eq('careers.id', careerId)
-    .eq('education_plans.id', educationPlanId)
-    .eq('groups.id', groupId)
-    .eq('semesters.id', semesterId)
-    .eq('subjects.id', subjectId)
+    .eq('career', careerId)
+    .eq('education_plan', educationPlanId)
+    .eq('group', groupId)
+    .eq('semester', semesterId)
+    .eq('subject', subjectId)
 
   if (errorActivities != null) {
     console.log('Error getting activities:', errorActivities)
