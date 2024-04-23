@@ -47,9 +47,6 @@ export default function ShowImage ({ selectedActivity }) {
 
   return (
     <div className='flex flex-col w-3/4  gap-2'>
-      <span className='text-[#8f8992]'>
-        {selectedActivity?.name}
-      </span>
       {selectedActivity?.files?.map(file => (
         <button className='' onClick={handleIncreaseWidth} key={v4()}>
           <img src={file.url} alt='imgs' className='aspect-[16:9] w-96' />
