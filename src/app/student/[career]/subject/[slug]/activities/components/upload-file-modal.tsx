@@ -1,10 +1,10 @@
 'use client'
 
-// import { uploadWorkActivity } from '@/services/supabase/actions/activities'
+import { uploadWorkActivity } from '@/services/supabase/actions/activities'
 import { useRef, useState } from 'react'
 
 interface Props {
-  activityId: string
+  activityId: number
   open?: boolean
 }
 
@@ -12,28 +12,46 @@ const className = {
   itesusGradient: 'bg-gradient-to-r from-itesus-primary to-itesus-secondary text-white'
 }
 
-export const UploadFileModal = ({ activityId, open = false }: Props) => {
+export const UploadFileModal = ({ activityId }: Props) => {
   const $fileInput = useRef<HTMLInputElement>(null)
   const [fileName, setFileName] = useState<string | null>(null)
 
   return (
     <dialog
-      open={open}
+      open
       className='bg-black/30 w-screen h-screen top-0 flex justify-center items-center'
     >
       <form
         onSubmit={(e) => {
           e.preventDefault()
 
-          //     const base
+          const message = new FormData(e.currentTarget).get('message')?.toString() ?? ''
 
-        //   uploadWorkActivity(activityId, {
-        //     name: fileName ?? '',
-        //     file: $fileInput.current?.files?.[0]
-        //   })
-        //     .catch((err) => {
-        //       console.error('Error uploading file:', err)
-        //     })
+          const file = $fileInput.current?.files?.[0]
+
+          if (file == null) {
+            return
+          }
+
+          file.arrayBuffer()
+            .then(arrayBuffer => {
+              const base64 = Buffer.from(arrayBuffer).toString('base64')
+
+              uploadWorkActivity(
+                activityId,
+                {
+                  name: fileName ?? '',
+                  bytes: base64
+                },
+                message
+              )
+                .catch((err) => {
+                  console.error('Error uploading file:', err)
+                })
+            })
+            .catch((err) => {
+              console.error('Error getting file array buffer:', err)
+            })
         }}
         className='bg-white py-5 rounded-md min-w-[30rem]'
       >

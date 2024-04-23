@@ -15,8 +15,6 @@ const TYPES = {
 }
 
 export default async function ActivityPage ({ searchParams }) {
-  console.log(searchParams)
-
   const user = await getUser()
 
   if (user == null) {
@@ -37,14 +35,14 @@ export default async function ActivityPage ({ searchParams }) {
 
   const filteredActivities = activities
 
-  console.log(filteredActivities)
-
   return (
     <main className='flex flex-col gap-2'>
-      <UploadFileModal
-        open={searchParams?.upload === 'true'}
-        activityId={searchParams.activityId}
-      />
+      {searchParams?.upload === 'true' && (
+        <UploadFileModal
+          open={searchParams?.upload === 'true'}
+          activityId={searchParams.activityId}
+        />
+      )}
       <section className='flex justify-end'>
         <select>
           <option>Entregadas</option>
