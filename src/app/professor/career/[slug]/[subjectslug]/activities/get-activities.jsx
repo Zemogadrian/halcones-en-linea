@@ -1,7 +1,16 @@
+import { getMyActivities } from '@/services/supabase/actions/activities'
 import Link from 'next/link'
 
-export const GetActivities = ({ params, searchParams, activities, selectedActivity, setSelectedActivity }) => {
-  console.log(params, searchParams)
+export const DisplayActivities = async ({ params, searchParams }) => {
+  const activities = await getMyActivities({
+    careerId: searchParams?.careerId,
+    subjectId: searchParams?.subjectId,
+    educationPlanId: searchParams?.educationPlanId,
+    groupId: searchParams?.groupId,
+    semesterId: searchParams?.semesterId
+  })
+
+  console.log(activities)
 
   return (
     <section className='grid grid-cols-2 grid-flow-row h-full w-full gap-10 px-20 '>

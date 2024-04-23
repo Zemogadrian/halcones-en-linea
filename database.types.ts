@@ -481,51 +481,6 @@ export type Database = {
           },
         ]
       }
-      student_activities: {
-        Row: {
-          activity: number
-          created_at: string
-          id: number
-          is_approved: boolean
-          is_qualified: boolean
-          is_sent: boolean
-          student: string
-        }
-        Insert: {
-          activity: number
-          created_at?: string
-          id?: number
-          is_approved?: boolean
-          is_qualified?: boolean
-          is_sent?: boolean
-          student: string
-        }
-        Update: {
-          activity?: number
-          created_at?: string
-          id?: number
-          is_approved?: boolean
-          is_qualified?: boolean
-          is_sent?: boolean
-          student?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_student_activities_activity_fkey"
-            columns: ["activity"]
-            isOneToOne: false
-            referencedRelation: "activities"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_student_activities_student_fkey"
-            columns: ["student"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       student_config: {
         Row: {
           career: number
@@ -588,6 +543,45 @@ export type Database = {
             columns: ["semester"]
             isOneToOne: false
             referencedRelation: "semesters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_work: {
+        Row: {
+          activity: number
+          created_at: string
+          id: number
+          message: string | null
+          student: string
+        }
+        Insert: {
+          activity: number
+          created_at?: string
+          id?: number
+          message?: string | null
+          student: string
+        }
+        Update: {
+          activity?: number
+          created_at?: string
+          id?: number
+          message?: string | null
+          student?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_student_work_activity_fkey"
+            columns: ["activity"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_student_work_student_fkey"
+            columns: ["student"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]

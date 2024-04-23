@@ -1,3 +1,4 @@
+
 import { getActivityById, getMyStudents } from '@/services/supabase/actions/professors'
 import { ShowAlumns } from './show-alumns'
 import ShowImage from '../activities/show-image'
