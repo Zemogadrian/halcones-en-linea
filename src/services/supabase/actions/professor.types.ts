@@ -32,7 +32,9 @@ export interface CommonDefaultProps {
   educationPlanId: number
 }
 
-export type GetMyActivitiesProps = CommonDefaultProps
+export interface GetMyActivitiesProps extends CommonDefaultProps {
+  studentId?: string
+}
 
 export interface StartClassProps extends CommonDefaultProps {
   subjectSlug: string

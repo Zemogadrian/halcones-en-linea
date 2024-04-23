@@ -1,9 +1,8 @@
 'use server'
-import { Enums, Tables } from 'database.types'
+import { Tables } from 'database.types'
 import { createClient } from '../actions'
 import { USER_TYPES } from '../functions/types'
-import { CreateActivityProps, GetMyActivitiesProps, GetMyAlumnsProps, StartClassProps } from './professor.types'
-import { revalidatePath } from 'next/cache'
+import { GetMyAlumnsProps, StartClassProps } from './professor.types'
 
 export const getProfessors = async () => {
   const supabase = await createClient()
