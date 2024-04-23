@@ -1,5 +1,6 @@
 'use client'
 
+// import { uploadWorkActivity } from '@/services/supabase/actions/activities'
 import { useRef, useState } from 'react'
 
 interface Props {
@@ -23,6 +24,16 @@ export const UploadFileModal = ({ activityId, open = false }: Props) => {
       <form
         onSubmit={(e) => {
           e.preventDefault()
+
+          //     const base
+
+        //   uploadWorkActivity(activityId, {
+        //     name: fileName ?? '',
+        //     file: $fileInput.current?.files?.[0]
+        //   })
+        //     .catch((err) => {
+        //       console.error('Error uploading file:', err)
+        //     })
         }}
         className='bg-white py-5 rounded-md min-w-[30rem]'
       >
