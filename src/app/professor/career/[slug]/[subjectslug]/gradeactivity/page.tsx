@@ -1,5 +1,5 @@
 import { H1 } from '@/components/utils'
-import { getActivityById } from '@/services/supabase/actions/professors'
+import { getActivityById } from '@/services/supabase/actions/activities'
 import { ShowAlumns } from './show-alumns'
 import ShowImage from '../activities/show-image'
 
