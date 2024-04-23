@@ -15,13 +15,15 @@ export interface Question<
   responses: QT extends 'multiple_option' ? Response[] : null
 }
 
+export interface FileWithName { bytes: string, name: string }
+
 export interface CreateActivityProps<
   AT extends Enums<'activity_type'>,
   QT extends Enums<'question_type'>
 > {
   config: Config<AT>
   questions: AT extends 'work' ? null : Array<Question<QT>>
-  files: AT extends 'work' ? Array<{ bytes: string, name: string }> : null
+  files: AT extends 'work' ? FileWithName[] : null
 }
 
 export interface CommonDefaultProps {

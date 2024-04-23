@@ -21,6 +21,9 @@ export const UploadFileModal = ({ activityId, open = false }: Props) => {
       className='bg-black/30 w-screen h-screen top-0 flex justify-center items-center'
     >
       <form
+        onSubmit={(e) => {
+          e.preventDefault()
+        }}
         className='bg-white py-5 rounded-md min-w-[30rem]'
       >
         <input
@@ -53,6 +56,7 @@ export const UploadFileModal = ({ activityId, open = false }: Props) => {
             Mensaje:
           </span>
           <textarea
+            name='message'
             className='border p-2 min-h-20 max-h-96'
           />
         </label>

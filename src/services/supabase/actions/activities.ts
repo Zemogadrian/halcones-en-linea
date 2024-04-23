@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '../actions'
-import { CreateActivityProps, GetMyActivitiesProps } from './professor.types'
+import { CreateActivityProps, FileWithName, GetMyActivitiesProps } from './professor.types'
 import { Enums } from 'database.types'
 
 export async function createActivity <
@@ -204,5 +204,44 @@ export const getActivityById = async (activityId: number) => {
   return {
     ...data,
     files: formattedFiles ?? []
+  }
+}
+
+export const uploadWorkActivity = async (
+  activityId: number,
+  file: FileWithName,
+  message?: string
+) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error != null || data == null) {
+    console.error('Error getting session:', error)
+    throw new Error('Error getting session')
+  }
+
+  const { error: errorWork, data: uploadData } = await supabase.from('student_work').insert({
+    student: data.session?.user.id ?? '',
+    activity: activityId,
+    message
+  }).select('id').single()
+
+  if (errorWork != null) {
+    console.error('Error uploading work:', errorWork)
+    throw new Error('Error uploading work')
+  }
+
+  const bufferFile = Buffer.from(file.bytes, 'base64')
+
+  const bucketName = 'activities'
+
+  const path = `/${activityId}/${uploadData.id}/${file.name}`
+
+  const { error: bucketError } = await supabase.storage.from(bucketName).upload(path, bufferFile)
+
+  if (bucketError != null) {
+    console.error('Error uploading file:', bucketError)
+    throw new Error('Error uploading file')
   }
 }
