@@ -1,4 +1,4 @@
-import { getMyActivities } from '@/services/supabase/actions/professors'
+import { getMyActivities } from '@/services/supabase/actions/activities'
 import Link from 'next/link'
 
 export const DisplayActivities = async ({ params, searchParams }) => {

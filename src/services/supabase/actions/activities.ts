@@ -1,0 +1,208 @@
+'use server'
+
+import { revalidatePath } from 'next/cache'
+import { createClient } from '../actions'
+import { CreateActivityProps, GetMyActivitiesProps } from './professor.types'
+import { Enums } from 'database.types'
+
+export async function createActivity <
+  QT extends Enums<'question_type'>,
+  AT extends Enums<'activity_type'>
+> (
+  activity: CreateActivityProps<AT, QT>,
+  searchParams: {
+    [key: string]: string
+  }
+) {
+  const supabase = await createClient()
+
+  const { data: professorData, error: professorError } = await supabase.auth.getSession()
+
+  if (professorError != null || professorData == null) {
+    console.log('Error getting session:', professorError)
+    throw new Error('Error getting session')
+  }
+
+  const { data, error } = await supabase.from('activities').insert({
+    ...activity.config,
+    professor: professorData.session?.user.id ?? ''
+  }).select('id').single()
+
+  if (error != null || data == null) {
+    console.log('Error creating activity:', error)
+    throw new Error('Error creating activity')
+  }
+
+  if (activity.files != null && activity.files.length > 0) {
+    const bufferFilesArray = activity.files.map((base64File) => Buffer.from(base64File.bytes, 'base64'))
+
+    const bucketName = 'activities'
+
+    bufferFilesArray?.forEach(async (b, i) => {
+      const name = (activity.files ?? [])[i].name ?? ''
+
+      console.log('Uploading file:', name)
+
+      const path = `/${data.id}/${name}`
+
+      const { data: bucketData, error: bucketError } = await supabase.storage.from(bucketName).upload(path, b)
+
+      console.log({
+        bucketData, bucketError
+      })
+    })
+  }
+
+  if (activity.questions != null) {
+    const questions = activity.questions.map(q => ({
+      question: q.question ?? '',
+      type: q.type ?? 'multiple_option',
+      accept_file: q.accept_file ?? false,
+      activity: data.id,
+      responses: q.responses ?? []
+    }))
+
+    console.log(questions)
+
+    const { error: errorQuestions, data: questionsData } = await supabase.from('questions').insert(questions.map(q => ({
+      question: q.question,
+      type: q.type,
+      accept_file: q.accept_file,
+      activity: q.activity
+    }))).select('id')
+
+    console.log({
+      errorQuestions, questionsData
+    })
+
+    if (errorQuestions != null || questionsData == null) {
+      console.log('Error creating questions:', errorQuestions)
+      throw new Error('Error creating questions')
+    }
+
+    await Promise.all(
+      questions.map(async (q, i) => {
+        if (q.type !== 'multiple_option' || q.responses == null) return
+
+        const responses = q.responses.map(r => ({
+          ...r,
+          question: questionsData[i].id
+        }))
+
+        await supabase.from('responses').insert(responses)
+          .then(({ error: errorResponses }) => {
+            if (errorResponses != null) {
+              console.log('Error creating responses:', error)
+              throw new Error('Error creating responses')
+            }
+          })
+      })
+    )
+  }
+
+  const newSearchParams = new URLSearchParams(searchParams)
+
+  newSearchParams.delete('section')
+  newSearchParams.delete('type')
+  newSearchParams.delete('currentPosition')
+  newSearchParams.delete('name')
+  newSearchParams.delete('desc')
+  newSearchParams.delete('questionIndex')
+  newSearchParams.delete('deadline')
+  newSearchParams.delete('lastQuestionIndex')
+
+  const { data: careerData } = await supabase.from('careers').select('slug').eq('id', activity.config.career).single()
+  const { data: subjectData } = await supabase.from('subjects').select('slug').eq('id', activity.config.subject).single()
+
+  const newPathname = decodeURIComponent(`/professor/career/${careerData?.slug ?? ''}/${subjectData?.slug ?? ''}/activities?${newSearchParams.toString()}`)
+
+  revalidatePath(newPathname)
+
+  return {
+    careerSlug: careerData?.slug ?? '',
+    subjectSlug: subjectData?.slug ?? '',
+    searchParams: newSearchParams.toString()
+  }
+}
+
+export const getMyActivities = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, studentId }: GetMyActivitiesProps) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error != null || data == null) {
+    console.error('Error getting session:', error)
+    throw new Error('Error getting session')
+  }
+
+  const { data: activities, error: errorActivities } = await supabase
+    .from('activities')
+    .select('id, name, desc, type, created_at, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct)), professor')
+    .eq('professor', data.session?.user.id ?? '')
+    .eq('career', careerId)
+    .eq('education_plan', educationPlanId)
+    .eq('group', groupId)
+    .eq('semester', semesterId)
+    .eq('subject', subjectId)
+
+  if (errorActivities != null) {
+    console.log('Error getting activities:', errorActivities)
+    throw new Error('Error getting activities')
+  }
+
+  const activitiesWithFiles = await Promise.all(
+    activities.map(async a => {
+      const { data: files } = await supabase.storage.from('activities').list(a.id.toString())
+      const { data: professor } = await supabase.from('user_data').select('first_name, last_name').eq('owner', a.professor).single()
+
+      const studentInfo =
+        studentId != null
+          ? a.type === 'work'
+            ? (await supabase.from('student_work')
+                .select('id, message, created_at')
+                .eq('student', studentId).single()).data
+            : null
+          : null
+
+      const formattedFiles = files?.map(f => ({
+        ...f,
+        url: supabase.storage.from('activities').getPublicUrl(`${a.id}/${f.name}`).data.publicUrl
+      }))
+
+      return {
+        ...a,
+        files: formattedFiles ?? [],
+        professor: {
+          id: a.professor,
+          ...professor
+        },
+        studentInfo
+      }
+    })
+  )
+
+  return activitiesWithFiles
+}
+
+export const getActivityById = async (activityId: number) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('activities').select('id, name, desc, type, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct))').eq('id', activityId).single()
+
+  if (error != null) {
+    console.error('Error getting activity:', error)
+    throw new Error('Error getting activity')
+  }
+
+  const { data: files } = await supabase.storage.from('activities').list(activityId.toString())
+
+  const formattedFiles = files?.map(f => ({
+    ...f,
+    url: supabase.storage.from('activities').getPublicUrl(`${activityId}/${f.name}`).data.publicUrl
+  }))
+
+  return {
+    ...data,
+    files: formattedFiles ?? []
+  }
+}

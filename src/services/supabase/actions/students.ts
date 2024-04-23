@@ -9,7 +9,7 @@ export const isClassOnline = async ({ carrerId, educationPlanId, groupId, semest
   const twoHoursAgo = new Date()
   twoHoursAgo.setHours(twoHoursAgo.getHours() - 2)
 
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('live-class')
     .select('subject')
     .eq('career', carrerId)
@@ -19,13 +19,6 @@ export const isClassOnline = async ({ carrerId, educationPlanId, groupId, semest
     .gte('created_at', twoHoursAgo.toISOString())
     .order('created_at', { ascending: false })
     .single()
-
-  console.log('Data:', data)
-
-  if (error != null) {
-    console.log('Error getting live class:', error)
-    throw new Error('Error getting live class')
-  }
 
   return data
 }
@@ -130,78 +123,6 @@ export const getMySubjects = async (careerSlug: string) => {
     semester: filteredStudentData?.[0].semesters,
     subjects
   }
-}
-
-interface GetNyActivities {
-  groupId: number
-  semesterId: number
-  careerId: number
-  subjectId: number
-  educationPlanId: number
-  filters?: {
-    open: boolean
-    close: boolean
-    sent: boolean
-    noSent: boolean
-    qualified: boolean
-    noQualified: boolean
-    approved: boolean
-    rejected: boolean
-  }
-}
-
-export const getMyActivies = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, filters }: GetNyActivities) => {
-  const supabase = await createClient()
-
-  const { data: userData, error: userError } = await supabase.auth.getSession()
-
-  if (userError != null || userData == null) {
-    console.error('Error getting session:', userError)
-    throw new Error('Error getting session')
-  }
-
-  const { data, error } = await supabase
-    .from('activities')
-    .select('id, type, name, desc, deadline, is_open, user_data(id, first_name, last_name), questions(id, question, type, accept_file, responses(id, option, is_correct))')
-    .eq('careers.id', careerId)
-    .eq('education_plans.id', educationPlanId)
-    .eq('groups.id', groupId)
-    .eq('semesters.id', semesterId)
-    .eq('subjects.id', subjectId)
-    .eq('is_open', filters?.open ?? true)
-    .eq('is_open', !(filters?.close ?? true))
-
-  if (error != null || data == null) {
-    console.error('Error getting activities:', error)
-    throw new Error('Error getting activities')
-  }
-
-  const activities = await Promise.all(data.map(async a => {
-    const { data: studentActivity } = await supabase
-      .from('student_activities')
-      .select('id, created_at, is_sent, is_qualified, is_approved')
-      .eq('activity', a.id)
-      .eq('student', userData.session?.user.id ?? '')
-      .eq('is_sent', filters?.sent ?? true)
-      .eq('is_sent', !(filters?.noSent ?? true))
-      .eq('is_qualified', filters?.qualified ?? true)
-      .eq('is_qualified', !(filters?.noQualified ?? true))
-      .eq('is_approved', filters?.approved ?? true)
-      .eq('is_approved', !(filters?.rejected ?? true))
-      .single()
-
-    const { data: files } = await supabase.storage.from(`activities/${a.id}`).list()
-
-    return ({
-      ...a,
-      ...studentActivity,
-      id: a.id,
-      studentActivityId: studentActivity?.id,
-      files: files ?? []
-    })
-  }))
-
-  return activities
 }
 
 interface Event {
