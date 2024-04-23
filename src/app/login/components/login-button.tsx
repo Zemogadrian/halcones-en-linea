@@ -1,6 +1,6 @@
 'use client'
 
-import { login } from '@/services/supabase/actions/auth'
+import { login } from '../../../services/supabase/actions/auth'
 import { useState } from 'react'
 
 export const LoginForm = () => {
@@ -46,7 +46,7 @@ export const LoginForm = () => {
         Ingresar
       </button>
 
-      {err != null && <p className='text-red-500'>{err}</p>}
+      {err != null && <p id='paragraph-error' className='text-red-500'>{err}</p>}
     </form>
   )
 }

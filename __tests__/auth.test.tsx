@@ -1,23 +1,49 @@
-// import { expect, test } from 'vitest'
-// import { render, screen } from '@testing-library/react'
-// import Page from '../src/app/login/page'
+import { test, expect, describe } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import Page from '../src/app/login/page'
 
-// test('succes login', () => {
-//   render(<Page />)
+describe('Login page', () => {
+  render(<Page />)
+  const email = screen.getByPlaceholderText('Usuario')
+  const password = screen.getByPlaceholderText('Contraseña')
+  const button = screen.getByRole('button', { name: 'Ingresar' })
 
-//   const email = screen.getByPlaceholderText('Usuario')
-//   const password = screen.getByPlaceholderText('Contraseña')
+  if (
+    !(email instanceof HTMLInputElement) ||
+    !(password instanceof HTMLInputElement)
+  ) throw new Error('Input elements not found')
 
-//   if (!(email instanceof HTMLInputElement) || !(password instanceof HTMLInputElement)) {
-//     throw new Error('Elements not found')
-//   }
+  //   test('Succes login', async () => {
+  //     email.value = 'jedealbagaytan@gmail.com'
+  //     password.value = '46983916'
 
-//   email.value = 'jedealbagaytan@gmail.com'
-//   password.value = '46983916'
+  //     button.click()
 
-//   const submit = screen.getByRole('button', { name: 'Ingresar' })
+  //     await new Promise(resolve => setTimeout(resolve, 3000))
 
-//   submit.click()
+  //     const paragraphError = screen.getByRole('paragraph')
 
-//   expect(true).toBe(true)
-// })
+  //     console.log(paragraphError)
+
+  //     expect(
+  //       paragraphError != null
+  //     )
+  //       .toBe(false)
+  //   })
+
+  test('Error login', async () => {
+    email.value = 'hugo@hugo.com'
+    password.value = '123456'
+
+    button.click()
+
+    await new Promise(resolve => setTimeout(resolve, 0))
+
+    const paragraphError = screen.getByRole('paragraph')
+
+    expect(
+      paragraphError != null
+    )
+      .toBe(true)
+  })
+})
