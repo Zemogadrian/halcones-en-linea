@@ -1,7 +1,8 @@
-import { getActivityById, getMyStudents } from '@/services/supabase/actions/professors'
+import { getMyStudents } from '@/services/supabase/actions/professors'
 import { ShowAlumns } from '../gradeactivity/show-alumns'
 import { v4 } from '@/utils/uuid'
 import { H1, ShyScrollbar } from '@/components/utils'
+import { getActivityById } from '@/services/supabase/actions/activities'
 // import { H1 } from '@/components/utils'
 
 export default async function GradeTest ({ params, searchParams }) {
