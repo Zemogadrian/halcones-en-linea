@@ -16,10 +16,10 @@ export const DisplayActivities = async ({ params, searchParams }) => {
     <section className='grid grid-cols-2 grid-flow-row h-full w-full gap-10 px-20 '>
       {activities?.map(activity => {
         const newSearchParams = new URLSearchParams(searchParams)
-        newSearchParams.set('activityId', activity.id)
+        newSearchParams.set('activityId', activity?.id)
 
         return (
-          <Link href={`/professor/career/${params?.slug}/${params?.subjectslug ?? ''}/gradeactivity?${newSearchParams.toString()}`} key={activity.id}>
+          <Link href={`/professor/career/${params?.slug}/${params?.subjectslug ?? ''}${activity.type === 'work' ? '/gradeactivity' : '/gradetest'}?${newSearchParams.toString()}`} key={activity.id}>
             <article className='gap-5 flex flex-row h-[10rem] w-[30rem]'>
               <img src={activity?.type === 'trivia' ? '/trivia.png' : activity?.type === 'exam' ? '/examen.png' : activity?.type === 'questionary' ? '/cuestionario.png' : '/actividad.png'} alt='activity' className='h-[4rem]' />
               <div className='bg-[#ccccca] flex w-full h-full flex-col text-start gap-5 rounded-lg p-3'>
