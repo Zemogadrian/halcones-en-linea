@@ -1,7 +1,8 @@
 
-import { getActivityById, getMyStudents } from '@/services/supabase/actions/professors'
+import { getMyStudents } from '@/services/supabase/actions/professors'
 import { ShowAlumns } from './show-alumns'
 import ShowImage from '../activities/show-image'
+import { getActivityById } from '@/services/supabase/actions/activities'
 
 export default async function GradeActivity ({ params, searchParams }) {
   console.log(params, searchParams)
