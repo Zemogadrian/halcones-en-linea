@@ -32,7 +32,7 @@ export default async function GradeTest ({ params, searchParams }) {
               <H1 className='text-white underline text-2xl'>{question.question}</H1>
               <ol className='flex flex-col list-upper-alpha mb-5'>
                 {question.responses.map(response => (
-                  <li key={v4()} className={`text-${response?.is_correct === true ? '[#5b9a97]' : 'white'} text-xl`}>
+                  <li key={v4()} className={`${response?.is_correct === true ? 'text-[#5b9a98]' : 'text-white'} text-xl`}>
                     {response.option}
                   </li>
                 ))}
