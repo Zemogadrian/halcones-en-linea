@@ -1,7 +1,8 @@
 import { dateTimeFormatter } from '@/utils/formatters'
-import { IconCheck, IconPlayerPlay } from '@tabler/icons-react'
+import { IconCheck } from '@tabler/icons-react'
 import { UploadFileButton } from './upload-file-button'
 import { Enums } from 'database.types'
+import { ActivityLink } from './activity-link'
 
 interface Props {
   id: number
@@ -32,11 +33,7 @@ export const DisplayActivity = ({ number, topic, deadline, description, status, 
 
         {requiredFile && !checked && <UploadFileButton activityId={id} />}
 
-        {type.value !== 'work' && !checked && (
-          <button className='bg-[#808080] px-3 py-1 flex items-center justify-center rounded-r-lg'>
-            <IconPlayerPlay size={24} />
-          </button>
-        )}
+        {type.value !== 'work' && !checked && <ActivityLink activityId={id} />}
 
         {
           checked && (
