@@ -1,7 +1,9 @@
 import { dateTimeFormatter } from '@/utils/formatters'
-import { IconCheck, IconFileUpload } from '@tabler/icons-react'
+import { IconCheck } from '@tabler/icons-react'
+import { UploadFileButton } from './upload-file-button'
 
 interface Props {
+  id: number
   number: number
   topic: string
   deadline: Date
@@ -16,7 +18,7 @@ interface Props {
   }
 }
 
-export const DisplayActivity = ({ number, topic, deadline, description, status, checked = false, requiredFile = false, qualification, type }: Props) => {
+export const DisplayActivity = ({ number, topic, deadline, description, status, checked = false, requiredFile = false, qualification, type, id }: Props) => {
   return (
     <article>
 
@@ -27,15 +29,7 @@ export const DisplayActivity = ({ number, topic, deadline, description, status, 
           <span>Actividad {number}</span>
         </div>
 
-        {
-            requiredFile && (
-              <div
-                className='bg-[#808080] px-3 py-1 flex items-center justify-center rounded-r-lg'
-              >
-                <IconFileUpload size={24} />
-              </div>
-            )
-        }
+        {requiredFile && <UploadFileButton activityId={id} />}
 
         {
             checked && (

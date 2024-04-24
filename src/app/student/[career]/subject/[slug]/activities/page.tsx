@@ -3,6 +3,7 @@ import { getMyActivities } from '@/services/supabase/actions/activities'
 import { getUser } from '@/services/supabase/actions/auth'
 import { DisplayActivity } from './components/display-activity'
 import { v4 } from '@/utils/uuid'
+import { UploadFileModal } from './components/upload-file-modal'
 // import { v4 } from '@/utils/uuid'
 // import { ActivityDisplay } from '../../../components/students/display-activities'
 
@@ -13,7 +14,9 @@ const TYPES = {
   questionary: 'Cuestionario'
 }
 
-export default async function StudentPage ({ params, searchParams }) {
+export default async function ActivityPage ({ searchParams }) {
+  console.log(searchParams)
+
   const user = await getUser()
 
   if (user == null) {
@@ -38,6 +41,10 @@ export default async function StudentPage ({ params, searchParams }) {
 
   return (
     <main className='flex flex-col gap-2'>
+      <UploadFileModal
+        open={searchParams?.upload === 'true'}
+        activityId={searchParams.activityId}
+      />
       <section className='flex justify-end'>
         <select>
           <option>Entregadas</option>
@@ -48,6 +55,7 @@ export default async function StudentPage ({ params, searchParams }) {
         {
           filteredActivities.map((a, i) => (
             <DisplayActivity
+              id={a.id}
               key={v4()}
               number={i + 1}
               deadline={new Date(a.deadline)}
