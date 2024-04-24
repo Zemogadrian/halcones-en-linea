@@ -2,7 +2,7 @@
 import { getMyStudents } from '@/services/supabase/actions/professors'
 import { ShowAlumns } from './show-alumns'
 import ShowImage from '../activities/show-image'
-import { getActivityById } from '@/services/supabase/actions/activities'
+import { getActivityById, getStudentResponse } from '@/services/supabase/actions/activities'
 
 export default async function GradeActivity ({ params, searchParams }) {
   console.log(params, searchParams)
@@ -16,7 +16,9 @@ export default async function GradeActivity ({ params, searchParams }) {
     semesterId: searchParams.semesterId
   })
 
-  console.log(myStudents)
+  const responses = await getStudentResponse(searchParams.activityId, activity.type, searchParams.studentId)
+
+  console.log(responses)
   return (
     <main className='flex flex-col gap-5 w-full h-full '>
       <ShowAlumns students={myStudents} />
