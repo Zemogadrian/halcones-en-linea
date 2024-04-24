@@ -1,7 +1,9 @@
 'use client'
 
 import { uploadWorkActivity } from '@/services/supabase/actions/activities'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 interface Props {
   activityId: number
@@ -15,6 +17,9 @@ const className = {
 export const UploadFileModal = ({ activityId }: Props) => {
   const $fileInput = useRef<HTMLInputElement>(null)
   const [fileName, setFileName] = useState<string | null>(null)
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   return (
     <dialog
@@ -24,6 +29,13 @@ export const UploadFileModal = ({ activityId }: Props) => {
       <form
         onSubmit={(e) => {
           e.preventDefault()
+
+          const newSearchParams = new URLSearchParams(searchParams)
+
+          newSearchParams.delete('upload')
+          newSearchParams.delete('activityId')
+
+          router.replace(`${pathname}?${newSearchParams.toString()}`)
 
           const message = new FormData(e.currentTarget).get('message')?.toString() ?? ''
 
@@ -37,17 +49,24 @@ export const UploadFileModal = ({ activityId }: Props) => {
             .then(arrayBuffer => {
               const base64 = Buffer.from(arrayBuffer).toString('base64')
 
-              uploadWorkActivity(
+              const myPromise = uploadWorkActivity(
                 activityId,
                 {
                   name: fileName ?? '',
                   bytes: base64
                 },
-                message
+                message,
+                pathname
               )
                 .catch((err) => {
                   console.error('Error uploading file:', err)
                 })
+
+              toast.promise(myPromise, {
+                loading: 'Subiendo archivo...',
+                success: 'Archivo subido',
+                error: 'Error al subir archivo'
+              })
             })
             .catch((err) => {
               console.error('Error getting file array buffer:', err)

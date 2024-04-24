@@ -60,6 +60,7 @@ export default async function ActivityPage ({ searchParams }) {
               status={a.studentInfo != null ? 'Entregada' : 'No entregada'}
               topic={a.name}
               description={a.desc ?? undefined}
+              checked={a.studentInfo != null}
               requiredFile={a.type === 'work'}
               type={{
                 label: TYPES[a.type],

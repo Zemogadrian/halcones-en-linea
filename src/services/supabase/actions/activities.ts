@@ -210,7 +210,8 @@ export const getActivityById = async (activityId: number) => {
 export const uploadWorkActivity = async (
   activityId: number,
   file: FileWithName,
-  message?: string
+  message?: string,
+  revalidatePathname?: string
 ) => {
   const supabase = await createClient()
 
@@ -243,5 +244,9 @@ export const uploadWorkActivity = async (
   if (bucketError != null) {
     console.error('Error uploading file:', bucketError)
     throw new Error('Error uploading file')
+  }
+
+  if (revalidatePathname != null) {
+    revalidatePath(revalidatePathname)
   }
 }

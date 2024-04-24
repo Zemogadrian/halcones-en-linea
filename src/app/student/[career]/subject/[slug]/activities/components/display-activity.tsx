@@ -29,7 +29,7 @@ export const DisplayActivity = ({ number, topic, deadline, description, status, 
           <span>Actividad {number}</span>
         </div>
 
-        {requiredFile && <UploadFileButton activityId={id} />}
+        {requiredFile && !checked && <UploadFileButton activityId={id} />}
 
         {
             checked && (
