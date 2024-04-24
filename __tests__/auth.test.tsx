@@ -1,5 +1,5 @@
 import { test, expect, describe } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import Page from '../src/app/login/page'
 
 describe('Login page', () => {
@@ -13,23 +13,22 @@ describe('Login page', () => {
     !(password instanceof HTMLInputElement)
   ) throw new Error('Input elements not found')
 
-  //   test('Succes login', async () => {
-  //     email.value = 'jedealbagaytan@gmail.com'
-  //     password.value = '46983916'
+  test('Succes login', async () => {
+    email.value = 'jedealbafsagaytan@gmail.com'
+    password.value = '46983916'
 
-  //     button.click()
+    button.click()
 
-  //     await new Promise(resolve => setTimeout(resolve, 3000))
+    await waitFor(() => {
+      // Assuming the error paragraph is rendered if there's an error
+      // Adjust this condition based on your actual implementation
+      const paragraphError = screen.queryByRole('paragraph')
 
-  //     const paragraphError = screen.getByRole('paragraph')
+      console.log(paragraphError)
 
-  //     console.log(paragraphError)
-
-  //     expect(
-  //       paragraphError != null
-  //     )
-  //       .toBe(false)
-  //   })
+      expect(paragraphError).toBeNull() // Expect error paragraph not to be present
+    })
+  })
 
   test('Error login', async () => {
     email.value = 'hugo@hugo.com'

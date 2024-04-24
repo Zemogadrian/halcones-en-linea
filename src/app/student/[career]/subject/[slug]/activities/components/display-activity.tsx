@@ -1,6 +1,8 @@
 import { dateTimeFormatter } from '@/utils/formatters'
 import { IconCheck } from '@tabler/icons-react'
 import { UploadFileButton } from './upload-file-button'
+import { Enums } from 'database.types'
+import { ActivityLink } from './activity-link'
 
 interface Props {
   id: number
@@ -14,7 +16,7 @@ interface Props {
   qualification?: number
   type: {
     label: string
-    value: string
+    value: Enums<'activity_type'>
   }
 }
 
@@ -29,16 +31,18 @@ export const DisplayActivity = ({ number, topic, deadline, description, status, 
           <span>Actividad {number}</span>
         </div>
 
-        {requiredFile && <UploadFileButton activityId={id} />}
+        {requiredFile && !checked && <UploadFileButton activityId={id} />}
+
+        {type.value !== 'work' && !checked && <ActivityLink activityId={id} />}
 
         {
-            checked && (
-              <div
-                className='px-3 py-1 flex items-center justify-center'
-              >
-                <IconCheck size={24} />
-              </div>
-            )
+          checked && (
+            <div
+              className='px-3 py-1 flex items-center justify-center'
+            >
+              <IconCheck size={24} />
+            </div>
+          )
         }
       </header>
 
@@ -69,9 +73,9 @@ export const DisplayActivity = ({ number, topic, deadline, description, status, 
 
           <li>
             Calificacion: {
-                qualification != null
-                  ? qualification
-                  : 'No calificada'
+              qualification != null
+                ? qualification
+                : 'No calificada'
             }
           </li>
         </ul>

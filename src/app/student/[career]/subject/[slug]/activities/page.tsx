@@ -4,6 +4,7 @@ import { getUser } from '@/services/supabase/actions/auth'
 import { DisplayActivity } from './components/display-activity'
 import { v4 } from '@/utils/uuid'
 import { UploadFileModal } from './components/upload-file-modal'
+import { Filter } from './components/filter'
 // import { v4 } from '@/utils/uuid'
 // import { ActivityDisplay } from '../../../components/students/display-activities'
 
@@ -14,9 +15,20 @@ const TYPES = {
   questionary: 'Cuestionario'
 }
 
-export default async function ActivityPage ({ searchParams }) {
-  console.log(searchParams)
+interface Props {
+  searchParams: {
+    careerId: string
+    semesterId: string
+    groupId: string
+    educationPlanId: string
+    subjectId: string
+    upload?: string
+    activityId?: string
+    filter?: string
+  }
+}
 
+export default async function ActivityPage ({ searchParams }: Props) {
   const user = await getUser()
 
   if (user == null) {
@@ -35,23 +47,30 @@ export default async function ActivityPage ({ searchParams }) {
     studentId: owner ?? undefined
   })
 
-  const filteredActivities = activities
+  const filteredActivities = activities.filter(a => {
+    const filter = searchParams.filter ?? 'all'
 
-  console.log(filteredActivities)
+    if (filter === 'all') return true
+
+    if (filter === 'delivered') return a.studentInfo != null
+
+    if (filter === 'not-delivered') return a.studentInfo == null
+
+    return false
+  })
 
   return (
     <main className='flex flex-col gap-2'>
-      <UploadFileModal
-        open={searchParams?.upload === 'true'}
-        activityId={searchParams.activityId}
-      />
+      {searchParams?.upload === 'true' && (
+        <UploadFileModal
+          open={searchParams?.upload === 'true'}
+          activityId={parseInt(searchParams.activityId ?? '0')}
+        />
+      )}
       <section className='flex justify-end'>
-        <select>
-          <option>Entregadas</option>
-          <option>No entregadas</option>
-        </select>
+        <Filter />
       </section>
-      <section className='flex flex-col gap-5'>
+      <section className='flex flex-col gap-5 flex-1 overflow-y-auto'>
         {
           filteredActivities.map((a, i) => (
             <DisplayActivity
@@ -62,6 +81,7 @@ export default async function ActivityPage ({ searchParams }) {
               status={a.studentInfo != null ? 'Entregada' : 'No entregada'}
               topic={a.name}
               description={a.desc ?? undefined}
+              checked={a.studentInfo != null}
               requiredFile={a.type === 'work'}
               type={{
                 label: TYPES[a.type],

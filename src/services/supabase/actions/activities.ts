@@ -184,7 +184,7 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
   return activitiesWithFiles
 }
 
-export const getActivityById = async (activityId: number) => {
+export const getActivityById = async (activityId: number, studentId?: string) => {
   const supabase = await createClient()
 
   const { data, error } = await supabase.from('activities').select('id, name, desc, type, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct))').eq('id', activityId).single()
@@ -196,21 +196,31 @@ export const getActivityById = async (activityId: number) => {
 
   const { data: files } = await supabase.storage.from('activities').list(activityId.toString())
 
-  const formattedFiles = files?.map(f => ({
+  const formattedFiles = (files ?? []).map(f => ({
     ...f,
     url: supabase.storage.from('activities').getPublicUrl(`${activityId}/${f.name}`).data.publicUrl
   }))
 
+  const studentInfo = studentId != null
+    ? data.type === 'work'
+      ? (await supabase.from('student_work')
+          .select('id, message, created_at')
+          .eq('student', studentId).single()).data
+      : null
+    : null
+
   return {
     ...data,
-    files: formattedFiles ?? []
+    studentInfo,
+    files: formattedFiles
   }
 }
 
 export const uploadWorkActivity = async (
   activityId: number,
   file: FileWithName,
-  message?: string
+  message?: string,
+  revalidatePathname?: string
 ) => {
   const supabase = await createClient()
 
@@ -243,5 +253,9 @@ export const uploadWorkActivity = async (
   if (bucketError != null) {
     console.error('Error uploading file:', bucketError)
     throw new Error('Error uploading file')
+  }
+
+  if (revalidatePathname != null) {
+    revalidatePath(revalidatePathname)
   }
 }
