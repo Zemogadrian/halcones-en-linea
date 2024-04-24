@@ -125,6 +125,32 @@ export async function createActivity <
   }
 }
 
+const getStudentInfo = async (activityId: number, activityType: Enums<'activity_type'>, studentId?: string) => {
+  const supabase = await createClient()
+
+  if (studentId == null) return null
+
+  const studentInfo = activityType === 'work'
+    ? (await supabase.from('student_work')
+        .select('id, message, created_at')
+        .eq('student', studentId)
+        .eq('activity', activityId)
+        .single()).data
+    : null
+
+  const { data: files } = await supabase.storage.from('activities').list(`${activityId.toString()}/${studentInfo?.id.toString() ?? ''}`)
+
+  const formattedFiles = (files ?? []).map(f => ({
+    ...f,
+    url: supabase.storage.from('activities').getPublicUrl(`${activityId.toString()}/${studentInfo?.id.toString() ?? ''}/${f.name}`).data.publicUrl
+  }))
+
+  return {
+    ...studentInfo,
+    files: formattedFiles
+  }
+}
+
 export const getMyActivities = async ({ careerId, educationPlanId, groupId, semesterId, subjectId, studentId }: GetMyActivitiesProps) => {
   const supabase = await createClient()
 
@@ -155,16 +181,7 @@ export const getMyActivities = async ({ careerId, educationPlanId, groupId, seme
       const { data: files } = await supabase.storage.from('activities').list(a.id.toString())
       const { data: professor } = await supabase.from('user_data').select('first_name, last_name').eq('owner', a.professor).single()
 
-      const studentInfo =
-        studentId != null
-          ? a.type === 'work'
-            ? (await supabase.from('student_work')
-                .select('id, message, created_at')
-                .eq('student', studentId)
-                .eq('activity', a.id)
-                .single()).data
-            : null
-          : null
+      const studentInfo = await getStudentInfo(a.id, a.type, studentId)
 
       const formattedFiles = files?.map(f => ({
         ...f,
@@ -203,15 +220,11 @@ export const getActivityById = async (activityId: number, studentId?: string) =>
     url: supabase.storage.from('activities').getPublicUrl(`${activityId}/${f.name}`).data.publicUrl
   }))
 
-  const studentInfo = studentId != null
-    ? data.type === 'work'
-      ? (await supabase.from('student_work')
-          .select('id, message, created_at')
-          .eq('student', studentId)
-          .eq('activity', activityId)
-          .single()).data
-      : null
-    : null
+  const studentInfo = await getStudentInfo(
+    activityId,
+    data.type,
+    studentId
+  )
 
   return {
     ...data,
@@ -223,13 +236,7 @@ export const getActivityById = async (activityId: number, studentId?: string) =>
 export const getStudentResponse = async (activityId: number, activityType: Enums<'activity_type'>, studentId: string) => {
   const supabase = await createClient()
 
-  const studentInfo = studentId != null
-    ? activityType === 'work'
-      ? (await supabase.from('student_work')
-          .select('id, message, created_at')
-          .eq('student', studentId).eq('activity', activityId).single()).data
-      : null
-    : null
+  const studentInfo = await getStudentInfo(activityId, activityType, studentId)
 
   const { data: files } = await supabase.storage.from('activities').list(activityId.toString())
 
